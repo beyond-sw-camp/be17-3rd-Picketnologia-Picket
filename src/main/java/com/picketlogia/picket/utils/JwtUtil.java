@@ -11,14 +11,20 @@ import java.util.HashMap;
 import java.util.Map;
 
 public class JwtUtil {
+
     private static final String SECRET = "abcdeffghijklmnopqrstuvwxyz0123456";
     private static final Key KEY = Keys.hmacShaKeyFor(SECRET.getBytes());
     private static final Long EXP = 1000 * 60 * 120L;
 
-    public static String generateToken(String email, Integer idx) {
+    public static final String ID_NAME = "id";
+    public static final String EMAIL_NAME = "email";
+    public static final String ROLE_NAME = "role";
+    public static final String TOKEN_NAME = "USER_AT";
+
+    public static String generateToken(String email, Long id) {
 
         Map<String, String> claims =  new HashMap<>();
-        claims.put("idx", ""+idx);
+        claims.put("id", "" + id);
         claims.put("email", email);
         claims.put("role", "USER");
 
