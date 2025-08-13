@@ -1,6 +1,10 @@
 package com.picketlogia.picket.config.filter;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.picketlogia.picket.api.user.model.UserAuth;
+import com.picketlogia.picket.api.user.model.UserLogin;
+import com.picketlogia.picket.api.user.model.UserLoginResp;
+import com.picketlogia.picket.utils.JwtUtil;
 import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.Cookie;
@@ -19,15 +23,12 @@ import java.io.IOException;
 public class LoginFilter extends UsernamePasswordAuthenticationFilter {
     private final AuthenticationManager authenticationManager;
 
-    // 원래는 form-data 형식으로 사용자 정보를 입력받았는데
-    // 우리는 JSON 형태로 입력을 받기 위해서 재정의
     @Override
     public Authentication attemptAuthentication(HttpServletRequest request, HttpServletResponse response) throws AuthenticationException {
         UsernamePasswordAuthenticationToken authToken;
         try {
-            System.out.println("LoginFilter 실행됐다.");
 
-            UserDto.Login dto = new ObjectMapper().readValue(request.getInputStream(), UserDto.Login.class);
+            UserLogin dto = new ObjectMapper().readValue(request.getInputStream(), UserLogin.class);
             authToken = new UsernamePasswordAuthenticationToken(
                     dto.getEmail(), dto.getPassword(), null
             );
@@ -36,25 +37,22 @@ public class LoginFilter extends UsernamePasswordAuthenticationFilter {
             throw new RuntimeException(e);
         }
 
-        // 그림에서 3번 로직
         return authenticationManager.authenticate(authToken);
     }
 
 
-    // 그림에서 9번 로직
     @Override
     protected void successfulAuthentication(HttpServletRequest request, HttpServletResponse response, FilterChain chain, Authentication authResult) throws IOException, ServletException {
-        System.out.println("LoginFilter 성공 로직.");
-        UserDto.AuthUser authUser = (UserDto.AuthUser) authResult.getPrincipal();
+        UserAuth authUser = (UserAuth) authResult.getPrincipal();
 
         String jwt = JwtUtil.generateToken(authUser.getEmail(), authUser.getIdx());
 
         if(jwt != null) {
-            Cookie cookie = new Cookie("SJB_AT", jwt);
+            Cookie cookie = new Cookie(JwtUtil.TOKEN_NAME, jwt);
             cookie.setHttpOnly(true);
             cookie.setPath("/");
             response.addCookie(cookie);
-            response.getWriter().write(new ObjectMapper().writeValueAsString(UserDto.LoginRes.from(authUser)));
+            response.getWriter().write(new ObjectMapper().writeValueAsString(UserLoginResp.from(authUser)));
         }
 
 
