@@ -1,6 +1,7 @@
 package com.picketlogia.picket.api.user.model;
 
 import lombok.Getter;
+import org.apache.catalina.User;
 
 @Getter
 public class UserRegister {
@@ -13,15 +14,15 @@ public class UserRegister {
     private String gender;
     private String contact;
 
-    public User from() {
-        return User.builder()
-                .email(email)
-                .password(password)
-                .nickname(nickname)
-                .name(name)
-                .birthday(birthday)
-                .gender(gender)
-                .contact(contact)
-                .build();
+//    public User from() {
+//        return User.builder()
+//                .email(email)
+//                .password(password)
+//                .nickname(nickname)
+//                .name(name)
+//                .birthday(birthday)
+//                .gender(gender)
+//                .contact(contact)
+//                .build();
     }
-}
+//}

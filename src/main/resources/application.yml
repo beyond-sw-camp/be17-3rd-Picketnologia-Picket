@@ -23,6 +23,7 @@ spring:
 #            user-name-attribute: id
 
   datasource:
+
     url: jdbc:mariadb://192.168.142.10:3306/won
     driver-class-name: org.mariadb.jdbc.Driver
     username: wonzzu
@@ -36,15 +37,17 @@ spring:
     properties:
       hibernate:
         format_sql: true
-#  cloud:
-#    aws:
-#      credentials:
-#        access-key:
-#        secret-key:
-#      s3:
-#        bucket: sangwoo-s3
-#      region:
-#        static: ap-northeast-2
+    database-platform: org.hibernate.dialect.MariaDBDialect
+
+  cloud:
+    aws:
+      credentials:
+        access-key:
+        secret-key:
+      s3:
+        bucket: kangseol-s3
+      region:
+        static: ap-northeast-2
 
   mail:
     host: smtp.gmail.com
