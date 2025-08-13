@@ -1,6 +1,5 @@
 package com.picketlogia.picket.config.filter;
 
-import com.picketlogia.picket.api.user.model.UserAuth;
 import com.picketlogia.picket.utils.JwtUtil;
 import io.jsonwebtoken.Claims;
 import jakarta.servlet.FilterChain;
@@ -24,7 +23,7 @@ public class JwtAuthFilter extends OncePerRequestFilter {
         String jwt = null;
         if(cookies != null) {
             for(Cookie cookie: request.getCookies()) {
-                if(cookie.getName().equals(JwtUtil.TOKEN_NAME)) {
+                if(cookie.getName().equals("SJB_AT")) {
                     jwt = cookie.getValue();
                     break;
                 }
@@ -34,21 +33,24 @@ public class JwtAuthFilter extends OncePerRequestFilter {
         if( jwt != null) {
             Claims claims = JwtUtil.getClaims(jwt);
             if(claims!= null) {
-                String email = JwtUtil.getValue(claims, JwtUtil.EMAIL_NAME);
-                Long id = Long.parseLong(JwtUtil.getValue(claims, JwtUtil.ID_NAME));
+                String email = JwtUtil.getValue(claims, "email");
+                Integer idx = Integer.parseInt(JwtUtil.getValue(claims, "idx"));
 
-                UserAuth authUser = UserAuth.builder()
-                        .id(id)
+                UserDto.AuthUser authUser = UserDto.AuthUser.builder()
+                        .idx(idx)
                         .email(email)
                         .build();
 
                 Authentication authentication = new UsernamePasswordAuthenticationToken(
                         authUser,
                         null,
-                        List.of(new SimpleGrantedAuthority("ROLE_USER"))
+                        List.of(new SimpleGrantedAuthority("ROLE_USER")) // 특정 권한 부여, 권한 앞에 ROLE_를 붙여야 함
                 );
 
+                // 컨텍스트라는 공간에 인증된 사용자 정보 authentication를 저장
                 SecurityContextHolder.getContext().setAuthentication(authentication);
+
+
             }
         }
 
