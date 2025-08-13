@@ -14,7 +14,7 @@ public class UserLoginResp {
 
     public static UserLoginResp from(UserAuth authUser) {
         return UserLoginResp.builder()
-                .id(authUser.getId())
+                .id(authUser.getIdx())
                 .email(authUser.getEmail())
                 .build();
     }

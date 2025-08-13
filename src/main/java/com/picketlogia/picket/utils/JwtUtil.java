@@ -16,6 +16,7 @@ public class JwtUtil {
     private static final Key KEY = Keys.hmacShaKeyFor(SECRET.getBytes());
     private static final Long EXP = 1000 * 60 * 120L;
 
+
     public static final String IDX_NAME = "idx";
     public static final String EMAIL_NAME = "email";
     public static final String ROLE_NAME = "role";

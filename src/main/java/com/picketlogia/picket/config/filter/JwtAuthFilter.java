@@ -35,22 +35,20 @@ public class JwtAuthFilter extends OncePerRequestFilter {
             Claims claims = JwtUtil.getClaims(jwt);
             if(claims!= null) {
                 String email = JwtUtil.getValue(claims, JwtUtil.EMAIL_NAME);
-                Long idx = Long.parseLong(JwtUtil.getValue(claims, JwtUtil.IDX_NAME));
+                Long id = Long.parseLong(JwtUtil.getValue(claims, JwtUtil.IDX_NAME));
 
                 UserAuth authUser = UserAuth.builder()
-                        .idx(idx)
+                        .idx(id)
                         .email(email)
                         .build();
 
                 Authentication authentication = new UsernamePasswordAuthenticationToken(
                         authUser,
                         null,
-                        List.of(new SimpleGrantedAuthority("ROLE_USER")) // 특정 권한 부여, 권한 앞에 ROLE_를 붙여야 함
+                        List.of(new SimpleGrantedAuthority("ROLE_USER"))
                 );
 
                 SecurityContextHolder.getContext().setAuthentication(authentication);
-
-
             }
         }
 
