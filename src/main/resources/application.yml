@@ -24,10 +24,11 @@ spring:
 
   datasource:
 
-    url: jdbc:mariadb://192.168.142.10:3306/won
+    url: ${DB_URL}
     driver-class-name: org.mariadb.jdbc.Driver
-    username: wonzzu
-    password: qwer1234
+    username: ${DB_USERNAME}
+    password: ${DB_PASSWORD}
+
 
   jpa:
     show-sql: true
