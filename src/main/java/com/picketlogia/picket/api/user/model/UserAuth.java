@@ -13,7 +13,7 @@ import java.util.List;
 @Builder
 public class UserAuth implements UserDetails {
 
-    private Long id;
+    private Long idx;
     private String email;
     private String password;
     private String nickname;

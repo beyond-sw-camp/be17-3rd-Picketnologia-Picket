@@ -16,17 +16,17 @@ public class JwtUtil {
     private static final Key KEY = Keys.hmacShaKeyFor(SECRET.getBytes());
     private static final Long EXP = 1000 * 60 * 120L;
 
-    public static final String ID_NAME = "id";
+    public static final String IDX_NAME = "idx";
     public static final String EMAIL_NAME = "email";
     public static final String ROLE_NAME = "role";
     public static final String TOKEN_NAME = "USER_AT";
 
-    public static String generateToken(String email, Long id) {
+    public static String generateToken(String email, Long idx) {
 
         Map<String, String> claims =  new HashMap<>();
-        claims.put("id", "" + id);
-        claims.put("email", email);
-        claims.put("role", "USER");
+        claims.put(IDX_NAME, "" + idx);
+        claims.put(EMAIL_NAME, email);
+        claims.put(ROLE_NAME, "USER");
 
         return Jwts.builder()
                 .setSubject(email)
