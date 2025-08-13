@@ -1,0 +1,37 @@
+package com.picketlogia.picket.api.user.model;
+
+import com.picketlogia.picket.common.model.BaseEntity;
+import jakarta.persistence.*;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+
+@Entity
+@Getter
+@Builder
+@AllArgsConstructor
+@NoArgsConstructor
+public class User extends BaseEntity {
+
+    @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long idx;
+
+    private String email;
+    private String password;
+    private String nickname;
+    private String name;
+    private String birth;
+    private String gender;
+    private String phoneNumber;
+
+    // 회원 상태
+    @ManyToOne
+    @JoinColumn(name = "user_status_id")
+    private UserStatus userStatus;
+
+    // 회원 역할
+    @ManyToOne
+    @JoinColumn(name = "user_role_id")
+    private UserRole userRole;
+}
