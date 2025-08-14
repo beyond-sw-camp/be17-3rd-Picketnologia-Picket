@@ -1,5 +1,6 @@
 package com.picketlogia.picket.api.user.model;
 
+import com.picketlogia.picket.api.product.model.Product;
 import com.picketlogia.picket.api.user.model.enums.Gender;
 import com.picketlogia.picket.api.user.model.enums.UserType;
 import com.picketlogia.picket.common.model.BaseEntity;
@@ -8,6 +9,8 @@ import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+
+import java.util.List;
 
 @Entity
 @Getter
@@ -41,4 +44,7 @@ public class User extends BaseEntity {
     @ManyToOne
     @JoinColumn(name = "user_role_id")
     private UserRole userRole;
+
+    @OneToMany(mappedBy = "user")
+    List<Product> products;
 }

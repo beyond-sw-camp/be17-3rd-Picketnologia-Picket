@@ -1,5 +1,9 @@
 package com.picketlogia.picket.api.product.model;
 
+import com.picketlogia.picket.api.qna.model.Qna;
+import com.picketlogia.picket.api.review.model.entity.Review;
+import com.picketlogia.picket.api.user.model.User;
+import com.picketlogia.picket.common.model.BaseEntity;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -14,7 +18,7 @@ import java.util.List;
 @Getter
 @AllArgsConstructor
 @NoArgsConstructor
-public class Product {
+public class Product extends BaseEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long idx;
@@ -32,12 +36,15 @@ public class Product {
     private Integer sessionTime; // 회차 시간
     private String description; // 설명
 
-//    @OneToMany(mappedBy = "review")
-//    private List<Review> reviewList;
-//
-//
-//    @OneToMany(mappedBy = "qna")
-//    private List<Qna> qnaList;
+    @OneToMany(mappedBy = "product")
+    private List<Review> reviewList;
+
+    @OneToMany(mappedBy = "product")
+    private List<Qna> qnaList;
+
+    @ManyToOne
+    @JoinColumn(name = "user_id")
+    private User user;
 
     @OneToMany(mappedBy = "product")
     List<ProductImage> productImageList;
