@@ -36,9 +36,9 @@ public class ReviewService {
 
         Page<Review> result = reviewRepository.findAll(PageRequest.of(page,size)); // 페이지네이션이 필요하면 사용
 //        Slice<Board> result = boardRepository.findAll(PageRequest.of(page,size)); // 페이지네이션이 필요없으면 사용
+        Double averageRating = reviewRepository.findAverageRating();
 
-
-        return ReviewList.from(result);
+        return ReviewList.from(result, averageRating);
     }
 
 }

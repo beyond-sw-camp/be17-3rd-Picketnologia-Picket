@@ -16,6 +16,7 @@ public class ReviewList {
     private Long totalCount;
     private Integer currentPage;
     private Integer currentSize;
+    private Double totalRating;
 
     public static ReviewList from(List<Review> entityList) {
         return ReviewList.builder()
@@ -23,12 +24,13 @@ public class ReviewList {
                 .build();
     }
 
-    public static ReviewList from(Page<Review> pageResult) {
+    public static ReviewList from(Page<Review> pageResult, Double averageRating) {
         return ReviewList.builder()
                 .totalPages(pageResult.getTotalPages())
                 .totalCount(pageResult.getTotalElements())
                 .currentPage(pageResult.getPageable().getPageNumber())
                 .currentSize(pageResult.getPageable().getPageSize())
+                .totalRating(averageRating)
                 .reviewDtoLists(pageResult.getContent().stream().map(ReviewDtoList::from).toList())
                 .build();
     }
