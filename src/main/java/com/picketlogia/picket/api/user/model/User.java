@@ -1,5 +1,7 @@
 package com.picketlogia.picket.api.user.model;
 
+import com.picketlogia.picket.api.user.model.enums.Gender;
+import com.picketlogia.picket.api.user.model.enums.UserType;
 import com.picketlogia.picket.common.model.BaseEntity;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
@@ -22,8 +24,13 @@ public class User extends BaseEntity {
     private String nickname;
     private String name;
     private String birth;
-    private String gender;
     private String phoneNumber;
+
+    @Enumerated(EnumType.STRING)
+    private UserType userType;
+
+    @Enumerated(EnumType.STRING)
+    private Gender gender;
 
     // 회원 상태
     @ManyToOne
