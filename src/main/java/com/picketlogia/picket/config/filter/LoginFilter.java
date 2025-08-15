@@ -53,6 +53,7 @@ public class LoginFilter extends UsernamePasswordAuthenticationFilter {
             cookie.setHttpOnly(true);
             cookie.setPath("/");
             response.addCookie(cookie);
+            response.setContentType("application/json; charset=UTF-8");
             response.getWriter().write(
                     new ObjectMapper().writeValueAsString(
                             BaseResponse.success(UserLoginResp.from(authUser))
