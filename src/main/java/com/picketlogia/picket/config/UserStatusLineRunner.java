@@ -3,12 +3,11 @@ package com.picketlogia.picket.config;
 import com.picketlogia.picket.api.user.model.UserStatus;
 import com.picketlogia.picket.api.user.model.enums.UserStatusEnum;
 import com.picketlogia.picket.api.user.repository.UserStatusRepository;
-import com.picketlogia.picket.api.user.service.UserService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.stereotype.Component;
 
-@Component
+//@Component
 @RequiredArgsConstructor
 public class UserStatusLineRunner implements CommandLineRunner {
 

@@ -7,13 +7,12 @@ import com.picketlogia.picket.api.review.service.ReviewService;
 import com.picketlogia.picket.common.model.BaseResponse;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
-import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
 @RestController
-@RequestMapping("/products")
+@RequestMapping("/reviews")
 @RequiredArgsConstructor
 public class ReviewController {
     private final ReviewService reviewService;

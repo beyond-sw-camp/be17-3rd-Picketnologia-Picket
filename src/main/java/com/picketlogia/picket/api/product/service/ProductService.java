@@ -1,8 +1,6 @@
 package com.picketlogia.picket.api.product.service;
 
-import com.picketlogia.picket.api.product.model.Product;
-import com.picketlogia.picket.api.product.model.ProductRegister;
-import com.picketlogia.picket.api.product.model.ProductImage;
+import com.picketlogia.picket.api.product.model.*;
 import com.picketlogia.picket.api.product.repository.ProductImageRepository;
 import com.picketlogia.picket.api.product.repository.ProductRepository;
 import lombok.RequiredArgsConstructor;
@@ -30,13 +28,13 @@ public class ProductService {
         // 2. 게시글 이미지 정보를 DB에 저장
         for (MultipartFile file : files) {
             // 3. 파일을 서버에 저장
-            String fileurl = uploadService.upload(file);                             // 실제 파일 업로드(S3)
+            String fileurl = uploadService.upload(file);    // 실제 파일 업로드(S3)
 
-            ProductImage productImage = ProductImage.builder()      // 원본 파일명
-                    .fileName(fileurl)           // 어떤 상품의 이미지인지 명시
+            ProductImage productImage = ProductImage.builder()  // 원본 파일명
+                    .fileName(fileurl)  // 어떤 상품의 이미지인지 명시
                     .product(product)
                     .build();
-            productImageRepository.save(productImage);              // 이미지 메타데이터 DB저장
+            productImageRepository.save(productImage);  // 이미지 메타데이터 DB저장
 
 
         }
@@ -44,19 +42,21 @@ public class ProductService {
     }
 
     // 상품 조회
-    public List<Product> list() {
-        return productRepository.findAll();
+    public ProductList list() {
+        List<Product> findProducts = productRepository.findAll();
+        return ProductList.from(findProducts);
     }
 
     // 상품 상세 조회
-    public Optional<Product> read(Integer idx) {
+    public ProductResp read(Long idx) {
         Optional<Product> product = productRepository.findByIdx(idx);
 
         if(product.isPresent()){
             Product entity = product.get();
 
-            return productRepository.findByIdx(idx);
+            return ProductResp.from(entity);
         }
+
         return null;
     }
 }
