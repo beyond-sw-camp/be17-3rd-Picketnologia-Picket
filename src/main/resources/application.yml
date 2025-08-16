@@ -75,3 +75,7 @@ spring:
       host: localhost
       port: 6379
 
+password:
+  reset:
+    redirect:
+      url: ${PWD_RESET_REDIRECT_URL}
