@@ -1,6 +1,8 @@
 package com.picketlogia.picket.api.auth.service;
 
 import com.picketlogia.picket.api.auth.model.AuthCodeMail;
+import com.picketlogia.picket.api.auth.model.ResetPasswordDto;
+import com.picketlogia.picket.api.auth.service.mail.MailSend;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.redis.core.StringRedisTemplate;
 import org.springframework.stereotype.Service;
@@ -18,10 +20,42 @@ public class AuthService {
      */
     public void verifyAuthCode(AuthCodeMail authCodeMail) {
 
-        String findAuthCode = stringRedisTemplate.opsForValue().get(authCodeMail.getEmail());
+        String redisKey = MailSend.AUTH_CODE_MAIL.createRedisKey(authCodeMail.getEmail());
+        String findAuthCode = getValue(redisKey);
 
         if (findAuthCode == null || !findAuthCode.equals(authCodeMail.getCode())) {
             throw new IllegalArgumentException("유효하지 않는 인증 번호");
         }
+
+        dateDeleteByRedisKey(redisKey);
+    }
+
+    /**
+     * 비밀번호를 재설정 하기 전 올바른 인증 토큰인지 확인.
+     * @param uuid 인증이 필요한 토큰
+     * @return <code>ResetPasswordDto</code>
+     * @throws IllegalArgumentException 유효하지 않은 인증 토큰인 경우 예외 발생
+     */
+    public ResetPasswordDto verifyUserPasswordReset(String uuid) {
+
+        String redisKey = MailSend.PASSWORD_RESET_MAIL.createRedisKey(uuid);
+        String findEmail = getValue(redisKey);
+
+        if (findEmail == null) {
+            throw new IllegalArgumentException("유효하지 않는 인증 토큰");
+        }
+
+        dateDeleteByRedisKey(redisKey);
+        return ResetPasswordDto.builder()
+                .email(findEmail)
+                .build();
+    }
+
+    private String getValue(String redisKey) {
+        return stringRedisTemplate.opsForValue().get(redisKey);
+    }
+
+    private void dateDeleteByRedisKey(String redisKey) {
+        stringRedisTemplate.delete(redisKey);
     }
 }

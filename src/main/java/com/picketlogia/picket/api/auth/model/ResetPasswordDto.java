@@ -5,7 +5,8 @@ import lombok.Getter;
 
 @Getter
 @Builder
-public class FindEmailDto {
-    private String name;
-    private String phoneNumber;
+public class ResetPasswordDto {
+    private String token;
+    private String email;
+    private String password;
 }

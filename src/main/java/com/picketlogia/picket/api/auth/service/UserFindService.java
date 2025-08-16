@@ -2,10 +2,12 @@ package com.picketlogia.picket.api.auth.service;
 
 import com.picketlogia.picket.api.auth.model.FindEmailDto;
 import com.picketlogia.picket.api.auth.model.FindEmailResp;
+import com.picketlogia.picket.api.auth.model.ResetPasswordDto;
 import com.picketlogia.picket.api.user.model.User;
 import com.picketlogia.picket.api.user.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.Optional;
 
@@ -14,6 +16,7 @@ import java.util.Optional;
 public class UserFindService {
 
     private final UserRepository userRepository;
+    private final AuthService authService;
 
     public FindEmailResp findEmailByNameAndPhoneNumber(FindEmailDto dto) {
         Optional<User> result = userRepository.findByNameAndPhoneNumber(dto.getName(), dto.getPhoneNumber());
@@ -24,5 +27,22 @@ public class UserFindService {
         }
 
         return null;
+    }
+
+    @Transactional
+    public void resetPassword(ResetPasswordDto dto) {
+        String newPassword = dto.getPassword();
+        String token = dto.getToken();
+
+        ResetPasswordDto findEmailDto = authService.verifyUserPasswordReset(token);
+
+        Optional<User> result = userRepository.findByEmail(findEmailDto.getEmail());
+
+        if (result.isEmpty()) {
+            throw new IllegalArgumentException("유효하지 않은 이메일");
+        }
+
+        User findUser = result.get();
+        findUser.changePassword(newPassword);
     }
 }
