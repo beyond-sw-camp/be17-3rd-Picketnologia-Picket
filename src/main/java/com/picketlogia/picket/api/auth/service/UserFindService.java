@@ -3,11 +3,10 @@ package com.picketlogia.picket.api.auth.service;
 import com.picketlogia.picket.api.auth.model.FindEmailDto;
 import com.picketlogia.picket.api.auth.model.FindEmailResp;
 import com.picketlogia.picket.api.auth.model.ResetPasswordDto;
-import com.picketlogia.picket.api.user.model.User;
+import com.picketlogia.picket.api.user.model.entity.User;
 import com.picketlogia.picket.api.user.repository.UserRepository;
 import com.picketlogia.picket.api.user.service.PasswordService;
 import lombok.RequiredArgsConstructor;
-import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 

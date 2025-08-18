@@ -1,16 +1,13 @@
 package com.picketlogia.picket.api.qna.model;
 
 import com.picketlogia.picket.api.product.model.Product;
-import com.picketlogia.picket.api.user.model.User;
+import com.picketlogia.picket.api.user.model.entity.User;
 import com.picketlogia.picket.common.model.BaseEntity;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
-import org.hibernate.annotations.CreationTimestamp;
-
-import java.time.LocalDateTime;
 
 @Getter
 @Entity

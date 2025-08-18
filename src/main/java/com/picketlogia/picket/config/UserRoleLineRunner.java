@@ -1,14 +1,10 @@
 package com.picketlogia.picket.config;
 
-import com.picketlogia.picket.api.user.model.UserRole;
-import com.picketlogia.picket.api.user.model.UserStatus;
+import com.picketlogia.picket.api.user.model.entity.UserRole;
 import com.picketlogia.picket.api.user.model.enums.UserRoleEnum;
-import com.picketlogia.picket.api.user.model.enums.UserStatusEnum;
 import com.picketlogia.picket.api.user.repository.UserRoleRepository;
-import com.picketlogia.picket.api.user.repository.UserStatusRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.boot.CommandLineRunner;
-import org.springframework.stereotype.Component;
 
 //@Component
 @RequiredArgsConstructor

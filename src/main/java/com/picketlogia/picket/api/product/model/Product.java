@@ -2,7 +2,7 @@ package com.picketlogia.picket.api.product.model;
 
 import com.picketlogia.picket.api.qna.model.Qna;
 import com.picketlogia.picket.api.review.model.entity.Review;
-import com.picketlogia.picket.api.user.model.User;
+import com.picketlogia.picket.api.user.model.entity.User;
 import com.picketlogia.picket.common.model.BaseEntity;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;

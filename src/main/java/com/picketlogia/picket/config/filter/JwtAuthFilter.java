@@ -1,6 +1,6 @@
 package com.picketlogia.picket.config.filter;
 
-import com.picketlogia.picket.api.user.model.UserAuth;
+import com.picketlogia.picket.api.user.model.dto.UserAuth;
 import com.picketlogia.picket.utils.JwtUtil;
 import io.jsonwebtoken.Claims;
 import jakarta.servlet.FilterChain;

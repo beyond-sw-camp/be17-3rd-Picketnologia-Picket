@@ -1,4 +1,4 @@
-package com.picketlogia.picket.api.user.model;
+package com.picketlogia.picket.api.user.model.entity;
 
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
@@ -16,8 +16,13 @@ public class Seller {
     @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long idx;
 
+    @Column(nullable = false)
     private String representativeName;
+
+    @Column(nullable = false)
     private String businessNumber;
+
+    @Column(nullable = false)
     private String businessAddress;
 
     @OneToOne
