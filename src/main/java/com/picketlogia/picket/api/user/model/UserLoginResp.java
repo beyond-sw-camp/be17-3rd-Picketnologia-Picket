@@ -7,15 +7,15 @@ import lombok.Getter;
 @Builder
 public class UserLoginResp {
 
-    private Long id;
-
-    private String email;
+    private Long idx;
     private String nickname;
+    private String role;
 
     public static UserLoginResp from(UserAuth authUser) {
         return UserLoginResp.builder()
-                .id(authUser.getIdx())
-                .email(authUser.getEmail())
+                .idx(authUser.getIdx())
+                .nickname(authUser.getNickname())
+                .role(authUser.getRole())
                 .build();
     }
 }

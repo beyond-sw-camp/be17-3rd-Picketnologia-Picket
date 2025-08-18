@@ -42,7 +42,7 @@ public class SecurityConfig {
         http.authorizeHttpRequests(
                 (auth) -> auth
                         .requestMatchers("/swagger-ui/**").permitAll()
-                        .requestMatchers("/login", "/user/signup").permitAll()
+                        .requestMatchers("/login", "/user/signup", "/logout", "/auth/**").permitAll()
                         .anyRequest().permitAll()
         );
 
@@ -52,6 +52,7 @@ public class SecurityConfig {
         http.csrf(AbstractHttpConfigurer::disable);
         http.httpBasic(AbstractHttpConfigurer::disable);
         http.formLogin(AbstractHttpConfigurer::disable);
+        http.logout(AbstractHttpConfigurer::disable);
 
         http.addFilterBefore(new JwtAuthFilter(), UsernamePasswordAuthenticationFilter.class);
         http.addFilterAt(new LoginFilter(configuration.getAuthenticationManager()), UsernamePasswordAuthenticationFilter.class);

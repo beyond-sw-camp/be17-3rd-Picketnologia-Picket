@@ -18,7 +18,7 @@ public class S3UploadService implements UploadService {
     @Value("${spring.cloud.aws.s3.bucket}")
     private String s3BucketName;
 
-    // 빌드그래들에서 추가
+    // buildGradle에서 추가
     private final S3Operations s3Operations;
 
     @Override

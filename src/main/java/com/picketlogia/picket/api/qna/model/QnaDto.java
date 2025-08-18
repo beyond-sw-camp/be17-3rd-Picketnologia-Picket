@@ -3,7 +3,7 @@ package com.picketlogia.picket.api.qna.model;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
-import java.time.LocalDateTime;
+import java.util.Date;
 
 public class QnaDto {
 
@@ -40,7 +40,7 @@ public class QnaDto {
         private final String title;
         private final String contents;
         private final Boolean isPrivate;
-        private final LocalDateTime createdAt;
+        private final Date createdAt;
 
         public Response(Qna qna) {
             this.id = qna.getIdx();
