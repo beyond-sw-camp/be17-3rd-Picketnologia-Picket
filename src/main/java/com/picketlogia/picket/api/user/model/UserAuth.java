@@ -27,7 +27,7 @@ public class UserAuth implements UserDetails {
 
     @Override
     public String getPassword() {
-        return "{noop}" + password;
+        return password;
     }
 
     @Override

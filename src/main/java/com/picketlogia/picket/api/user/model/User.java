@@ -48,7 +48,7 @@ public class User extends BaseEntity {
     @OneToMany(mappedBy = "user")
     private List<Product> products;
 
-    public void changePassword(String newPassword) {
-        this.password = newPassword;
+    public void updatePassword(String encodedPassword) {
+        this.password = encodedPassword;
     }
 }
