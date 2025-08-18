@@ -4,6 +4,7 @@ import com.picketlogia.picket.api.user.model.User;
 import com.picketlogia.picket.api.user.model.UserRegister;
 import com.picketlogia.picket.api.user.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 @Service
@@ -11,8 +12,13 @@ import org.springframework.stereotype.Service;
 public class UserService {
 
     private final UserRepository userRepository;
+    private final PasswordService passwordService;
 
     public User signup(UserRegister register) {
-        return userRepository.save(register.toUserEntity());
+        User userEntity = register.toUserEntity();
+
+        passwordService.encode(userEntity, register.getPassword());
+
+        return userRepository.save(userEntity);
     }
 }
