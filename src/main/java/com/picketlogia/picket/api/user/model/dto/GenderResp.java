@@ -1,4 +1,4 @@
-package com.picketlogia.picket.api.user.model;
+package com.picketlogia.picket.api.user.model.dto;
 
 import com.picketlogia.picket.api.user.model.enums.Gender;
 import lombok.Builder;

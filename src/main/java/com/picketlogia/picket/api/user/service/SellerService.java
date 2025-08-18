@@ -1,6 +1,6 @@
 package com.picketlogia.picket.api.user.service;
 
-import com.picketlogia.picket.api.user.model.UserRegister;
+import com.picketlogia.picket.api.user.model.dto.UserRegister;
 import com.picketlogia.picket.api.user.repository.SellerRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;

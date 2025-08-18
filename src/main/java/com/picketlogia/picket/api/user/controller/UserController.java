@@ -1,13 +1,11 @@
 package com.picketlogia.picket.api.user.controller;
 
-import com.picketlogia.picket.api.user.model.GenderResp;
-import com.picketlogia.picket.api.user.model.UserRegister;
-import com.picketlogia.picket.api.user.model.UserTypeResp;
+import com.picketlogia.picket.api.user.model.dto.GenderResp;
+import com.picketlogia.picket.api.user.model.dto.UserRegister;
+import com.picketlogia.picket.api.user.model.dto.UserTypeResp;
 import com.picketlogia.picket.api.user.service.SignupService;
-import com.picketlogia.picket.api.user.service.UserService;
 import com.picketlogia.picket.common.model.BaseResponse;
 import com.picketlogia.picket.utils.JwtUtil;
-import jakarta.servlet.http.Cookie;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseCookie;
 import org.springframework.http.ResponseEntity;

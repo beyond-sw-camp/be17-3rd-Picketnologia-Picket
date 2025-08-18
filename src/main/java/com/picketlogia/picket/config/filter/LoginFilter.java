@@ -1,9 +1,9 @@
 package com.picketlogia.picket.config.filter;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.picketlogia.picket.api.user.model.UserAuth;
-import com.picketlogia.picket.api.user.model.UserLogin;
-import com.picketlogia.picket.api.user.model.UserLoginResp;
+import com.picketlogia.picket.api.user.model.dto.UserAuth;
+import com.picketlogia.picket.api.user.model.dto.UserLogin;
+import com.picketlogia.picket.api.user.model.dto.UserLoginResp;
 import com.picketlogia.picket.common.model.BaseResponse;
 import com.picketlogia.picket.utils.JwtUtil;
 import jakarta.servlet.FilterChain;

@@ -1,4 +1,4 @@
-package com.picketlogia.picket.api.user.model;
+package com.picketlogia.picket.api.user.model.dto;
 
 import lombok.Builder;
 import lombok.Getter;

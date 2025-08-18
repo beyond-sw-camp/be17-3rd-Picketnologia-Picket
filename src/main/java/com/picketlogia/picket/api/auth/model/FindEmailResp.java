@@ -1,6 +1,6 @@
 package com.picketlogia.picket.api.auth.model;
 
-import com.picketlogia.picket.api.user.model.User;
+import com.picketlogia.picket.api.user.model.entity.User;
 import lombok.Builder;
 import lombok.Getter;
 
