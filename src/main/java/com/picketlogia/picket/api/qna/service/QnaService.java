@@ -1,8 +1,10 @@
 package com.picketlogia.picket.api.qna.service;
 
 
+import com.picketlogia.picket.api.qna.model.Answer;
 import com.picketlogia.picket.api.qna.model.QnaDto;
 import com.picketlogia.picket.api.qna.model.Qna;
+import com.picketlogia.picket.api.qna.repository.AnswerRepository;
 import com.picketlogia.picket.api.qna.repository.QnaRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -16,6 +18,7 @@ import java.util.stream.Collectors;
 @RequiredArgsConstructor
 public class QnaService {
     private final QnaRepository qnaRepository;
+    private final AnswerRepository answerRepository;
 
     @Transactional
     public QnaDto.Response createQna(QnaDto.CreateRequest request) {
@@ -26,15 +29,22 @@ public class QnaService {
 
     @Transactional(readOnly = true)
     public List<QnaDto.Response> findAllQna() {
-        return qnaRepository.findAll().stream()
+        return qnaRepository.findAllByIsDeletedIsFalse().stream()
                 .map(QnaDto.Response::new)
                 .collect(Collectors.toList());
     }
 
+    @Transactional(readOnly = true)
+    public QnaDto.Response findQnaByIdx(Long qnaIdx) {
+        Qna qna = qnaRepository.findByIdxAndIsDeletedIsFalse(qnaIdx)
+                .orElseThrow(() -> new IllegalArgumentException("해당 문의글을 찾을 수 없습니다. id=" + qnaIdx));
+        return new QnaDto.Response(qna);
+    }
+
     @Transactional
-    public QnaDto.Response updateQna(Long qnaId, QnaDto.UpdateRequest request) {
-        Qna qna = qnaRepository.findById(qnaId)
-                .orElseThrow(() -> new IllegalArgumentException("해당 문의글을 찾을 수 없습니다. id=" + qnaId));
+    public QnaDto.Response updateQna(Long qnaIdx, QnaDto.UpdateRequest request) {
+        Qna qna = qnaRepository.findByIdxAndIsDeletedIsFalse(qnaIdx)
+                .orElseThrow(() -> new IllegalArgumentException("해당 문의글을 찾을 수 없습니다. id=" + qnaIdx));
 
         if (!Objects.equals(qna.getPassword(), request.getPassword())) {
             throw new IllegalArgumentException("비밀번호가 일치하지 않습니다.");
@@ -42,5 +52,59 @@ public class QnaService {
 
         qna.update(request.getTitle(), request.getContents(), request.getIsPrivate());
         return new QnaDto.Response(qna);
+    }
+
+    @Transactional
+    public void deleteQna(Long qnaIdx) {
+        Qna qna = qnaRepository.findByIdxAndIsDeletedIsFalse(qnaIdx)
+                .orElseThrow(() -> new IllegalArgumentException("해당 문의글을 찾을 수 없습니다. id=" + qnaIdx));
+        qna.delete();
+    }
+
+    @Transactional
+    public QnaDto.AnswerResponse createAnswer(Long qnaIdx, QnaDto.CreateAnswerRequest request) {
+        Qna qna = qnaRepository.findByIdxAndIsDeletedIsFalse(qnaIdx)
+                .orElseThrow(() -> new IllegalArgumentException("해당 문의글을 찾을 수 없습니다. id=" + qnaIdx));
+
+        Answer newAnswer = request.toEntity(qna);
+        Answer savedAnswer = answerRepository.save(newAnswer);
+
+        return new QnaDto.AnswerResponse(savedAnswer);
+    }
+
+    @Transactional
+    public QnaDto.AnswerResponse updateAnswer(Long qnaIdx, Long answerIdx, QnaDto.UpdateAnswerRequest request) {
+        // 1. 문의글이 존재하는지 확인
+        qnaRepository.findByIdxAndIsDeletedIsFalse(qnaIdx)
+                .orElseThrow(() -> new IllegalArgumentException("해당 문의글을 찾을 수 없습니다. id=" + qnaIdx));
+
+        // 2. 답변이 존재하는지 확인
+        Answer answer = answerRepository.findByIdxAndIsDeletedIsFalse(answerIdx)
+                .orElseThrow(() -> new IllegalArgumentException("해당 답변을 찾을 수 없습니다. id=" + answerIdx));
+
+        // 3. 답변이 해당 문의글에 속해 있는지 검증
+        if (!answer.getQna().getIdx().equals(qnaIdx)) {
+            throw new IllegalArgumentException("해당 문의글에 속한 답변이 아닙니다.");
+        }
+
+        answer.update(request.getContents());
+        return new QnaDto.AnswerResponse(answer);
+    }
+
+    @Transactional
+    public void deleteAnswer(Long qnaIdx, Long answerIdx) {
+        // 1. 문의글이 존재하는지 확인
+        qnaRepository.findByIdxAndIsDeletedIsFalse(qnaIdx)
+                .orElseThrow(() -> new IllegalArgumentException("해당 문의글을 찾을 수 없습니다. id=" + qnaIdx));
+
+        // 2. 답변이 존재하는지 확인
+        Answer answer = answerRepository.findByIdxAndIsDeletedIsFalse(answerIdx)
+                .orElseThrow(() -> new IllegalArgumentException("해당 답변을 찾을 수 없습니다. id=" + answerIdx));
+
+        // 3. 답변이 해당 문의글에 속해 있는지 검증
+        if (!answer.getQna().getIdx().equals(qnaIdx)) {
+            throw new IllegalArgumentException("해당 문의글에 속한 답변이 아닙니다.");
+        }
+        answer.delete();
     }
 }
