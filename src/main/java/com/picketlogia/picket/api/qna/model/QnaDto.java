@@ -4,6 +4,8 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 
 import java.util.Date;
+import java.util.List;
+import java.util.stream.Collectors;
 
 public class QnaDto {
 
@@ -21,6 +23,7 @@ public class QnaDto {
                     .contents(contents)
                     .isPrivate(isPrivate)
                     .password(password)
+                    .isDeleted(false)
                     .build();
         }
     }
@@ -36,18 +39,61 @@ public class QnaDto {
 
     @Getter
     public static class Response {
-        private final Long id;
+        private final Long idx;
         private final String title;
         private final String contents;
         private final Boolean isPrivate;
+        private final List<AnswerResponse> answers;
         private final Date createdAt;
 
         public Response(Qna qna) {
-            this.id = qna.getIdx();
+            this.idx = qna.getIdx();
             this.title = qna.getTitle();
             this.contents = qna.getIsPrivate() ? "비밀글입니다." : qna.getContents();
             this.isPrivate = qna.getIsPrivate();
             this.createdAt = qna.getCreatedAt();
+            // Qna 엔티티에 매핑된 답변 목록을 DTO로 변환 (삭제된 답변은 제외)
+            if (qna.getAnswers() != null) {
+                this.answers = qna.getAnswers().stream()
+                        .filter(answer -> answer.getIsDeleted() != null && !answer.getIsDeleted())
+                        .map(AnswerResponse::new)
+                        .collect(Collectors.toList());
+            } else {
+                this.answers = List.of();
+            }
+        }
+    }
+
+    @Getter
+    @NoArgsConstructor
+    public static class CreateAnswerRequest {
+        private String contents;
+
+        public Answer toEntity(Qna qna) {
+            return Answer.builder()
+                    .contents(contents)
+                    .qna(qna)
+                    .isDeleted(false)
+                    .build();
+        }
+    }
+
+    @Getter
+    @NoArgsConstructor
+    public static class UpdateAnswerRequest {
+        private String contents;
+    }
+
+    @Getter
+    public static class AnswerResponse {
+        private final Long idx;
+        private final String contents;
+        private final Date createdAt;
+
+        public AnswerResponse(Answer answer) {
+            this.idx = answer.getIdx();
+            this.contents = answer.getContents();
+            this.createdAt = answer.getCreatedAt();
         }
     }
 }
