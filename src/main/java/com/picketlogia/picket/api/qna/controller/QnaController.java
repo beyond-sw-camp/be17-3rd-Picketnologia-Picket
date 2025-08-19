@@ -17,13 +17,13 @@ public class QnaController {
     private final QnaService qnaService;
 
     // [문의글 작성]
-    @PostMapping
+    @PostMapping("/qna_create_post")
     public ResponseEntity<QnaDto.Response> createQna(@RequestBody QnaDto.CreateRequest request) {
         return ResponseEntity.status(HttpStatus.CREATED).body(qnaService.createQna(request));
     }
 
     // [문의글 전체 조회]
-    @GetMapping
+    @GetMapping("/qna_get_all_posts")
     public ResponseEntity<List<QnaDto.Response>> getAllQna() {
         return ResponseEntity.ok(qnaService.findAllQna());
     }
