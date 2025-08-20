@@ -79,17 +79,17 @@ VALUES ('https://kangseol-s3.s3.amazonaws.com/2025/08/14/92670360-5051-4bb4-8fc0
 --
 -- Dumping data for table `qna`
 --
-INSERT INTO `qna` (contents, created_at, is_private, password, title, updated_at, product_id, user_id)
-VALUES ('문의 내용01', now(), b'1', 'test1', '문의01', now(), 1, 1),
-       ('문의 내용02', now(), b'0', 'test2', '문의02', now(), 2, 1),
-       ('문의 내용03', now(), b'0', 'test3', '문의03', now(), 3, 1),
-       ('문의 내용04', now(), b'0', 'test4', '문의04', now(), 4, 1),
-       ('문의 내용05', now(), b'1', 'test5', '문의05', now(), 5, 1),
-       ('문의 내용06', now(), b'0', 'test6', '문의06', now(), 6, 1),
-       ('문의 내용07', now(), b'1', 'test7', '문의07', now(), 7, 1),
-       ('문의 내용08', now(), b'0', 'test8', '문의08', now(), 8, 1),
-       ('문의 내용09', now(), b'0', 'test9', '문의09', now(), 9, 1),
-       ('문의 내용10', now(), b'1', 'test10', '문의10', now(), 10, 1);
+INSERT INTO `qna` (contents, created_at, is_private,is_deleted, password, title, updated_at, product_id, user_id)
+VALUES ('문의 내용01', now(), b'1',b'0' ,'test1', '문의01', now(), 1, 1),
+       ('문의 내용02', now(), b'0',b'0' ,'test2', '문의02', now(), 2, 1),
+       ('문의 내용03', now(), b'0', b'0','test3', '문의03', now(), 3, 1),
+       ('문의 내용04', now(), b'0', b'0','test4', '문의04', now(), 4, 1),
+       ('문의 내용05', now(), b'1', b'0','test5', '문의05', now(), 5, 1),
+       ('문의 내용06', now(), b'0', b'0','test6', '문의06', now(), 6, 1),
+       ('문의 내용07', now(), b'1', b'0','test7', '문의07', now(), 7, 1),
+       ('문의 내용08', now(), b'0', b'0','test8', '문의08', now(), 8, 1),
+       ('문의 내용09', now(), b'0', b'0','test9', '문의09', now(), 9, 1),
+       ('문의 내용10', now(), b'1', b'0','test10', '문의10', now(), 10, 1);
 
 --
 -- Dumping data for table `review`

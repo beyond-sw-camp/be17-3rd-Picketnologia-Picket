@@ -9,6 +9,9 @@ import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
+import java.util.ArrayList;
+import java.util.List;
+
 @Getter
 @Entity
 @Builder
@@ -27,6 +30,9 @@ public class Qna extends BaseEntity {
 
     private Boolean isPrivate;
 
+    @Builder.Default
+    private Boolean isDeleted = false;
+
      @ManyToOne(fetch = FetchType.LAZY)
      @JoinColumn(name = "product_id")
      private Product product;
@@ -35,9 +41,17 @@ public class Qna extends BaseEntity {
      @JoinColumn(name = "user_id")
      private User user;
 
+    @OneToMany(mappedBy = "qna", cascade = CascadeType.ALL, orphanRemoval = true)
+    @Builder.Default
+    private List<Answer> answers = new ArrayList<>();
+
     public void update(String title, String contents, Boolean isPrivate) {
         this.title = title;
         this.contents = contents;
         this.isPrivate = isPrivate;
+    }
+
+    public void delete() {
+        this.isDeleted = true;
     }
 }
