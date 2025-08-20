@@ -1,5 +1,6 @@
 package com.picketlogia.picket.api.product.model;
 
+import com.picketlogia.picket.api.genre.model.Genre;
 import com.picketlogia.picket.api.qna.model.Qna;
 import com.picketlogia.picket.api.review.model.entity.Review;
 import com.picketlogia.picket.api.user.model.entity.User;
@@ -18,12 +19,15 @@ import java.util.List;
 @Getter
 @AllArgsConstructor
 @NoArgsConstructor
+@Table(name = "product", indexes = {
+        @Index(name = "idx_product_genre_id", columnList = "genre_id")
+}
+)
 public class Product extends BaseEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long idx;
     private String name; // 상품이름
-    private String category; // 카테고리 (장르)
     private String rating; // 관람등급
     private String venueName; // 공연장명
     private String venueAddress; // 공연장 주소
@@ -35,15 +39,19 @@ public class Product extends BaseEntity {
     private Integer sessionTime; // 회차 시간
     private String description; // 설명
 
+    @ManyToOne
+    @JoinColumn(name = "user_id")
+    private User user;
+
+    @ManyToOne
+    @JoinColumn(name = "genre_id")
+    private Genre genre;
+
     @OneToMany(mappedBy = "product")
     private List<Review> reviewList;
 
     @OneToMany(mappedBy = "product")
     private List<Qna> qnaList;
-
-    @ManyToOne
-    @JoinColumn(name = "user_id")
-    private User user;
 
     @OneToOne(mappedBy = "product")
     private ProductImage productImage;

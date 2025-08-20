@@ -1,5 +1,6 @@
 package com.picketlogia.picket.api.product.model;
 
+import com.picketlogia.picket.api.genre.model.Genre;
 import lombok.*;
 import java.time.LocalDate;
 
@@ -11,7 +12,6 @@ import java.time.LocalDate;
 public class ProductRegister {
 
     private String name;           // 상품이름
-    private String category;       // 카테고리 (장르)
     private String rating;         // 관람등급
     private String venueName;      // 공연장명
     private String venueAddress;   // 공연장 주소
@@ -22,12 +22,12 @@ public class ProductRegister {
     private LocalDate sessionDate; // 회차 날짜
     private Integer sessionTime;   // 회차 시간
     private String description;    // 설명
+    private int genreId;           // 장르
 
     // DTO → Entity 변환
     public Product toEntity() {
         return Product.builder()
                 .name(name)
-                .category(category)
                 .rating(rating)
                 .venueName(venueName)
                 .venueAddress(venueAddress)
@@ -38,13 +38,17 @@ public class ProductRegister {
                 .sessionDate(sessionDate)
                 .sessionTime(sessionTime)
                 .description(description)
+                .genre(
+                        Genre.builder().
+                                idx(genreId)
+                                .build()
+                )
                 .build();
     }
 
     public static ProductRegister fromEntity(Product product) {
         return ProductRegister.builder()
                 .name(product.getName())
-                .category(product.getCategory())
                 .rating(product.getRating())
                 .venueName(product.getVenueName())
                 .venueAddress(product.getVenueAddress())

@@ -1,5 +1,6 @@
 package com.picketlogia.picket.api.product.service;
 
+import com.picketlogia.picket.api.genre.model.Genre;
 import com.picketlogia.picket.api.product.model.*;
 import com.picketlogia.picket.api.product.repository.ProductImageRepository;
 import com.picketlogia.picket.api.product.repository.ProductRepository;
@@ -58,5 +59,13 @@ public class ProductService {
         }
 
         return null;
+    }
+
+    public List<ProductReadList> findByGenre(Integer  genreIdx) {
+        List<Product> findProducts = productRepository.findByGenre(
+                Genre.builder().idx(genreIdx).build()
+        );
+
+        return findProducts.stream().map(ProductReadList::from).toList();
     }
 }

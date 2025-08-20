@@ -10,7 +10,6 @@ import java.time.LocalDate;
 public class ProductResp {
     private Long idx;
     private String name; // 상품이름
-    private String category; // 카테고리 (장르)
     private String rating; // 관람등급
     private String venueName; // 공연장명
     private String venueAddress; // 공연장 주소
@@ -27,7 +26,6 @@ public class ProductResp {
         return ProductResp.builder()
                 .idx(product.getIdx())
                 .name(product.getName())
-                .category(product.getCategory())
                 .rating(product.getRating())
                 .venueName(product.getVenueName())
                 .venueAddress(product.getVenueAddress())
