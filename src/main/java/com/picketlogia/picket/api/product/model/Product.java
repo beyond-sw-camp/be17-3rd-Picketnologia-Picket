@@ -28,7 +28,6 @@ public class Product extends BaseEntity {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long idx;
     private String name; // 상품이름
-    private String category; // 카테고리 (장르)
     private String rating; // 관람등급
     private String venueName; // 공연장명
     private String venueAddress; // 공연장 주소
