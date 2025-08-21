@@ -4,6 +4,7 @@ import com.picketlogia.picket.api.contents.model.ContentsResp;
 import com.picketlogia.picket.api.genre.model.GenreRead;
 import com.picketlogia.picket.api.genre.service.GenreService;
 import com.picketlogia.picket.api.product.model.ProductReadList;
+import com.picketlogia.picket.api.product.model.ProductUpcomingRead;
 import com.picketlogia.picket.api.product.service.ProductService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -19,10 +20,15 @@ public class ContentsService {
 
     public ContentsResp findContents(String genre) {
         GenreRead findGenre = genreService.findByCode(genre);
+
         List<ProductReadList> findProducts = productService.findByGenre(findGenre.getIdx());
+
+        List<ProductUpcomingRead> upcomingProducts =
+                productService.getUpcomingProductsByGenre(findGenre.getIdx());
 
         return ContentsResp.builder()
                 .products(findProducts)
+                .upcomingPerformances(upcomingProducts)
                 .build();
     }
 

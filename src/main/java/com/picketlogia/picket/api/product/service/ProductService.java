@@ -10,6 +10,7 @@ import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
 import java.sql.SQLException;
+import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Optional;
 
@@ -67,5 +68,20 @@ public class ProductService {
         );
 
         return findProducts.stream().map(ProductReadList::from).toList();
+    }
+
+    /**
+     * 장르별 조회 화면에 보여주기위한 오픈 예정일이 제일 빠른 5개의 상품을 조회
+     * @param genreIdx 장르 식별자
+     * @return <code>List<<code>ProductUpcomingRead</code>></code>
+     */
+    public List<ProductUpcomingRead> getUpcomingProductsByGenre(Integer genreIdx) {
+
+        List<Product> findProducts = productRepository.findTop5ByGenreAndOpenDateAfterOrderByOpenDateAsc(
+                Genre.builder().idx(genreIdx).build(),
+                LocalDateTime.now()
+        );
+
+        return findProducts.stream().map(ProductUpcomingRead::from).toList();
     }
 }

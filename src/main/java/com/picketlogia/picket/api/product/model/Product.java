@@ -12,6 +12,7 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.List;
 
 @Entity
@@ -33,6 +34,7 @@ public class Product extends BaseEntity {
     private String venueAddress; // 공연장 주소
     private LocalDate startDate; // 공연 시작일
     private LocalDate endDate; // 공연 종료일
+    private LocalDateTime openDate; // 오픈 예정일
     private Integer runningTime; // 러닝타임
     private Integer price; // 가격
     private LocalDate sessionDate; // 회차 날짜
