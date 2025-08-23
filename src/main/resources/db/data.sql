@@ -1,9 +1,9 @@
-INSERT INTO `user_role`(name)
+INSERT INTO user_role (name)
 values ('ROLE_ADMIN'),
        ('ROLE_USER'),
        ('ROLE_SELLER');
 
-INSERT INTO `user_status`(name)
+INSERT INTO user_status (name)
 values ('ACTIVE'),
        ('SUSPEND'),
        ('DELETE');
@@ -15,12 +15,21 @@ VALUES ('뮤지컬', 'musical'),
        ('아동/가족', 'family'),
        ('연극', 'play');
 
+INSERT INTO region (code, name)
+VALUES ('SEOUL', '서울'),
+       ('GYEONGGI', '경기'),
+       ('GANGWON', '강원'),
+       ('JEOLLA', '전라'),
+       ('CHUNGCHEONG', '충청'),
+       ('GYEONGSANG', '경상'),
+       ('JEJU', '제주');
+
 
 --
 -- Dumping data for table `user`
 --
 
-INSERT INTO `user`(created_at, updated_at, birth, email, gender, name, nickname, password, phone_number, user_type,
+INSERT INTO users (created_at, updated_at, birth, email, gender, name, nickname, password, phone_number, user_type,
                    user_role_id, user_status_id)
 VALUES (now(), now(), '1999-03-10', 'test01@test.com', 'MALE', 'test',
         'testman', '$2a$10$DSJnejSVV/xdvSsJ6A1jiOjEMvejnbzwkmFCs199MT.UKHTxA2aa6', '010-1234-5678', 'NORMAL', 2, 1),
@@ -32,7 +41,7 @@ VALUES (now(), now(), '1999-03-10', 'test01@test.com', 'MALE', 'test',
 -- Dumping data for table `product`
 --
 
-INSERT INTO `product`
+INSERT INTO product
 (created_at, updated_at, description, end_date, name, price, rating, running_time, session_date, session_time,
  start_date, venue_address, venue_name, user_id, genre_id, open_date)
 VALUES (now(), now(), '최고의 감동을 선사하는 클래식 공연입니다.', '2025-08-31', '공연01', 120000, '전체연령가', 120, '2025-08-16', 19,
@@ -345,7 +354,7 @@ VALUES (now(), now(), '최고의 감동을 선사하는 클래식 공연입니�
 -- Dumping data for table `product_image`
 --
 
-INSERT INTO `product_image`(file_name, product_idx)
+INSERT INTO product_image (file_name, product_idx)
 VALUES ('https://kangseol-s3.s3.amazonaws.com/2025/08/14/92670360-5051-4bb4-8fc0-7e490cf31324_1.jpg', 1),
        ('https://kangseol-s3.s3.amazonaws.com/2025/08/14/72093682-6aef-4222-82fe-fa59b2b43e38_2.jpg', 2),
        ('https://kangseol-s3.s3.amazonaws.com/2025/08/14/c60f5be2-e0f0-4c62-8fee-d98dae60b96c_3.jpg', 3),
@@ -450,7 +459,7 @@ VALUES ('https://kangseol-s3.s3.amazonaws.com/2025/08/14/92670360-5051-4bb4-8fc0
 --
 -- Dumping data for table `qna`
 --
-INSERT INTO `qna` (contents, created_at, is_private, is_deleted, password, title, updated_at, product_id, user_id)
+INSERT INTO qna (contents, created_at, is_private, is_deleted, password, title, updated_at, product_id, user_id)
 VALUES ('문의 내용01', now(), b'1', b'0', 'test1', '문의01', now(), 1, 1),
        ('문의 내용02', now(), b'0', b'0', 'test2', '문의02', now(), 2, 1),
        ('문의 내용03', now(), b'0', b'0', 'test3', '문의03', now(), 3, 1),
@@ -466,7 +475,7 @@ VALUES ('문의 내용01', now(), b'1', b'0', 'test1', '문의01', now(), 1, 1),
 -- Dumping data for table `review`
 --
 
-INSERT INTO `review`(created_at, updated_at, comment, name, rating, product_id, user_id)
+INSERT INTO review (created_at, updated_at, comment, name, rating, product_id, user_id)
 VALUES (now(), now(), '리뷰01', NULL, 5, 1, 1),
        (now(), now(), '리뷰02', NULL, 2, 2, 1),
        (now(), now(), '리뷰03', NULL, 3, 3, 1),
@@ -482,13 +491,13 @@ VALUES (now(), now(), '리뷰01', NULL, 5, 1, 1),
 -- Dumping data for table `seller`
 --
 
-INSERT INTO `seller`(business_address, business_number, representative_name, user_id)
+INSERT INTO seller(business_address, business_number, representative_name, user_id)
 VALUES ('서울시 동작구 신대방동', '012-3456-789', 'test01', 2);
 
 --
 -- Order
 --
-INSERT INTO `orders` (price, payment_idx, user_id)
+INSERT INTO orders (price, payment_idx, user_id)
 VALUES (50000, 'PAY12345', 1),
        (75000, 'PAY12346', 2),
        (60000, 'PAY12347', 1);

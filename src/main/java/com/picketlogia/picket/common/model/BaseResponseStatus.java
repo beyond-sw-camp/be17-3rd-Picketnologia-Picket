@@ -30,7 +30,9 @@ public enum BaseResponseStatus {
     INVALID_USER_PASSWORD(false,20009,"비밀번호가 일치하지 않습니다."),
     INVALID_USER_EMAIL(false,20010,"이메일 정보가 잘못되었습니다."),
     INVALID_EMAIL_RESET_TIMEOUT(false,20011,"이메일 변경 링크가 만료되었습니다. 다시 시도해주세요."),
+
     INVALID_AUTH_CODE(false, 30002, "유효하지 않은 인증번호 입니다."),
+    INVALID_REGION_CODE(false, 3003, "유효하지 않은 지역 코드 입니다"),
 
 
     /**
