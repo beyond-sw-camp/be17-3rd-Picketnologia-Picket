@@ -1,7 +1,6 @@
 INSERT INTO user_role (name)
 values ('ROLE_ADMIN'),
-       ('ROLE_USER'),
-       ('ROLE_SELLER');
+       ('ROLE_USER');
 
 INSERT INTO user_status (name)
 values ('ACTIVE'),
@@ -35,7 +34,7 @@ VALUES (now(), now(), '1999-03-10', 'test01@test.com', 'MALE', 'test',
         'testman', '$2a$10$DSJnejSVV/xdvSsJ6A1jiOjEMvejnbzwkmFCs199MT.UKHTxA2aa6', '010-1234-5678', 'NORMAL', 2, 1),
        (now(), now(), '1996-12-16', 'test02@test.com', 'MALE',
         'seller', 'sellerman', '$2a$10$DSJnejSVV/xdvSsJ6A1jiOjEMvejnbzwkmFCs199MT.UKHTxA2aa6', '010-1234-5678',
-        'SELLER', 3, 1);
+        'SELLER', 2, 1);
 
 --
 -- Dumping data for table `product`

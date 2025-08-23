@@ -1,4 +1,4 @@
-package com.picketlogia.picket.api.user.model.dto;
+package com.picketlogia.picket.api.user.model.dto.signup;
 
 import com.picketlogia.picket.api.user.model.entity.Seller;
 import com.picketlogia.picket.api.user.model.entity.User;

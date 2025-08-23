@@ -1,4 +1,4 @@
-package com.picketlogia.picket.api.user.model.dto;
+package com.picketlogia.picket.api.user.model.dto.login;
 
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.Min;
