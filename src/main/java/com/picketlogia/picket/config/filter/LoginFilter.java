@@ -2,8 +2,8 @@ package com.picketlogia.picket.config.filter;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.picketlogia.picket.api.user.model.dto.UserAuth;
-import com.picketlogia.picket.api.user.model.dto.UserLogin;
-import com.picketlogia.picket.api.user.model.dto.UserLoginResp;
+import com.picketlogia.picket.api.user.model.dto.login.UserLogin;
+import com.picketlogia.picket.api.user.model.dto.login.UserLoginResp;
 import com.picketlogia.picket.common.model.BaseResponse;
 import com.picketlogia.picket.utils.JwtUtil;
 import jakarta.servlet.FilterChain;
@@ -46,7 +46,12 @@ public class LoginFilter extends UsernamePasswordAuthenticationFilter {
     protected void successfulAuthentication(HttpServletRequest request, HttpServletResponse response, FilterChain chain, Authentication authResult) throws IOException, ServletException {
         UserAuth authUser = (UserAuth) authResult.getPrincipal();
 
-        String jwt = JwtUtil.generateToken(authUser.getEmail(), authUser.getIdx());
+        String jwt = JwtUtil.generateToken(
+                authUser.getEmail(),
+                authUser.getIdx(),
+                authUser.getRole(),
+                authUser.getUserType()
+        );
 
         if(jwt != null) {
             Cookie cookie = new Cookie(JwtUtil.TOKEN_NAME, jwt);
