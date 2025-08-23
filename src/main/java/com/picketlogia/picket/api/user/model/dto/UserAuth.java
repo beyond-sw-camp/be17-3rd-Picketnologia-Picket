@@ -19,10 +19,11 @@ public class UserAuth implements UserDetails {
     private String nickname;
     private String enable;
     private String role;
+    private String userType;
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
-        return List.of(new SimpleGrantedAuthority(role));
+        return List.of(new SimpleGrantedAuthority(role), new SimpleGrantedAuthority(userType));
     }
 
     @Override

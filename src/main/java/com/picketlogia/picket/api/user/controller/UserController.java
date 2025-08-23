@@ -1,18 +1,17 @@
 package com.picketlogia.picket.api.user.controller;
 
-import com.picketlogia.picket.api.user.model.dto.GenderResp;
-import com.picketlogia.picket.api.user.model.dto.UserRegister;
-import com.picketlogia.picket.api.user.model.dto.UserTypeResp;
+import com.picketlogia.picket.api.user.model.dto.signup.SignupResp;
+import com.picketlogia.picket.api.user.model.dto.signup.UserRegister;
 import com.picketlogia.picket.api.user.service.SignupService;
 import com.picketlogia.picket.common.model.BaseResponse;
 import com.picketlogia.picket.utils.JwtUtil;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseCookie;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.*;
-
-import java.util.HashMap;
-import java.util.Map;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RestController;
 
 @RestController
 @RequiredArgsConstructor
@@ -29,13 +28,7 @@ public class UserController {
 
     @GetMapping("/user/signup")
     public ResponseEntity<BaseResponse<Object>> signup() {
-
-        Map<String, Object> map = new HashMap<>();
-
-        map.put("userTypes", UserTypeResp.from());
-        map.put("genders", GenderResp.from());
-
-        return ResponseEntity.ok(BaseResponse.success(map));
+        return ResponseEntity.ok(BaseResponse.success(SignupResp.from()));
     }
 
     @PostMapping("/logout")

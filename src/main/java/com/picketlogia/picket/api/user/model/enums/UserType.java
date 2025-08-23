@@ -7,9 +7,9 @@ public enum UserType {
     NORMAL("일반 회원"),
     SELLER("판매자 회원");
 
-    private final String description;
+    private final String name;
 
-    UserType(String description) {
-        this.description = description;
+    UserType(String name) {
+        this.name = name;
     }
 }

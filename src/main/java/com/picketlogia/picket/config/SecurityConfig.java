@@ -1,5 +1,6 @@
 package com.picketlogia.picket.config;
 
+import com.picketlogia.picket.api.user.model.enums.UserType;
 import com.picketlogia.picket.config.filter.JwtAuthFilter;
 import com.picketlogia.picket.config.filter.LoginFilter;
 import lombok.RequiredArgsConstructor;
@@ -45,6 +46,7 @@ public class SecurityConfig {
                 (auth) -> auth
                         .requestMatchers("/swagger-ui/**").permitAll()
                         .requestMatchers("/login", "/user/signup", "/logout", "/auth/**").permitAll()
+                        .requestMatchers("/seller/**").hasAuthority(UserType.SELLER.name())
                         .anyRequest().permitAll()
         );
 

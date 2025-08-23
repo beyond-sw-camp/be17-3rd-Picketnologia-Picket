@@ -7,9 +7,9 @@ public enum Gender {
     MALE("남성"),
     FEMALE("여성");
 
-    private final String description;
+    private final String name;
 
-    Gender(String description) {
-        this.description = description;
+    Gender(String name) {
+        this.name = name;
     }
 }

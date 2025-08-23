@@ -20,14 +20,16 @@ public class JwtUtil {
     public static final String IDX_NAME = "idx";
     public static final String EMAIL_NAME = "email";
     public static final String ROLE_NAME = "role";
+    public static final String USER_TYPE_NAME = "userType";
     public static final String TOKEN_NAME = "USER_AT";
 
-    public static String generateToken(String email, Long idx) {
+    public static String generateToken(String email, Long idx, String role, String userType) {
 
         Map<String, String> claims =  new HashMap<>();
         claims.put(IDX_NAME, "" + idx);
         claims.put(EMAIL_NAME, email);
-        claims.put(ROLE_NAME, "USER");
+        claims.put(ROLE_NAME, role);
+        claims.put(USER_TYPE_NAME, userType);
 
         return Jwts.builder()
                 .setSubject(email)
@@ -37,11 +39,8 @@ public class JwtUtil {
                 .compact();
     }
 
-
     public static String getValue(Claims claims, String key) {
-        String value = (String) claims.get(key);
-
-        return value;
+        return (String) claims.get(key);
     }
 
     public static Claims getClaims(String token) {
