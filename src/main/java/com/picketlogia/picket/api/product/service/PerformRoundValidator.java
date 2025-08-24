@@ -42,17 +42,13 @@ public class PerformRoundValidator {
             LocalDate performanceStart, LocalDate performanceEnd, List<ManualRound> manualRounds) {
 
         for (ManualRound manualRound : manualRounds) {
-            isNotPeriod(performanceStart, performanceEnd, manualRound.getDate());
-            throw BaseException.from(MANUAL_ROUND_OUT_OF_PERFORMANCE_RANGE);
+            if (isNotPeriod(performanceStart, performanceEnd, manualRound.getDate())) {
+                throw BaseException.from(MANUAL_ROUND_OUT_OF_PERFORMANCE_RANGE);
+            }
         }
     }
 
     private boolean isNotPeriod(LocalDate start, LocalDate end, LocalDate target) {
-
-        if (start.isBefore(target) || end.isAfter(target)) {
-            return true;
-        }
-
-        return false;
+        return target.isBefore(start) || target.isAfter(end);
     }
 }
