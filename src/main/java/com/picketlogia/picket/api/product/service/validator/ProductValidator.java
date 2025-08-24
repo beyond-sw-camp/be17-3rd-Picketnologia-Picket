@@ -1,6 +1,8 @@
-package com.picketlogia.picket.api.product.service;
+package com.picketlogia.picket.api.product.service.validator;
 
+import com.picketlogia.picket.api.product.model.ProductRegister;
 import com.picketlogia.picket.common.exception.BaseException;
+import org.springframework.core.annotation.Order;
 import org.springframework.stereotype.Component;
 
 import java.time.LocalDate;
@@ -8,8 +10,14 @@ import java.time.LocalDateTime;
 
 import static com.picketlogia.picket.common.model.BaseResponseStatus.OPEN_DATE_OUT_OF_PERFORMANCE_RANGE;
 
+@Order(1)
 @Component
-public class ProductValidator {
+public class ProductValidator implements BaseProductValidator<ProductRegister> {
+
+    @Override
+    public void validate(ProductRegister target) {
+        validateOpenDate(target.getOpenDate(), target.getStartDate());
+    }
 
     /**
      * 오픈 예정일이 공연 시작일 보다 늦은지 검증한다.
@@ -18,7 +26,7 @@ public class ProductValidator {
      * @param startDate 공연 시작일
      * @throws BaseException 오픈 예정일이 공연 시작일보다 느리면 예외 발생
      */
-    public void validateOpenDate(LocalDateTime openDate, LocalDate startDate) {
+    private void validateOpenDate(LocalDateTime openDate, LocalDate startDate) {
 
         if (openDate.toLocalDate().isAfter(startDate)) {
             throw BaseException.from(OPEN_DATE_OUT_OF_PERFORMANCE_RANGE);
