@@ -1,10 +1,12 @@
 package com.picketlogia.picket.common.exception;
 
 import com.picketlogia.picket.common.model.BaseResponse;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
 
+@Slf4j
 @RestControllerAdvice
 public class GlobalExceptionHandler {
 
@@ -18,6 +20,7 @@ public class GlobalExceptionHandler {
 
     @ExceptionHandler(BaseException.class)
     public ResponseEntity<BaseResponse<Object>> handleException(BaseException e) {
+        log.error("{}", e.getMessage());
         return ResponseEntity.status(httpStatusCodeMapper(e.getStatus().getCode()))
                 .body(
                         BaseResponse.error(e.getStatus())
