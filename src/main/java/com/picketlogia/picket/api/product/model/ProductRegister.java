@@ -5,6 +5,7 @@ import com.picketlogia.picket.api.product.model.entity.Product;
 import lombok.*;
 
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 
 @Getter
 @Setter
@@ -23,6 +24,7 @@ public class ProductRegister {
     private Integer price;         // 가격
     private String description;    // 설명
     private String genre;           // 장르
+    private LocalDateTime openDate;    // 오픈 예정일
     private PerformanceRoundRegister roundOption;
 
     // DTO → Entity 변환
@@ -37,6 +39,7 @@ public class ProductRegister {
                 .runningTime(runningTime)
                 .price(price)
                 .description(description)
+                .openDate(openDate)
                 .genre(
                         Genre.builder().
                                 idx(genreId)

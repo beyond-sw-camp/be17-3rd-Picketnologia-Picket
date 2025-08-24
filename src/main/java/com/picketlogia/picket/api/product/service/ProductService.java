@@ -8,6 +8,7 @@ import com.picketlogia.picket.api.product.model.entity.Product;
 import com.picketlogia.picket.api.product.model.entity.ProductImage;
 import com.picketlogia.picket.api.product.repository.ProductImageRepository;
 import com.picketlogia.picket.api.product.repository.ProductRepository;
+import com.picketlogia.picket.api.product.service.validator.BaseProductValidator;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
@@ -28,13 +29,14 @@ public class ProductService {
     private final UploadService uploadService;
 
     private final PerformanceRoundService performanceRoundService;
-    private final PerformRoundValidator performRoundValidator;
+
+    private final List<BaseProductValidator> productValidators;
 
     // 상품 등록
     public ProductRegister register(ProductRegister dto, List<MultipartFile> files) throws SQLException, IOException {
 
-        // 회차 등록 검증
-        validatePerformanceRound(dto);
+        // 상품 등록에 필요한 Validator 실행
+        productValidators.forEach(validator -> validator.validate(dto));
 
         GenreRead findGenre = genreService.findByCode(dto.getGenre());
 
@@ -98,20 +100,5 @@ public class ProductService {
         );
 
         return findProducts.stream().map(ProductUpcomingRead::from).toList();
-    }
-
-    private void validatePerformanceRound(ProductRegister productRegister) {
-        performRoundValidator.validatePeriodWithPerformance(
-                productRegister.getStartDate(),
-                productRegister.getEndDate(),
-                productRegister.getRoundOption().getStartDate(),
-                productRegister.getRoundOption().getEndDate()
-        );
-
-        performRoundValidator.validateManualRoundPeriodWithPerformance(
-                productRegister.getStartDate(),
-                productRegister.getEndDate(),
-                productRegister.getRoundOption().getManualRounds()
-        );
     }
 }

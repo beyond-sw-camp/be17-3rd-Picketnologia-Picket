@@ -1,7 +1,9 @@
-package com.picketlogia.picket.api.product.service;
+package com.picketlogia.picket.api.product.service.validator;
 
 import com.picketlogia.picket.api.product.model.PerformanceRoundRegister.ManualRound;
+import com.picketlogia.picket.api.product.model.ProductRegister;
 import com.picketlogia.picket.common.exception.BaseException;
+import org.springframework.core.annotation.Order;
 import org.springframework.stereotype.Component;
 
 import java.time.LocalDate;
@@ -10,8 +12,25 @@ import java.util.List;
 import static com.picketlogia.picket.common.model.BaseResponseStatus.MANUAL_ROUND_OUT_OF_PERFORMANCE_RANGE;
 import static com.picketlogia.picket.common.model.BaseResponseStatus.PERIOD_OUT_OF_PERFORMANCE_RANGE;
 
+@Order(2)
 @Component
-public class PerformRoundValidator {
+public class PerformRoundValidator implements BaseProductValidator<ProductRegister> {
+
+    @Override
+    public void validate(ProductRegister target) {
+        validatePeriodWithPerformance(
+                target.getStartDate(),
+                target.getEndDate(),
+                target.getRoundOption().getStartDate(),
+                target.getRoundOption().getEndDate()
+        );
+
+        validateManualRoundPeriodWithPerformance(
+                target.getStartDate(),
+                target.getEndDate(),
+                target.getRoundOption().getManualRounds()
+        );
+    }
 
     /**
      * 회차 일괄 등록 시 회차 기간이 공연 기간 범위에서 벗어났는지 검증한다.
@@ -20,7 +39,7 @@ public class PerformRoundValidator {
      * @param roundStart 회차 시작일
      * @param roundEnd 회차 종료일
      */
-    public void validatePeriodWithPerformance(
+    private void validatePeriodWithPerformance(
             LocalDate performanceStart, LocalDate performanceEnd, LocalDate roundStart, LocalDate roundEnd) {
 
         // 회차 시작일이 공연 시작일 보다 작거나, 공연 종료일 보다 크고
@@ -38,7 +57,7 @@ public class PerformRoundValidator {
      * @param performanceEnd 공연 종료일
      * @param manualRounds 수동으로 등록한 회차 리스트
      */
-    public void validateManualRoundPeriodWithPerformance(
+    private void validateManualRoundPeriodWithPerformance(
             LocalDate performanceStart, LocalDate performanceEnd, List<ManualRound> manualRounds) {
 
         for (ManualRound manualRound : manualRounds) {
