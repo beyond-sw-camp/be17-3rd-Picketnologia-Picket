@@ -1,4 +1,4 @@
-package com.picketlogia.picket.api.product.model;
+package com.picketlogia.picket.api.product.model.entity;
 
 import com.picketlogia.picket.api.genre.model.Genre;
 import com.picketlogia.picket.api.qna.model.Qna;
@@ -57,4 +57,7 @@ public class Product extends BaseEntity {
 
     @OneToOne(mappedBy = "product")
     private ProductImage productImage;
+
+    @OneToMany(mappedBy = "product")
+    private List<PerformanceRound> performanceRounds;
 }

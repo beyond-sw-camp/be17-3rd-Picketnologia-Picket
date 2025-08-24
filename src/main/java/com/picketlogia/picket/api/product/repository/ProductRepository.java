@@ -1,7 +1,7 @@
 package com.picketlogia.picket.api.product.repository;
 
 import com.picketlogia.picket.api.genre.model.Genre;
-import com.picketlogia.picket.api.product.model.Product;
+import com.picketlogia.picket.api.product.model.entity.Product;
 import org.springframework.data.jpa.repository.JpaRepository;
 
 import java.time.LocalDateTime;

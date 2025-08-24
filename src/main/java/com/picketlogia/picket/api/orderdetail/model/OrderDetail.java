@@ -1,7 +1,7 @@
 package com.picketlogia.picket.api.orderdetail.model;
 
 import com.picketlogia.picket.api.order.model.Order;
-import com.picketlogia.picket.api.product.model.Product;
+import com.picketlogia.picket.api.product.model.entity.Product;
 import com.picketlogia.picket.api.user.model.entity.User;
 import com.picketlogia.picket.common.model.SeatGrade;
 import jakarta.persistence.*;

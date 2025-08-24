@@ -1,7 +1,11 @@
 package com.picketlogia.picket.api.product.service;
 
 import com.picketlogia.picket.api.genre.model.Genre;
+import com.picketlogia.picket.api.genre.model.GenreRead;
+import com.picketlogia.picket.api.genre.service.GenreService;
 import com.picketlogia.picket.api.product.model.*;
+import com.picketlogia.picket.api.product.model.entity.Product;
+import com.picketlogia.picket.api.product.model.entity.ProductImage;
 import com.picketlogia.picket.api.product.repository.ProductImageRepository;
 import com.picketlogia.picket.api.product.repository.ProductRepository;
 import lombok.RequiredArgsConstructor;
@@ -17,15 +21,26 @@ import java.util.Optional;
 @Service
 @RequiredArgsConstructor
 public class ProductService {
+
     private final ProductRepository productRepository;
     private final ProductImageRepository productImageRepository;
+    private final GenreService genreService;
     private final UploadService uploadService;
+
+    private final PerformanceRoundService performanceRoundService;
+    private final PerformRoundValidator performRoundValidator;
 
     // 상품 등록
     public ProductRegister register(ProductRegister dto, List<MultipartFile> files) throws SQLException, IOException {
 
+        // 회차 등록 검증
+        validatePerformanceRound(dto);
+
+        GenreRead findGenre = genreService.findByCode(dto.getGenre());
+
         // 1. 게시글을 DB에 저장
-        Product product = productRepository.save(dto.toEntity());
+        Product product = productRepository.save(dto.toEntity(findGenre.getIdx()));
+        performanceRoundService.register(dto.getRoundOption(), product);
 
         // 2. 게시글 이미지 정보를 DB에 저장
         for (MultipartFile file : files) {
@@ -83,5 +98,20 @@ public class ProductService {
         );
 
         return findProducts.stream().map(ProductUpcomingRead::from).toList();
+    }
+
+    private void validatePerformanceRound(ProductRegister productRegister) {
+        performRoundValidator.validatePeriodWithPerformance(
+                productRegister.getStartDate(),
+                productRegister.getEndDate(),
+                productRegister.getRoundOption().getStartDate(),
+                productRegister.getRoundOption().getEndDate()
+        );
+
+        performRoundValidator.validateManualRoundPeriodWithPerformance(
+                productRegister.getStartDate(),
+                productRegister.getEndDate(),
+                productRegister.getRoundOption().getManualRounds()
+        );
     }
 }

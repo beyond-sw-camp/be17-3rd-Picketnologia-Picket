@@ -1,7 +1,9 @@
 package com.picketlogia.picket.api.product.model;
 
 import com.picketlogia.picket.api.genre.model.Genre;
+import com.picketlogia.picket.api.product.model.entity.Product;
 import lombok.*;
+
 import java.time.LocalDate;
 
 @Getter
@@ -19,13 +21,12 @@ public class ProductRegister {
     private LocalDate endDate;     // 공연 종료일
     private Integer runningTime;   // 러닝타임
     private Integer price;         // 가격
-    private LocalDate sessionDate; // 회차 날짜
-    private Integer sessionTime;   // 회차 시간
     private String description;    // 설명
-    private int genreId;           // 장르
+    private String genre;           // 장르
+    private PerformanceRoundRegister roundOption;
 
     // DTO → Entity 변환
-    public Product toEntity() {
+    public Product toEntity(Integer genreId) {
         return Product.builder()
                 .name(name)
                 .rating(rating)
@@ -35,8 +36,6 @@ public class ProductRegister {
                 .endDate(endDate)
                 .runningTime(runningTime)
                 .price(price)
-                .sessionDate(sessionDate)
-                .sessionTime(sessionTime)
                 .description(description)
                 .genre(
                         Genre.builder().
@@ -56,8 +55,6 @@ public class ProductRegister {
                 .endDate(product.getEndDate())
                 .runningTime(product.getRunningTime())
                 .price(product.getPrice())
-                .sessionDate(product.getSessionDate())
-                .sessionTime(product.getSessionTime())
                 .description(product.getDescription())
                 .build();
     }

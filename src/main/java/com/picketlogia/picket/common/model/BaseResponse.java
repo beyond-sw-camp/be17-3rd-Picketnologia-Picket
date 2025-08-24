@@ -18,9 +18,7 @@ public class BaseResponse<T> {
     public BaseResponse(boolean success, int code, String message, T results) {
         this.success = success;
         this.code = code;
-//        c/apt/sources.list.d/redis.list
-//
-//        sudo apt-get update        this.message = message;
+        this.message = message;
         this.results = results;
     }
 
