@@ -1,15 +1,11 @@
 package com.picketlogia.picket.api.review.model.dto;
 
-import com.picketlogia.picket.api.product.model.Product;
+import com.picketlogia.picket.api.product.model.entity.Product;
 import com.picketlogia.picket.api.review.model.entity.Review;
-import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.Lob;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
-import lombok.Builder;
 import lombok.Getter;
-
-import java.util.Date;
 
 @Getter
 public class ReviewDtoRegister {

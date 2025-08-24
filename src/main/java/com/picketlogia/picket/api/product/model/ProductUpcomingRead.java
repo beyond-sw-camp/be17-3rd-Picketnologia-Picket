@@ -1,6 +1,7 @@
 package com.picketlogia.picket.api.product.model;
 
 import com.fasterxml.jackson.databind.annotation.JsonSerialize;
+import com.picketlogia.picket.api.product.model.entity.Product;
 import com.picketlogia.picket.utils.CustomDateSerializer;
 import lombok.Builder;
 import lombok.Getter;
