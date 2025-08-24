@@ -27,11 +27,16 @@ public class ProductService {
     private final GenreService genreService;
     private final UploadService uploadService;
 
+    private final ProductValidator productValidator;
+
     private final PerformanceRoundService performanceRoundService;
     private final PerformRoundValidator performRoundValidator;
 
     // 상품 등록
     public ProductRegister register(ProductRegister dto, List<MultipartFile> files) throws SQLException, IOException {
+
+        // 공연 등록 검증
+        validateProduct(dto);
 
         // 회차 등록 검증
         validatePerformanceRound(dto);
@@ -113,5 +118,9 @@ public class ProductService {
                 productRegister.getEndDate(),
                 productRegister.getRoundOption().getManualRounds()
         );
+    }
+
+    private void validateProduct(ProductRegister productRegister) {
+        productValidator.validateOpenDate(productRegister.getOpenDate(), productRegister.getStartDate());
     }
 }
