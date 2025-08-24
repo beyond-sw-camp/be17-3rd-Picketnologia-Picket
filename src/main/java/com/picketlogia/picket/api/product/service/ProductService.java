@@ -28,9 +28,13 @@ public class ProductService {
     private final UploadService uploadService;
 
     private final PerformanceRoundService performanceRoundService;
+    private final PerformRoundValidator performRoundValidator;
 
     // 상품 등록
     public ProductRegister register(ProductRegister dto, List<MultipartFile> files) throws SQLException, IOException {
+
+        // 회차 등록 검증
+        validatePerformanceRound(dto);
 
         GenreRead findGenre = genreService.findByCode(dto.getGenre());
 
@@ -94,5 +98,20 @@ public class ProductService {
         );
 
         return findProducts.stream().map(ProductUpcomingRead::from).toList();
+    }
+
+    private void validatePerformanceRound(ProductRegister productRegister) {
+        performRoundValidator.validatePeriodWithPerformance(
+                productRegister.getStartDate(),
+                productRegister.getEndDate(),
+                productRegister.getRoundOption().getStartDate(),
+                productRegister.getRoundOption().getEndDate()
+        );
+
+        performRoundValidator.validateManualRoundPeriodWithPerformance(
+                productRegister.getStartDate(),
+                productRegister.getEndDate(),
+                productRegister.getRoundOption().getManualRounds()
+        );
     }
 }

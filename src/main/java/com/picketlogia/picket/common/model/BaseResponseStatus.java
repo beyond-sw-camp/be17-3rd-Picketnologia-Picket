@@ -32,8 +32,10 @@ public enum BaseResponseStatus {
     INVALID_EMAIL_RESET_TIMEOUT(false,20011,"이메일 변경 링크가 만료되었습니다. 다시 시도해주세요."),
 
     INVALID_AUTH_CODE(false, 30002, "유효하지 않은 인증번호 입니다."),
-    INVALID_REGION_CODE(false, 3003, "유효하지 않은 지역 코드 입니다"),
-
+    INVALID_REGION_CODE(false, 30003, "유효하지 않은 지역 코드 입니다"),
+    INVALID_ROUND_DAY(false, 30004, "유효하지 않은 회차 요일입니다."),
+    PERIOD_OUT_OF_PERFORMANCE_RANGE(false, 30005, "회차 등록 기간이 공연 기간 범위가 아닙니다."),
+    MANUAL_ROUND_OUT_OF_PERFORMANCE_RANGE(false, 30006, "회차 날짜가 공연 기간 범위가 아닙니다."),
 
     /**
      * 40000 : Response 오류
