@@ -20,7 +20,6 @@ public class Review extends BaseEntity {
     private Integer idx;
 
 
-    private String name;
 
     @Column(nullable = false)
     private Integer rating;

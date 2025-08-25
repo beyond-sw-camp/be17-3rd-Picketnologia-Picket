@@ -542,17 +542,17 @@ VALUES ('문의 내용01', now(), b'1', b'0', 'test1', '문의01', now(), 1, 1),
 -- Dumping data for table `review`
 --
 
-INSERT INTO review (created_at, updated_at, comment, name, rating, product_id, user_id)
-VALUES (now(), now(), '리뷰01', NULL, 5, 1, 1),
-       (now(), now(), '리뷰02', NULL, 2, 2, 1),
-       (now(), now(), '리뷰03', NULL, 3, 3, 1),
-       (now(), now(), '리뷰04', NULL, 1, 4, 1),
-       (now(), now(), '리뷰05', NULL, 2, 5, 1),
-       (now(), now(), '리뷰06', NULL, 4, 6, 1),
-       (now(), now(), '리뷰07', NULL, 5, 7, 1),
-       (now(), now(), '리뷰08', NULL, 5, 8, 1),
-       (now(), now(), '리뷰09', NULL, 1, 9, 1),
-       (now(), now(), '리뷰10', NULL, 4, 10, 1);
+INSERT INTO review (created_at, updated_at, comment,rating, product_id, user_id)
+VALUES (now(), now(), '리뷰01',  5, 1, 1),
+       (now(), now(), '리뷰02',  2, 2, 1),
+       (now(), now(), '리뷰03',  3, 3, 1),
+       (now(), now(), '리뷰04',  1, 4, 1),
+       (now(), now(), '리뷰05',  2, 5, 1),
+       (now(), now(), '리뷰06',  4, 6, 1),
+       (now(), now(), '리뷰07',  5, 7, 1),
+       (now(), now(), '리뷰08',  5, 8, 1),
+       (now(), now(), '리뷰09',  1, 9, 1),
+       (now(), now(), '리뷰10',  4, 10, 1);
 
 --
 -- Dumping data for table `seller`

@@ -10,7 +10,6 @@ import java.util.Date;
 @Getter
 @Builder
 public class ReviewDtoList {
-    private String name;
     private Integer rating;
     private String comment;
     private Date createdAt;
@@ -18,7 +17,6 @@ public class ReviewDtoList {
 
     public static ReviewDtoList from(Review entity){
         ReviewDtoList dto = ReviewDtoList.builder()
-                .name(entity.getName())
                 .rating(entity.getRating())
                 .comment(entity.getComment())
                 .createdAt(entity.getCreatedAt())
