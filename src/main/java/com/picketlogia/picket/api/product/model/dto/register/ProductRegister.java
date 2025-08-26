@@ -1,11 +1,14 @@
-package com.picketlogia.picket.api.product.model;
+package com.picketlogia.picket.api.product.model.dto.register;
 
 import com.picketlogia.picket.api.genre.model.Genre;
 import com.picketlogia.picket.api.product.model.entity.Product;
+import com.picketlogia.picket.api.seat.model.dto.register.SeatGradeRegister;
+import com.picketlogia.picket.api.seat.model.dto.register.SeatRegister;
 import lombok.*;
 
 import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.util.List;
 
 @Getter
 @Setter
@@ -26,6 +29,8 @@ public class ProductRegister {
     private String genre;           // 장르
     private LocalDateTime openDate;    // 오픈 예정일
     private PerformanceRoundRegister roundOption;
+    private List<List<SeatRegister>> seatMap;
+    private List<SeatGradeRegister> seatGrade;
 
     // DTO → Entity 변환
     public Product toEntity(Integer genreId) {

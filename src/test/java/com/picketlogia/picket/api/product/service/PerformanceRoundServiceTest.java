@@ -1,6 +1,6 @@
 package com.picketlogia.picket.api.product.service;
 
-import com.picketlogia.picket.api.product.model.PerformanceRoundRegister;
+import com.picketlogia.picket.api.product.model.dto.register.PerformanceRoundRegister;
 import com.picketlogia.picket.api.product.model.entity.Product;
 import com.picketlogia.picket.api.product.repository.ProductRepository;
 import org.junit.jupiter.api.Test;

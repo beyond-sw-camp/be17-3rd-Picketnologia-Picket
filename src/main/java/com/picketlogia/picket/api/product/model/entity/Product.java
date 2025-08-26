@@ -3,6 +3,7 @@ package com.picketlogia.picket.api.product.model.entity;
 import com.picketlogia.picket.api.genre.model.Genre;
 import com.picketlogia.picket.api.qna.model.Qna;
 import com.picketlogia.picket.api.review.model.entity.Review;
+import com.picketlogia.picket.api.seat.model.Seat;
 import com.picketlogia.picket.api.user.model.entity.User;
 import com.picketlogia.picket.common.model.BaseEntity;
 import jakarta.persistence.*;
@@ -37,8 +38,6 @@ public class Product extends BaseEntity {
     private LocalDateTime openDate; // 오픈 예정일
     private Integer runningTime; // 러닝타임
     private Integer price; // 가격
-    private LocalDate sessionDate; // 회차 날짜
-    private Integer sessionTime; // 회차 시간
     private String description; // 설명
 
     @ManyToOne
@@ -60,4 +59,7 @@ public class Product extends BaseEntity {
 
     @OneToMany(mappedBy = "product")
     private List<PerformanceRound> performanceRounds;
+
+    @OneToMany(mappedBy = "product")
+    private List<Seat> seats;
 }
