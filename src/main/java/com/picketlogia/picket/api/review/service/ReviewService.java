@@ -13,6 +13,10 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDate;
+import java.time.LocalDateTime;
+import java.time.LocalTime;
+import java.time.format.DateTimeFormatter;
 import java.util.List;
 
 import static io.lettuce.core.pubsub.PubSubOutput.Type.message;
@@ -33,6 +37,12 @@ public class ReviewService {
     }
 
 
+    public List<ReviewDtoList> listByUser(Long userIdx) {
+         List<Review> result = reviewRepository.findByUserIdx(userIdx);
+       return result.stream().map(ReviewDtoList::from).toList();
+  }
+
+
     public List<ReviewDtoList> list() {
     List<Review> result = reviewRepository.findAll();
 
@@ -46,6 +56,16 @@ public class ReviewService {
         Double averageRating = reviewRepository.findAverageRating();
 
         return ReviewList.from(result, averageRating);
+    }
+
+    public List<ReviewDtoList> listByUserAndDateRange(Long userIdx, String startDateStr, String endDateStr) {
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
+        LocalDateTime startDateTime = LocalDate.parse(startDateStr, formatter).atStartOfDay();
+        LocalDateTime endDateTime = LocalDate.parse(endDateStr, formatter).atTime(LocalTime.MAX);
+
+        List<Review> result = reviewRepository.findByUserIdxAndCreatedAtBetween(userIdx, startDateTime, endDateTime);
+
+        return result.stream().map(ReviewDtoList::from).toList();
     }
 
 }
