@@ -19,7 +19,6 @@ public enum BaseResponseStatus {
      */
     // Common
     REQUEST_ERROR(false, 30001, "입력값을 확인해주세요."),
-    EXPIRED_JWT(false, 20001, "JWT 토큰이 만료되었습니다."),
     INVALID_JWT(false, 20002, "유효하지 않은 JWT입니다."),
     INVALID_USER_ROLE(false,20003,"권한이 없는 유저의 접근입니다."),
     INVALID_USER_INFO(false,20004,"이메일 또는 비밀번호를 확인해주세요."),
@@ -37,6 +36,7 @@ public enum BaseResponseStatus {
     PERIOD_OUT_OF_PERFORMANCE_RANGE(false, 30005, "회차 등록 기간이 공연 기간 범위가 아닙니다."),
     MANUAL_ROUND_OUT_OF_PERFORMANCE_RANGE(false, 30006, "회차 날짜가 공연 기간 범위가 아닙니다."),
     OPEN_DATE_OUT_OF_PERFORMANCE_RANGE(false, 30007, "오픈 예정일은 공연 시작일 보다 빨라야 합니다."),
+    EXPIRED_JWT(false, 30008, "JWT 토큰이 만료되었습니다."),
 
 
     /**
