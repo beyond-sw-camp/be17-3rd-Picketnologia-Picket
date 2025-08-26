@@ -4,11 +4,13 @@ import com.picketlogia.picket.api.review.model.dto.ReviewDtoList;
 import com.picketlogia.picket.api.review.model.dto.ReviewDtoRegister;
 import com.picketlogia.picket.api.review.model.dto.ReviewList;
 import com.picketlogia.picket.api.review.service.ReviewService;
+import com.picketlogia.picket.api.user.model.dto.UserAuth;
 import com.picketlogia.picket.common.model.BaseResponse;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -25,8 +27,8 @@ public class ReviewController {
             description = "상품의 리뷰를 작성하고 등록한다."
     )
     @PostMapping("/register")
-    public ResponseEntity register(@RequestBody ReviewDtoRegister dto) {
-        reviewService.save(dto);
+    public ResponseEntity register(@RequestBody ReviewDtoRegister dto, @AuthenticationPrincipal UserAuth userAuth) {
+        reviewService.save(dto, userAuth.getIdx());
 
         return ResponseEntity.status(200).body("리뷰저장성공");
 

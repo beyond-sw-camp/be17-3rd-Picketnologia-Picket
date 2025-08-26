@@ -38,6 +38,7 @@ public enum BaseResponseStatus {
     MANUAL_ROUND_OUT_OF_PERFORMANCE_RANGE(false, 30006, "회차 날짜가 공연 기간 범위가 아닙니다."),
     OPEN_DATE_OUT_OF_PERFORMANCE_RANGE(false, 30007, "오픈 예정일은 공연 시작일 보다 빨라야 합니다."),
 
+
     /**
      * 40000 : Response 오류
      */
