@@ -60,6 +60,11 @@ public class Product extends BaseEntity {
     @OneToMany(mappedBy = "product")
     private List<PerformanceRound> performanceRounds;
 
+    // 일정 정보 관계 정립(1개의 상품에 N개의 일정)
     @OneToMany(mappedBy = "product")
-    private List<Seat> seats;
+    private List<RoundDate> roundDate;
+
+    @OneToMany(mappedBy = "product")
+    private List<Seat> seatList;
+
 }
