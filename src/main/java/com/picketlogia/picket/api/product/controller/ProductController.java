@@ -1,7 +1,7 @@
 package com.picketlogia.picket.api.product.controller;
 
 import com.picketlogia.picket.api.product.model.ProductList;
-import com.picketlogia.picket.api.product.model.ProductRegister;
+import com.picketlogia.picket.api.product.model.dto.register.ProductRegister;
 import com.picketlogia.picket.api.product.model.ProductResp;
 import com.picketlogia.picket.api.product.service.ProductService;
 import com.picketlogia.picket.common.model.BaseResponse;

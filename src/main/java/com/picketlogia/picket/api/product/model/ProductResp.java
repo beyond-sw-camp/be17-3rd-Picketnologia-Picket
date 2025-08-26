@@ -34,8 +34,6 @@ public class ProductResp {
                 .endDate(product.getEndDate())
                 .runningTime(product.getRunningTime())
                 .price(product.getPrice())
-                .sessionDate(product.getSessionDate())
-                .sessionTime(product.getSessionTime())
                 .description(product.getDescription())
                 .posterUrl(product.getProductImage().getFileName())
                 .build();

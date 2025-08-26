@@ -3,7 +3,7 @@ package com.picketlogia.picket.api.orderdetail.model;
 import com.picketlogia.picket.api.order.model.Order;
 import com.picketlogia.picket.api.product.model.entity.Product;
 import com.picketlogia.picket.api.user.model.entity.User;
-import com.picketlogia.picket.common.model.SeatGrade;
+import com.picketlogia.picket.api.seat.model.SeatGradeStatus;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -35,7 +35,7 @@ public class OrderDetail {
     private String seat;
 
     @Enumerated(EnumType.STRING)
-    private SeatGrade seatGrade;
+    private SeatGradeStatus seatGrade;
 
     // 회차 정보?
 }

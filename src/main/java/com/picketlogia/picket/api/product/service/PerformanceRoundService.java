@@ -1,7 +1,7 @@
 package com.picketlogia.picket.api.product.service;
 
-import com.picketlogia.picket.api.product.model.PerformanceRoundRegister;
-import com.picketlogia.picket.api.product.model.PerformanceRoundRegister.SelectedDay;
+import com.picketlogia.picket.api.product.model.dto.register.PerformanceRoundRegister;
+import com.picketlogia.picket.api.product.model.dto.register.PerformanceRoundRegister.SelectedDay;
 import com.picketlogia.picket.api.product.model.entity.PerformanceRound;
 import com.picketlogia.picket.api.product.model.entity.Product;
 import com.picketlogia.picket.api.product.repository.PerformanceRoundRepository;
@@ -16,7 +16,7 @@ import java.time.LocalDate;
 import java.time.LocalTime;
 import java.util.List;
 
-import static com.picketlogia.picket.api.product.model.PerformanceRoundRegister.ManualRound;
+import static com.picketlogia.picket.api.product.model.dto.register.PerformanceRoundRegister.ManualRound;
 
 @Slf4j
 @Service

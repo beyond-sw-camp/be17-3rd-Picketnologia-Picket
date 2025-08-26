@@ -4,11 +4,13 @@ import com.picketlogia.picket.api.genre.model.Genre;
 import com.picketlogia.picket.api.genre.model.GenreRead;
 import com.picketlogia.picket.api.genre.service.GenreService;
 import com.picketlogia.picket.api.product.model.*;
+import com.picketlogia.picket.api.product.model.dto.register.ProductRegister;
 import com.picketlogia.picket.api.product.model.entity.Product;
 import com.picketlogia.picket.api.product.model.entity.ProductImage;
 import com.picketlogia.picket.api.product.repository.ProductImageRepository;
 import com.picketlogia.picket.api.product.repository.ProductRepository;
 import com.picketlogia.picket.api.product.service.validator.BaseProductValidator;
+import com.picketlogia.picket.api.seat.service.SeatInfoService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
@@ -29,6 +31,7 @@ public class ProductService {
     private final UploadService uploadService;
 
     private final PerformanceRoundService performanceRoundService;
+    private final SeatInfoService seatInfoService;
 
     private final List<BaseProductValidator> productValidators;
 
@@ -40,9 +43,11 @@ public class ProductService {
 
         GenreRead findGenre = genreService.findByCode(dto.getGenre());
 
+
         // 1. 게시글을 DB에 저장
         Product product = productRepository.save(dto.toEntity(findGenre.getIdx()));
         performanceRoundService.register(dto.getRoundOption(), product);
+        seatInfoService.save(product.getIdx(), dto.getSeatGrade(), dto.getSeatMap());
 
         // 2. 게시글 이미지 정보를 DB에 저장
         for (MultipartFile file : files) {
