@@ -47,14 +47,28 @@ public class ReviewController {
     }
 
     @Operation(
-            summary = "리뷰 목록 조회 - 페이징 기능으로",
-            description = "리뷰 목록 조회할 때 page, size를 입력해서 한 페이지 당 특정 수만큼 게시글 조회"
+            summary = "내가 쓴 리뷰 기간별 조회",
+            description = "로그인한 사용자가 특정 기간 동안 작성한 리뷰를 조회한다."
     )
-    @GetMapping("/listPaging")// 페이지 번호는 0번부터
-    public ResponseEntity listPaging(Integer page, Integer size) {
-        ReviewList response = reviewService.listpaging(page, size);
-
-        return ResponseEntity.status(200).body(BaseResponse.success(response));
+    @GetMapping("/userReviewList")
+    public ResponseEntity getUserReviewsByDate(
+            @AuthenticationPrincipal UserAuth userAuth,
+            @RequestParam("startDate") String startDate,
+            @RequestParam("endDate") String endDate
+    ) {
+        List<ReviewDtoList> response = reviewService.listByUserAndDateRange(userAuth.getIdx(), startDate, endDate);
+        return ResponseEntity.ok(BaseResponse.success(response));
     }
 
-}
+        @Operation(
+                summary = "리뷰 목록 조회 - 페이징 기능으로",
+                description = "리뷰 목록 조회할 때 page, size를 입력해서 한 페이지 당 특정 수만큼 게시글 조회"
+        )
+        @GetMapping("/listPaging")// 페이지 번호는 0번부터
+        public ResponseEntity listPaging (Integer page, Integer size){
+            ReviewList response = reviewService.listpaging(page, size);
+
+            return ResponseEntity.status(200).body(BaseResponse.success(response));
+        }
+
+    }

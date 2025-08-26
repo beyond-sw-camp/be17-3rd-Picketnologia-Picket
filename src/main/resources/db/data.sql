@@ -34,7 +34,10 @@ VALUES (now(), now(), '1999-03-10', 'test01@test.com', 'MALE', 'test',
         'testman', '$2a$10$DSJnejSVV/xdvSsJ6A1jiOjEMvejnbzwkmFCs199MT.UKHTxA2aa6', '010-1234-5678', 'NORMAL', 2, 1),
        (now(), now(), '1996-12-16', 'test02@test.com', 'MALE',
         'seller', 'sellerman', '$2a$10$DSJnejSVV/xdvSsJ6A1jiOjEMvejnbzwkmFCs199MT.UKHTxA2aa6', '010-1234-5678',
-        'SELLER', 2, 1);
+        'SELLER', 2, 1),
+        (now(), now(), '1996-12-15', 'test03@test.com', 'MALE',
+        'test03', 'test03man', '$2a$10$DSJnejSVV/xdvSsJ6A1jiOjEMvejnbzwkmFCs199MT.UKHTxA2aa6', '010-1234-5678',
+        'NORMAL', 2, 1);
 
 --
 -- Dumping data for table `product`
@@ -543,7 +546,7 @@ VALUES ('문의 내용01', now(), b'1', b'0', 'test1', '문의01', now(), 1, 1),
 --
 
 INSERT INTO review (created_at, updated_at, comment,rating, product_id, user_id)
-VALUES (now(), now(), '리뷰01',  5, 1, 1),
+VALUES (now(), now(), '리뷰01ㅁㄴ아ㅓㅠㅁㄴ어ㅏㅠㅓㅏㅁㄴ유ㅓㅏㅁ어ㅠㅏㅣㅂㅈ유ㅓㅏㅣㅇㅁ뉴ㅓㅏㅣㅁㄴ융ㅂ쥬ㅓㅏㅂ아ㅠㅓㄴ유ㅓㅏㅁㄴ유ㅓㅏㅂ자ㅠㅓㅇㅁ뉴ㅓㅏㅇㅁ뉴ㅓㅏㅂㅈ아ㅕㅇㅂ자ㅕㅇㅁ늠ㄴ아ㅠㅓㅇㅁ넙조',  5, 1, 1),
        (now(), now(), '리뷰02',  2, 2, 1),
        (now(), now(), '리뷰03',  3, 3, 1),
        (now(), now(), '리뷰04',  1, 4, 1),
@@ -552,7 +555,8 @@ VALUES (now(), now(), '리뷰01',  5, 1, 1),
        (now(), now(), '리뷰07',  5, 7, 1),
        (now(), now(), '리뷰08',  5, 8, 1),
        (now(), now(), '리뷰09',  1, 9, 1),
-       (now(), now(), '리뷰10',  4, 10, 1);
+       (now(), now(), '리뷰10',  4, 10, 1),
+        (now(), now(), '리뷰11',  4, 10, 3);
 
 --
 -- Dumping data for table `seller`
