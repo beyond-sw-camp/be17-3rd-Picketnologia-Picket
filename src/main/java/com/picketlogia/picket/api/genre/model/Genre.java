@@ -14,6 +14,11 @@ import java.util.List;
 @Builder
 @AllArgsConstructor
 @NoArgsConstructor
+@Table(
+        indexes = {
+                @Index(name = "idx_genre_code", columnList = "code")
+        }
+)
 public class Genre {
 
     @Id @GeneratedValue(strategy = GenerationType.IDENTITY)

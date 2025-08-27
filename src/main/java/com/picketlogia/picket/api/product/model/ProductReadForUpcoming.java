@@ -10,7 +10,7 @@ import java.time.LocalDateTime;
 
 @Getter
 @Builder
-public class ProductUpcomingRead {
+public class ProductReadForUpcoming {
     private Long idx;
     private String name; // 상품이름
     private String posterUrl; // 포스터 이미지 경로 (파일명)
@@ -18,8 +18,8 @@ public class ProductUpcomingRead {
     @JsonSerialize(using = CustomDateSerializer.class)
     private LocalDateTime openDate;
 
-    public static ProductUpcomingRead from(Product product) {
-        return ProductUpcomingRead.builder()
+    public static ProductReadForUpcoming from(Product product) {
+        return ProductReadForUpcoming.builder()
                 .idx(product.getIdx())
                 .name(product.getName())
                 .posterUrl(product.getProductImage().getFileName())

@@ -1,12 +1,15 @@
 package com.picketlogia.picket.api.product.controller;
 
-import com.picketlogia.picket.api.product.model.ProductList;
+import com.picketlogia.picket.api.product.model.ProductListByPage;
+import com.picketlogia.picket.api.product.model.dto.ProductQuery;
 import com.picketlogia.picket.api.product.model.dto.register.ProductRegister;
-import com.picketlogia.picket.api.product.model.ProductResp;
+import com.picketlogia.picket.api.product.model.ProductReadForDetail;
 import com.picketlogia.picket.api.product.service.ProductService;
+import com.picketlogia.picket.api.user.model.dto.UserAuth;
 import com.picketlogia.picket.common.model.BaseResponse;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -29,16 +32,16 @@ public class ProductController {
 
     //상품 조회
     @GetMapping
-    public ResponseEntity<BaseResponse<ProductList>> getAllProducts() {
-        ProductList productList = productService.list();
+    public ResponseEntity<BaseResponse<ProductListByPage>> getProducts(ProductQuery productQuery) {
+        ProductListByPage allByQuery = productService.findAllByQuery(productQuery);
 
-        return ResponseEntity.ok(BaseResponse.success(productList));
+        return ResponseEntity.ok(BaseResponse.success(allByQuery));
     }
 
     // 상품 상세 조회
     @GetMapping("/{productId}")
-    public ResponseEntity<BaseResponse<ProductResp>> getProduct(@PathVariable Long productId) {
-        ProductResp findProduct = productService.read(productId);
+    public ResponseEntity<BaseResponse<ProductReadForDetail>> getProduct(@PathVariable Long productId) {
+        ProductReadForDetail findProduct = productService.findProductDetailById(productId);
 
         return ResponseEntity.ok(BaseResponse.success(findProduct));
     }
