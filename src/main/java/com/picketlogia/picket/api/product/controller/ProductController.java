@@ -1,7 +1,12 @@
 package com.picketlogia.picket.api.product.controller;
 
+<<<<<<< Updated upstream
 import com.picketlogia.picket.api.product.model.ProductListByPage;
 import com.picketlogia.picket.api.product.model.dto.ProductQuery;
+=======
+import com.picketlogia.picket.api.product.model.ProductList;
+import com.picketlogia.picket.api.product.model.ProductSearchDto;
+>>>>>>> Stashed changes
 import com.picketlogia.picket.api.product.model.dto.register.ProductRegister;
 import com.picketlogia.picket.api.product.model.ProductReadForDetail;
 import com.picketlogia.picket.api.product.service.ProductService;
@@ -45,5 +50,11 @@ public class ProductController {
 
         return ResponseEntity.ok(BaseResponse.success(findProduct));
     }
+    //상품 조건 검색
+    @GetMapping("/search2")
+    public ResponseEntity<List<ProductResp>> search(ProductSearchDto dto) {
+        List<ProductResp> response = productService.search(dto);
 
+        return ResponseEntity.ok(response);
+    }
 }

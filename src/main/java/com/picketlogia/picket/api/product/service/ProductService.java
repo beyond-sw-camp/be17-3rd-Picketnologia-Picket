@@ -6,6 +6,12 @@ import com.picketlogia.picket.api.product.model.*;
 import com.picketlogia.picket.api.product.model.dto.ProductQuery;
 import com.picketlogia.picket.api.product.model.dto.register.ProductRegister;
 import com.picketlogia.picket.api.product.model.entity.Product;
+<<<<<<< Updated upstream
+=======
+import com.picketlogia.picket.api.product.model.entity.ProductImage;
+import com.picketlogia.picket.api.product.repository.ProductImageRepository;
+import com.picketlogia.picket.api.product.repository.ProductQueryRepository;
+>>>>>>> Stashed changes
 import com.picketlogia.picket.api.product.repository.ProductRepository;
 import com.picketlogia.picket.api.product.service.validator.BaseProductValidator;
 import com.picketlogia.picket.api.seat.service.SeatInfoService;
@@ -31,7 +37,7 @@ public class ProductService {
 
     private final PerformanceRoundService performanceRoundService;
     private final SeatInfoService seatInfoService;
-
+    private final ProductQueryRepository productQueryRepository;
     private final List<BaseProductValidator> productValidators;
 
     private static final Integer PAGE_SIZE = 10;
@@ -81,12 +87,24 @@ public class ProductService {
         return null;
     }
 
+<<<<<<< Updated upstream
     /**
      * 상품을 상세 조회 한다.
      * @param idx 상품의 IDX
      * @return 상품 상세 <code>DTO</code>
      */
     public ProductReadForDetail findProductDetailById(Long idx) {
+=======
+    //상품  검색
+    public List<ProductResp> search(ProductSearchDto dto) {
+        List<Product> result = productQueryRepository.search(dto);
+
+        return result.stream().map(ProductResp::from).toList();
+    }
+
+    // 상품 상세 조회
+    public ProductResp read(Long idx) {
+>>>>>>> Stashed changes
         Optional<Product> product = productRepository.findByIdx(idx);
 
         if(product.isPresent()){
