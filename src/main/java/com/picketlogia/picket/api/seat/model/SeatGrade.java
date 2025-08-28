@@ -17,6 +17,7 @@ public class SeatGrade {
     @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long idx;
 
+    @Enumerated(EnumType.STRING)
     @Column(nullable = false)
     private SeatGradeStatus grade;
 
