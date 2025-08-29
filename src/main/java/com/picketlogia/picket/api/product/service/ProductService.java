@@ -100,9 +100,9 @@ public class ProductService {
         return null;
     }
 
-        //상품  검색
-        public List<ProductReadForList> search(ProductSearchDto dto) {
-            List<Product> result = productQueryRepository.search(dto);
+        //상품  검색 및 정렬
+        public List<ProductReadForList> searchAndSort(ProductSearchDto dto, String sort) {
+            List<Product> result = productQueryRepository.searchAndSort(dto, sort);
 
             return result.stream().map(ProductReadForList::from).toList();
         }

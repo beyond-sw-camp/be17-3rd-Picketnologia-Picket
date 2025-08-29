@@ -1,6 +1,8 @@
 package com.picketlogia.picket.api.review.service;
 
 import com.picketlogia.picket.api.orderdetail.service.OrderDetailService;
+import com.picketlogia.picket.api.product.model.entity.Product;
+import com.picketlogia.picket.api.product.repository.ProductRepository;
 import com.picketlogia.picket.api.review.model.dto.ReviewDtoList;
 import com.picketlogia.picket.api.review.model.dto.ReviewDtoRegister;
 import com.picketlogia.picket.api.review.model.dto.ReviewList;
@@ -8,6 +10,7 @@ import com.picketlogia.picket.api.review.model.entity.Review;
 import com.picketlogia.picket.api.review.repository.ReviewRepository;
 import com.picketlogia.picket.common.exception.BaseException;
 import com.picketlogia.picket.common.model.BaseResponseStatus;
+import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
@@ -28,13 +31,30 @@ import static java.util.stream.Collectors.toList;
 public class ReviewService {
     private final ReviewRepository reviewRepository;
     private final OrderDetailService orderDetailService;
+    private final ProductRepository productRepository;
 
+    @Transactional
     public void save(ReviewDtoRegister dto, Long userIdx) {
         if (!orderDetailService.hasPurchasedProduct(userIdx, dto.getProductId())) {
             throw new BaseException("예매자만 리뷰작성이 가능합니다.", BaseResponseStatus.ORDERS_NOT_ORDERED);
         }
         reviewRepository.save(dto.toEntity(userIdx));
+
+        updateProductReviewStats(dto.getProductId());
     }
+
+    private void updateProductReviewStats(Long productId) {
+        Double averageRating = reviewRepository.findAverageRatingByProductId(productId);
+        Long reviewCount = reviewRepository.countByProductId(productId);
+
+        Product product = productRepository.findById(productId)
+                .orElseThrow();
+
+        product.updateReviewRating(averageRating != null ? averageRating : 0.0);
+        product.updateReviewCount(reviewCount);
+        productRepository.save(product);
+    }
+
 
 
     public List<ReviewDtoList> listByUser(Long userIdx) {

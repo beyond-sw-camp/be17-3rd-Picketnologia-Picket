@@ -39,6 +39,8 @@ public class Product extends BaseEntity {
     private Integer runningTime; // 러닝타임
     private Integer price; // 가격
     private String description; // 설명
+    private Double reviewRating;
+    private Integer reviewCount;
 
     @ManyToOne
     @JoinColumn(name = "user_id")
@@ -66,5 +68,14 @@ public class Product extends BaseEntity {
 
     @OneToMany(mappedBy = "product")
     private List<Seat> seatList;
+
+    public void updateReviewRating(Double reviewRating) {
+        this.reviewRating = reviewRating;
+    }
+
+    public void updateReviewCount(Long reviewCount) {
+        this.reviewCount = reviewCount.intValue();
+    }
+
 
 }

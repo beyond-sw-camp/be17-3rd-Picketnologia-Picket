@@ -45,11 +45,14 @@ public class ProductController {
 
         return ResponseEntity.ok(BaseResponse.success(findProduct));
     }
-    //상품 조건 검색
-    @GetMapping("/search2")
-    public ResponseEntity<List<ProductReadForList>> search(ProductSearchDto dto) {
-        List<ProductReadForList> response = productService.search(dto);
+    //상품 조건 검색 및 정렬
+    @GetMapping("/searchAndSort")
+    public ResponseEntity<BaseResponse<List<ProductReadForList>>> searchAndSort(
+            ProductSearchDto dto,
+            @RequestParam(required = false) String sort
+    ) {
+        List<ProductReadForList> response = productService.searchAndSort(dto, sort);
 
-        return ResponseEntity.ok(response);
+        return ResponseEntity.ok(BaseResponse.success(response));
     }
 }
