@@ -3,6 +3,8 @@
     import com.picketlogia.picket.api.seat.model.dto.read.SeatInfo;
     import com.picketlogia.picket.api.seat.service.SeatInfoService;
     import com.picketlogia.picket.common.model.BaseResponse;
+    import io.swagger.v3.oas.annotations.Operation;
+    import io.swagger.v3.oas.annotations.tags.Tag;
     import lombok.RequiredArgsConstructor;
     import org.springframework.http.ResponseEntity;
     import org.springframework.web.bind.annotation.GetMapping;
@@ -13,10 +15,15 @@
     @RestController
     @RequestMapping("/seat-info")
     @RequiredArgsConstructor
+    @Tag(name="좌석 정보 조회 기능 ")
     public class SeatController {
 
         private final SeatInfoService seatInfoService;
 
+        @Operation(
+                summary = "좌석 정보 조회",
+                description = "조건에 맞는 공연의 좌석 정보를 조회한다."
+        )
         @GetMapping
         public ResponseEntity<BaseResponse<SeatInfo>> getSeatInfo(@RequestParam("product") Long productIdx) {
 

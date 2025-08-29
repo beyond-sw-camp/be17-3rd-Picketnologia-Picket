@@ -18,7 +18,7 @@ import java.util.List;
 @RestController
 @RequestMapping("/reviews")
 @RequiredArgsConstructor
-@Tag(name = "게시판 기능")
+@Tag(name = "리뷰 기능")
 public class ReviewController {
     private final ReviewService reviewService;
 
