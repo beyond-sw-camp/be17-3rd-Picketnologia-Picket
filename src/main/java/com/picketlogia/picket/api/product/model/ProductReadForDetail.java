@@ -22,6 +22,8 @@ public class ProductReadForDetail {
     private LocalDate sessionDate; // 회차 날짜
     private Integer sessionTime; // 회차 시간
     private String description; // 설명
+    private Double reviewRating;
+    private Integer reviewCount;
 
     public static ProductReadForDetail from(Product product) {
         return ProductReadForDetail.builder()
@@ -35,6 +37,8 @@ public class ProductReadForDetail {
                 .runningTime(product.getRunningTime())
                 .price(product.getPrice())
                 .description(product.getDescription())
+                .reviewCount(product.getReviewCount())
+                .reviewRating(product.getReviewRating())
                 .posterUrl(product.getProductImage().getFileName())
                 .build();
     }
