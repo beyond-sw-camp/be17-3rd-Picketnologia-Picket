@@ -1,6 +1,7 @@
 package com.picketlogia.picket.api.review.service;
 
-import com.picketlogia.picket.api.orderdetail.service.OrderDetailService;
+import com.picketlogia.picket.api.reservation.service.ReservationService;
+import com.picketlogia.picket.api.reservation.service.ReserveDetailService;
 import com.picketlogia.picket.api.review.model.dto.ReviewDtoList;
 import com.picketlogia.picket.api.review.model.dto.ReviewDtoRegister;
 import com.picketlogia.picket.api.review.model.dto.ReviewList;
@@ -19,18 +20,16 @@ import java.time.LocalTime;
 import java.time.format.DateTimeFormatter;
 import java.util.List;
 
-import static io.lettuce.core.pubsub.PubSubOutput.Type.message;
-import static java.util.stream.Collectors.toList;
-
 
 @Service
 @RequiredArgsConstructor
 public class ReviewService {
     private final ReviewRepository reviewRepository;
-    private final OrderDetailService orderDetailService;
+    private final ReserveDetailService reserveDetailService;
+    private final ReservationService reservationService;
 
     public void save(ReviewDtoRegister dto, Long userIdx) {
-        if (!orderDetailService.hasPurchasedProduct(userIdx, dto.getProductId())) {
+        if (!reservationService.hasPurchasedProduct(userIdx, dto.getProductId())) {
             throw new BaseException("예매자만 리뷰작성이 가능합니다.", BaseResponseStatus.ORDERS_NOT_ORDERED);
         }
         reviewRepository.save(dto.toEntity(userIdx));

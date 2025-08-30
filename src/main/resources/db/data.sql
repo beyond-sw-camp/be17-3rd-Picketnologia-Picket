@@ -624,19 +624,19 @@ VALUES ('서울시 동작구 신대방동', '012-3456-789', 'test01', 2);
 --
 -- Order
 --
-INSERT INTO orders (price, payment_idx, user_id)
-VALUES (50000, 'PAY12345', 1),
-       (75000, 'PAY12346', 2),
-       (60000, 'PAY12347', 1);
+INSERT INTO reservation (price, payment_idx, product_idx, user_idx)
+VALUES (50000, 'PAY12345', 1, 1),
+       (75000, 'PAY12346', 1, 2),
+       (60000, 'PAY12347', 1, 2);
 
 --
 -- Order Detail
 --
-INSERT INTO order_detail (order_id, user_id, product_id, seat, seat_grade)
-VALUES (1, 1, 1, 'A1', 'VIP'),
-       (1, 1, 2, 'A2', 'R'),
-       (2, 2, 3, 'B1', 'S'),
-       (3, 2, 4, 'A3', 'VIP');
+INSERT INTO reserve_detail (reservation_idx, round_time_idx, seat_grade)
+VALUES (1, 1, 'VIP'),
+       (1, 1, 'R'),
+       (2, 1, 'S'),
+       (3, 1, 'VIP');
 
 INSERT INTO performance_round (round_date, round_time, product_idx)
 VALUES ('2025-08-25', '18:00', 1),
