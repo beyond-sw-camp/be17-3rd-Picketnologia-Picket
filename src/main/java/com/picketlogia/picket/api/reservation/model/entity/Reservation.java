@@ -1,13 +1,16 @@
 package com.picketlogia.picket.api.reservation.model.entity;
 
 import com.picketlogia.picket.api.product.model.entity.Product;
+import com.picketlogia.picket.api.reservation.model.PaymentStatus;
 import com.picketlogia.picket.api.user.model.entity.User;
+import com.picketlogia.picket.common.model.BaseEntity;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
+import java.time.LocalDateTime;
 import java.util.List;
 
 @Entity
@@ -18,17 +21,23 @@ import java.util.List;
 @Table(indexes = {
         @Index(name = "idx_reservation_payment_idx", columnList = "payment_idx")
 })
-public class Reservation {
+public class Reservation extends BaseEntity {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long idx;
 
-    @Column(nullable = false)
+    @Column(nullable = true)
     private Long price;
 
     @Column(nullable = false, unique = true)
     private String paymentIdx;
+
+    @Column(nullable = true)
+    private LocalDateTime paidAt;
+
+    @Enumerated(EnumType.STRING)
+    private PaymentStatus paymentStatus;
 
     @ManyToOne
     @JoinColumn(name = "user_idx")

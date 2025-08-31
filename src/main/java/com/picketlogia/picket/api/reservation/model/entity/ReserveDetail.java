@@ -1,7 +1,8 @@
 package com.picketlogia.picket.api.reservation.model.entity;
 
 import com.picketlogia.picket.api.product.model.entity.RoundTime;
-import com.picketlogia.picket.api.seat.model.SeatGradeStatus;
+import com.picketlogia.picket.api.seat.model.Seat;
+import com.picketlogia.picket.common.model.BaseEntity;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -13,19 +14,28 @@ import lombok.NoArgsConstructor;
 @Builder
 @AllArgsConstructor
 @NoArgsConstructor
-public class ReserveDetail {
+@Table(
+        uniqueConstraints = {
+                @UniqueConstraint(
+                        name = "ROUND_TIME_SEAT_UNIQUE",
+                        columnNames = {"round_time_idx", "seat_idx"}
+                )
+        }
+)
+public class ReserveDetail extends BaseEntity {
 
     @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long idx;
 
     @ManyToOne
-    @JoinColumn(name = "reservation_idx")
+    @JoinColumn(name = "reservation_idx", nullable = false)
     private Reservation reservation;
 
     @ManyToOne
-    @JoinColumn(name = "round_time_idx")
+    @JoinColumn(name = "round_time_idx", nullable = false)
     private RoundTime roundTime;
 
-    @Enumerated(EnumType.STRING)
-    private SeatGradeStatus seatGrade;
+    @ManyToOne
+    @JoinColumn(name = "seat_idx", nullable = false)
+    private Seat seat;
 }
