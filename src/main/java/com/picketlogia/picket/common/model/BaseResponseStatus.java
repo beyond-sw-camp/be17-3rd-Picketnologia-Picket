@@ -38,6 +38,10 @@ public enum BaseResponseStatus {
     OPEN_DATE_OUT_OF_PERFORMANCE_RANGE(false, 30007, "오픈 예정일은 공연 시작일 보다 빨라야 합니다."),
     EXPIRED_JWT(false, 30008, "JWT 토큰이 만료되었습니다."),
 
+    // 결제, 주문
+    SEAT_ALREADY_BOOKED(false, 31000, "이미 예약된 좌석입니다, 결제가 실패되었습니다."),
+    FAILED_PAYMENT_WEBHOOK(false, 31001, "결제 관련 웹훅 에러가 발생했습니다."),
+    ERROR_PAYMENT_STATUS_PAID(false, 31002, "PAID 상태 처리에서 에러가 발생했습니다."),
 
     /**
      * 40000 : Response 오류
