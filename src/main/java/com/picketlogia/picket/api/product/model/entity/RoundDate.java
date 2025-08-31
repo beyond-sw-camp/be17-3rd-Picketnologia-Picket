@@ -2,6 +2,7 @@ package com.picketlogia.picket.api.product.model.entity;
 
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
@@ -10,9 +11,9 @@ import java.util.List;
 
 @Entity
 @Getter
+@Builder
 @NoArgsConstructor
 @AllArgsConstructor
-// 일정 정보 DTO
 public class RoundDate {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
