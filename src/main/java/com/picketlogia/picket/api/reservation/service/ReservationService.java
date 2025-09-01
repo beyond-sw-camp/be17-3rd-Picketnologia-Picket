@@ -4,6 +4,7 @@ import com.picketlogia.picket.api.product.model.entity.Product;
 import com.picketlogia.picket.api.product.model.entity.RoundTime;
 import com.picketlogia.picket.api.reservation.model.ReservationCheck;
 import com.picketlogia.picket.api.reservation.model.ReservationRegister;
+import com.picketlogia.picket.api.reservation.model.UpdateReservationReq;
 import com.picketlogia.picket.api.reservation.model.entity.Reservation;
 import com.picketlogia.picket.api.reservation.model.entity.ReserveDetail;
 import com.picketlogia.picket.api.reservation.repository.ReservationRepository;
@@ -13,8 +14,10 @@ import com.picketlogia.picket.common.exception.BaseException;
 import com.picketlogia.picket.common.model.BaseResponseStatus;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
+import java.util.Optional;
 
 @Service
 @RequiredArgsConstructor
@@ -33,6 +36,17 @@ public class ReservationService {
         Reservation savedReservation = reservationRepository.save(reservationRegister.toEntity());
 
         return savedReservation.getIdx();
+    }
+
+    @Transactional
+    public Long updateReservation(UpdateReservationReq update, String paymentIdx) {
+        Optional<Reservation> result = reservationRepository.findByPaymentIdx(paymentIdx);
+
+
+        Reservation findReserve = result.orElseThrow(() -> BaseException.from(BaseResponseStatus.NOT_FOUND_DATA));
+        findReserve.completeReservation(update);
+
+        return findReserve.getIdx();
     }
 
     /**

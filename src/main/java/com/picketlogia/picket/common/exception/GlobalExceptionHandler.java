@@ -11,6 +11,10 @@ import org.springframework.web.bind.annotation.RestControllerAdvice;
 public class GlobalExceptionHandler {
 
     private int httpStatusCodeMapper(int statusCode) {
+
+        if (31001 <= statusCode && statusCode < 32000)
+            return 200;
+
         if (statusCode >= 40000) {
             return 500;
         }

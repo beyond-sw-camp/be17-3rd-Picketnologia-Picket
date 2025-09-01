@@ -2,6 +2,7 @@ package com.picketlogia.picket.api.payments.service;
 
 import com.picketlogia.picket.common.exception.BaseException;
 import com.picketlogia.picket.common.model.BaseResponseStatus;
+import io.portone.sdk.server.payment.Payment;
 import io.portone.sdk.server.webhook.Webhook;
 import io.portone.sdk.server.webhook.WebhookTransaction;
 import io.portone.sdk.server.webhook.WebhookVerifier;
@@ -13,13 +14,10 @@ import org.springframework.stereotype.Service;
 @Service
 public class WebhookService {
 
-    @Value("${portone.key.webhook}")
-    private String secretKey;
-
     private final WebhookVerifier portoneWebhook;
     private final PaymentService paymentService;
 
-    public WebhookService(PaymentService paymentService) {
+    public WebhookService(PaymentService paymentService, @Value("${portone.key.webhook}") String secretKey) {
         this.portoneWebhook = new WebhookVerifier(secretKey);
         this.paymentService = paymentService;
     }

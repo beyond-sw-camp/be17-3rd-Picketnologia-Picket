@@ -17,8 +17,9 @@ public class ReserveDetailRegister {
     private Long roundTimeIdx;
     private List<Long> seatIdes;
 
-    public static ReserveDetailRegister from(PaymentCustomData paymentData) {
+    public static ReserveDetailRegister from(PaymentCustomData paymentData, Long reservationIdx) {
         return ReserveDetailRegister.builder()
+                .reservationIdx(reservationIdx)
                 .roundTimeIdx(paymentData.getRoundTimeIdx())
                 .seatIdes(paymentData.getSeatIdxes())
                 .build();

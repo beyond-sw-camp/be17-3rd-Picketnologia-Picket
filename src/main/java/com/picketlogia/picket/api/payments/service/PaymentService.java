@@ -4,16 +4,22 @@ import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.picketlogia.picket.api.payments.model.PaymentCustomData;
 import com.picketlogia.picket.api.payments.model.PaymentReq;
+import com.picketlogia.picket.api.reservation.model.PaymentStatus;
+import com.picketlogia.picket.api.reservation.model.ReserveDetailRegister;
+import com.picketlogia.picket.api.reservation.model.UpdateReservationReq;
 import com.picketlogia.picket.api.reservation.service.ReservationService;
+import com.picketlogia.picket.api.reservation.service.ReserveDetailService;
 import com.picketlogia.picket.api.seat.model.Seat;
 import com.picketlogia.picket.api.seat.repository.SeatRepository;
 import com.picketlogia.picket.common.exception.BaseException;
 import com.picketlogia.picket.common.model.BaseResponseStatus;
 import io.portone.sdk.server.PortOneClient;
 import io.portone.sdk.server.payment.*;
+import jakarta.annotation.PostConstruct;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.net.URI;
 import java.net.http.HttpClient;
@@ -31,18 +37,19 @@ import java.util.concurrent.ExecutionException;
 @Service
 public class PaymentService {
 
-    @Value("${portone.key.api-secret}")
-    private String apiSecret;
-
-    @Value("${portone.key.store-id}")
-    private String storeId;
-
+    private final ReserveDetailService reserveDetailService;
     private final PortOneClient portOneClient;
     private final SeatRepository seatRepository;
 
     private final ReservationService reservationService;
 
-    public PaymentService(SeatRepository seatRepository, ReservationService reservationService) {
+    public PaymentService(SeatRepository seatRepository,
+                          ReservationService reservationService,
+                          ReserveDetailService reserveDetailService,
+                          @Value("${portone.key.api-secret}") String apiSecret,
+                          @Value("${portone.key.store-id}") String storeId
+                          ) {
+
         this.portOneClient = new PortOneClient(
                 apiSecret,
                 "https://api.portone.io",
@@ -51,6 +58,7 @@ public class PaymentService {
 
         this.seatRepository = seatRepository;
         this.reservationService = reservationService;
+        this.reserveDetailService = reserveDetailService;
     }
 
     /**
@@ -58,6 +66,7 @@ public class PaymentService {
      * @param paymentId 결제 ID
      * @return Payment
      */
+    @Transactional
     public Payment completePayment(String paymentId) {
 
         PaymentClient paymentClient = portOneClient.getPayment();
@@ -68,18 +77,12 @@ public class PaymentService {
         // 성공 처리
         if (payment instanceof PaidPayment paidPayment) {
             if (verifyPayment(paidPayment)) {
+                log.info(paidPayment.getPgResponse());
+                PaymentCustomData customData = parseToPaymentCustomData(paidPayment.getCustomData());
 
-//                // 결제 정보를 예매 정보로 저장
-//                reservationService.register(
-//                        ReservationRegister.from(
-//                                paymentUser,
-//                                paymentReq.getPaymentId(),
-//                                paidPayment.getAmount().getTotal(),
-//                                getPaidAt(paidPayment),
-//                                paymentData),
-//                        ReserveDetailRegister.from(paymentData)
-//                );
-//                return payment;
+//                결제 정보를 예매 정보로 저장
+                requestReservation(paymentId, paidPayment, customData);
+                return null;
             }
 
             throw BaseException.from(BaseResponseStatus.ERROR_PAYMENT_STATUS_PAID);
@@ -96,6 +99,26 @@ public class PaymentService {
         }
 
         return payment;
+    }
+
+    /**
+     * 결제 성공 시 예매 저장 요청
+     * @param paymentId 결제 ID
+     * @param paidPayment 결제 정보
+     * @param customData 사용자 지정 데이터
+     */
+    private void requestReservation(String paymentId, PaidPayment paidPayment, PaymentCustomData customData) {
+        UpdateReservationReq update = UpdateReservationReq.from(
+                paidPayment.getAmount().getTotal(),
+                getPaidAt(paidPayment),
+                customData.getProductIdx(),
+                PaymentStatus.PAID);
+
+        Long reservationId = reservationService.updateReservation(update, paymentId);
+
+        reserveDetailService.register(
+                ReserveDetailRegister.from(customData, reservationId)
+        );
     }
 
     /**
@@ -183,6 +206,8 @@ public class PaymentService {
 
         // 총 결제 금액과 조회한 좌석의 총 금액이 같은지 비교
         Long actualPrice = getSeats.stream().mapToLong(seat -> seat.getSeatGrade().getPrice()).sum();
-        return paymentAmount.getTotal() == actualPrice;
+        log.info("actualPrice = {} ", actualPrice);
+        log.info("paymentAmount.getTotal() = {}", paymentAmount.getTotal());
+        return actualPrice.equals(paymentAmount.getTotal());
     }
 }

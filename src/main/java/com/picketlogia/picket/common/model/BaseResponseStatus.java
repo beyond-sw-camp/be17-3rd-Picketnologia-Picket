@@ -43,6 +43,7 @@ public enum BaseResponseStatus {
     FAILED_PAYMENT_WEBHOOK(false, 31001, "결제 관련 웹훅 에러가 발생했습니다."),
     ERROR_PAYMENT_STATUS_PAID(false, 31002, "PAID 상태 처리에서 에러가 발생했습니다."),
 
+    NOT_FOUND_DATA(false, 32000, "해당 데이터를 찾을 수 없습니다."),
     /**
      * 40000 : Response 오류
      */
