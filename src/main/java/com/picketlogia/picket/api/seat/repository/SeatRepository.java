@@ -11,4 +11,7 @@ public interface SeatRepository extends JpaRepository<Seat, Long> {
 
     @Query("SELECT s FROM Seat s JOIN FETCH s.seatGrade sg WHERE s.product = :product")
     List<Seat> findAllByProductWithSeatGrade(Product product);
+
+    @Query("SELECT s FROM Seat s JOIN FETCH s.seatGrade sg WHERE s IN :seats")
+    List<Seat> findByIdInWithSeatGrade(List<Seat> seats);
 }

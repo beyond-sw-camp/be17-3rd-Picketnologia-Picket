@@ -621,23 +621,6 @@ VALUES (now(), now(), '리뷰01ㅁㄴ아ㅓㅠㅁㄴ어ㅏㅠㅓㅏㅁㄴ유ㅓ�
 INSERT INTO seller(business_address, business_number, representative_name, user_id)
 VALUES ('서울시 동작구 신대방동', '012-3456-789', 'test01', 2);
 
---
--- Order
---
-INSERT INTO orders (price, payment_idx, user_id)
-VALUES (50000, 'PAY12345', 1),
-       (75000, 'PAY12346', 2),
-       (60000, 'PAY12347', 1);
-
---
--- Order Detail
---
-INSERT INTO order_detail (order_id, user_id, product_id, seat, seat_grade)
-VALUES (1, 1, 1, 'A1', 'VIP'),
-       (1, 1, 2, 'A2', 'R'),
-       (2, 2, 3, 'B1', 'S'),
-       (3, 2, 4, 'A3', 'VIP');
-
 INSERT INTO performance_round (round_date, round_time, product_idx)
 VALUES ('2025-08-25', '18:00', 1),
        ('2025-08-29', '19:00', 2),
@@ -755,6 +738,21 @@ VALUES (1, 1, 'A1'),
        (1, 2, 'J9'),
        (1, 2, 'J10');
 
+--
+-- Reservation
+--
+INSERT INTO reservation (price, payment_idx, product_idx, user_idx, paid_at, created_at, updated_at)
+VALUES (200000, 'PAY12345', 1, 1, now(), now(), now()),
+       (100000, 'PAY12346', 1, 2, now(), now(), now()),
+       (100000, 'PAY12347', 1, 2, now(), now(), now());
 
+--
+-- Reservation Detail
+--
+INSERT INTO reserve_detail (reservation_idx, round_time_idx, seat_idx)
+VALUES (1, 1,1),
+       (1, 1,2),
+       (2, 1,3),
+       (3, 1,4);
 
 -- Dump completed on 2025-08-14 17:43:26

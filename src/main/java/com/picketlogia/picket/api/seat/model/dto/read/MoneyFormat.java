@@ -9,17 +9,17 @@ import java.text.DecimalFormat;
 @Builder
 public class MoneyFormat {
 
-    private Integer price;
+    private Long price;
     private String priceFormat;
 
-    public static MoneyFormat from(Integer price) {
+    public static MoneyFormat from(Long price) {
         return MoneyFormat.builder()
                 .price(price)
                 .priceFormat(formatToMoney(price))
                 .build();
     }
 
-    private static String formatToMoney(Integer price) {
+    private static String formatToMoney(Long price) {
         DecimalFormat df = new DecimalFormat("#,###");
         return df.format(price) + "원";
     }

@@ -11,7 +11,7 @@ import lombok.Getter;
 public class SeatGradeRegister {
 
     private SeatGradeStatus code;
-    private int price;
+    private Long price;
 
     public SeatGrade toEntity(Long productIdx) {
         return SeatGrade.builder()
