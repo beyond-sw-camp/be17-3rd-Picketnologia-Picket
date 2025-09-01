@@ -69,9 +69,9 @@ public class ReviewService {
     return result.stream().map(ReviewDtoList::from).toList();
 }
 
-    public ReviewList listpaging(Integer page, Integer size) {
+    public ReviewList listpaging(Integer page, Integer size ,Long productId) {
 
-        Page<Review> result = reviewRepository.findAll(PageRequest.of(page,size)); // 페이지네이션이 필요하면 사용
+        Page<Review> result = reviewRepository.findByProductIdx(productId,PageRequest.of(page,size)); // 페이지네이션이 필요하면 사용
 //        Slice<Board> result = boardRepository.findAll(PageRequest.of(page,size)); // 페이지네이션이 필요없으면 사용
         Double averageRating = reviewRepository.findAverageRating();
 
