@@ -7,6 +7,8 @@ import com.picketlogia.picket.api.review.service.ReviewService;
 import com.picketlogia.picket.api.user.model.dto.UserAuth;
 import com.picketlogia.picket.common.model.BaseResponse;
 import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.responses.ApiResponse;
+import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
@@ -18,7 +20,7 @@ import java.util.List;
 @RestController
 @RequestMapping("/reviews")
 @RequiredArgsConstructor
-@Tag(name = "게시판 기능")
+@Tag(name = "리뷰 기능")
 public class ReviewController {
     private final ReviewService reviewService;
 
@@ -26,6 +28,10 @@ public class ReviewController {
             summary = "리뷰등록",
             description = "상품의 리뷰를 작성하고 등록한다."
     )
+    @ApiResponses({
+            @ApiResponse(responseCode = "200", description = "성공"),
+            @ApiResponse(responseCode = "400", description = "실패")
+    })
     @PostMapping("/register")
     public ResponseEntity register(@RequestBody ReviewDtoRegister dto, @AuthenticationPrincipal UserAuth userAuth) {
         reviewService.save(dto, userAuth.getIdx());
@@ -40,10 +46,10 @@ public class ReviewController {
     )
 
     @GetMapping("/list")
-    public ResponseEntity list() {
+    public ResponseEntity<BaseResponse<List<ReviewDtoList>>> list() {
         List<ReviewDtoList> response = reviewService.list();
 
-        return ResponseEntity.status(200).body(response);
+        return ResponseEntity.status(200).body(BaseResponse.success(response));
     }
 
     @Operation(
@@ -51,7 +57,7 @@ public class ReviewController {
             description = "로그인한 사용자가 특정 기간 동안 작성한 리뷰를 조회한다."
     )
     @GetMapping("/userReviewList")
-    public ResponseEntity getUserReviewsByDate(
+    public ResponseEntity<BaseResponse<List<ReviewDtoList>>> getUserReviewsByDate(
             @AuthenticationPrincipal UserAuth userAuth,
             @RequestParam("startDate") String startDate,
             @RequestParam("endDate") String endDate
@@ -65,10 +71,12 @@ public class ReviewController {
                 description = "리뷰 목록 조회할 때 page, size를 입력해서 한 페이지 당 특정 수만큼 게시글 조회"
         )
         @GetMapping("/listPaging")// 페이지 번호는 0번부터
-        public ResponseEntity listPaging (Integer page, Integer size){
-            ReviewList response = reviewService.listpaging(page, size);
+        public ResponseEntity<BaseResponse<ReviewList>> listPaging (
+                @RequestParam Integer page,
+                @RequestParam Integer size,
+                @RequestParam Long productId){
+            ReviewList response = reviewService.listpaging(page, size, productId);
 
             return ResponseEntity.status(200).body(BaseResponse.success(response));
         }
-
     }

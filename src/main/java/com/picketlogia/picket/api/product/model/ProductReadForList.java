@@ -21,6 +21,8 @@ public class ProductReadForList {
     private LocalDate endDate; // 공연 종료일
     private String posterUrl; // 포스터 이미지 경로 (파일명)
     private Integer price; // 가격
+    private Double reviewRating;
+    private Integer reviewCount;
 
     public static ProductReadForList from(Product product) {
         return ProductReadForList.builder()
@@ -30,6 +32,8 @@ public class ProductReadForList {
                 .startDate(product.getStartDate())
                 .endDate(product.getEndDate())
                 .price(product.getPrice())
+                .reviewCount(product.getReviewCount())
+                .reviewRating(product.getReviewRating())
                 .posterUrl(
                         product.getProductImage().getFileName()
                 )
