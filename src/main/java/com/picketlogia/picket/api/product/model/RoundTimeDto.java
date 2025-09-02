@@ -16,7 +16,7 @@ public class RoundTimeDto {
     // Entity -> DTO
     public static RoundTimeDto from(RoundTime entity) {
         return RoundTimeDto.builder()
-                .times(entity.getTimes())
+                .times(entity.getTime())
                 .build();
     }
 }

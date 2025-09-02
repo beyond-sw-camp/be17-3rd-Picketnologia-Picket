@@ -13,12 +13,11 @@ import java.time.LocalTime;
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
-// 회차 정보 DTO
 public class RoundTime {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long idx;
-    private LocalTime times;
+    private LocalTime time;
 
     @ManyToOne
     @JoinColumn(name = "round_date_idx")

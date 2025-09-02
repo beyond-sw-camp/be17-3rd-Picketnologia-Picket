@@ -28,7 +28,7 @@ public class ReserveDetailRead {
                 )
                 .seatName(entity.getSeat().getName())
                 .roundDate(entity.getRoundTime().getRoundDate().getDate())
-                .roundTime(entity.getRoundTime().getTimes())
+                .roundTime(entity.getRoundTime().getTime())
                 .build();
     }
 }

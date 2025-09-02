@@ -345,10 +345,11 @@ VALUES ('2025-08-25', 1),
        ('2025-09-12', 1),
        ('2025-09-14', 1),
        ('2025-09-15', 1),
-       ('2025-09-17', 1);
+       ('2025-09-17', 1),
+       (now(), 1);
 
 INSERT INTO round_time
-    (times, round_date_idx)
+    (time, round_date_idx)
 VALUES ('19:00', 1),
        ('20:00', 2),
        ('18:00', 3),
@@ -369,7 +370,9 @@ VALUES ('19:00', 1),
        ('20:00', 17),
        ('18:00', 18),
        ('21:00', 19),
-       ('16:00', 20);
+       ('16:00', 20),
+       (CURRENT_TIME() - INTERVAL 1 HOUR, 29),
+       (CURRENT_TIME() + INTERVAL 1 HOUR, 29);
 
 --
 -- Table structure for table `product_image`
