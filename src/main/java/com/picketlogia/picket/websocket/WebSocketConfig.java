@@ -25,6 +25,7 @@ public class WebSocketConfig implements WebSocketMessageBrokerConfigurer {
 
     @Override
     public void registerStompEndpoints(StompEndpointRegistry registry) {
+        // 프론트엔드 연결 주소 설정 & 모든 도메인 연결 허용
         registry.addEndpoint("/websocket").setAllowedOrigins("*");
     }
 
