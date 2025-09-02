@@ -18,9 +18,11 @@ public class WebSocketController {
 
         return "zzzzzz";
     }
-    @MessageMapping("/event/{roomId}")
-    public void sendMessage(@DestinationVariable String roomId, String message) {
+
+    // /product/event/{roomId} 경로로 메세지 전달 시 sendMessage 메서드 실행
+    @MessageMapping("/event/{roomId}/{day}/{round}")
+    public void sendMessage(@DestinationVariable String roomId, @DestinationVariable String day, @DestinationVariable String round, String message) {
         System.out.println("Send Message: " + message);
-        messagingTemplate.convertAndSend("/product/" + roomId, message);
+        messagingTemplate.convertAndSend("/product/" + roomId + "/" + day + "/" + round, message);
     }
 }
