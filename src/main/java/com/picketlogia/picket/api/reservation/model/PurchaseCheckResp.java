@@ -1,4 +1,4 @@
-package com.picketlogia.picket.api.orderdetail.model;
+package com.picketlogia.picket.api.reservation.model;
 
 import lombok.Builder;
 import lombok.Getter;

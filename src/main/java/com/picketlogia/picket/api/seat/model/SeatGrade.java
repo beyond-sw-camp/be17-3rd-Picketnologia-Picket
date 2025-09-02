@@ -22,7 +22,7 @@ public class SeatGrade {
     private SeatGradeStatus grade;
 
     @Column(nullable = false)
-    private Integer price;
+    private Long price;
 
     @ManyToOne(fetch = FetchType.LAZY)
     private Product product;

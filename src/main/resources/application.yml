@@ -79,3 +79,9 @@ password:
 redis:
   host: ${REDIS_HOST}
   port: 6379
+
+portone:
+  key:
+    api-secret: ${PORT_ONE_API_SECRET}
+    store-id: ${STORE_ID}
+    webhook: ${WEB_HOOK_SECRET}
