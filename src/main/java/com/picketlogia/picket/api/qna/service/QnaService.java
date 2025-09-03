@@ -6,10 +6,19 @@ import com.picketlogia.picket.api.qna.model.QnaDto;
 import com.picketlogia.picket.api.qna.model.Qna;
 import com.picketlogia.picket.api.qna.repository.AnswerRepository;
 import com.picketlogia.picket.api.qna.repository.QnaRepository;
+import com.picketlogia.picket.api.review.model.dto.ReviewDtoList;
+import com.picketlogia.picket.api.review.model.dto.ReviewDtoRegister;
+import com.picketlogia.picket.api.review.model.entity.Review;
+import com.picketlogia.picket.common.exception.BaseException;
+import com.picketlogia.picket.common.model.BaseResponseStatus;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.time.LocalDate;
+import java.time.LocalDateTime;
+import java.time.LocalTime;
+import java.time.format.DateTimeFormatter;
 import java.util.List;
 import java.util.Objects;
 import java.util.stream.Collectors;
@@ -20,12 +29,12 @@ public class QnaService {
     private final QnaRepository qnaRepository;
     private final AnswerRepository answerRepository;
 
-    @Transactional
-    public QnaDto.Response createQna(QnaDto.CreateRequest request) {
-        Qna newQna = request.toEntity();
-        Qna savedQna = qnaRepository.save(newQna);
-        return new QnaDto.Response(savedQna);
-    }
+//    @Transactional
+//    public QnaDto.Response createQna(QnaDto.CreateRequest request) {
+//        Qna newQna = request.toEntity();
+//        Qna savedQna = qnaRepository.save(newQna);
+//        return new QnaDto.Response(savedQna);
+//    }
 
     @Transactional(readOnly = true)
     public List<QnaDto.Response> findAllQna() {
@@ -106,5 +115,20 @@ public class QnaService {
             throw new IllegalArgumentException("해당 문의글에 속한 답변이 아닙니다.");
         }
         answer.delete();
+    }
+
+    public List<QnaDto.Response> listByUserAndDateRange(Long userIdx, String startDateStr, String endDateStr) {
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
+        LocalDateTime startDateTime = LocalDate.parse(startDateStr, formatter).atStartOfDay();
+        LocalDateTime endDateTime = LocalDate.parse(endDateStr, formatter).atTime(LocalTime.MAX);
+
+        List<Qna> result = qnaRepository.findByUserIdxAndCreatedAtBetween(userIdx, startDateTime, endDateTime);
+
+        return result.stream().map(QnaDto.Response::new).toList();
+    }
+
+    public void save(QnaDto.CreateRequest dto, Long userIdx) {
+        qnaRepository.save(dto.toEntity(userIdx));
+
     }
 }
