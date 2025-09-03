@@ -4,14 +4,18 @@ package com.picketlogia.picket.api.qna.service;
 import com.picketlogia.picket.api.qna.model.Answer;
 import com.picketlogia.picket.api.qna.model.QnaDto;
 import com.picketlogia.picket.api.qna.model.Qna;
+import com.picketlogia.picket.api.qna.model.QnaList;
 import com.picketlogia.picket.api.qna.repository.AnswerRepository;
 import com.picketlogia.picket.api.qna.repository.QnaRepository;
 import com.picketlogia.picket.api.review.model.dto.ReviewDtoList;
 import com.picketlogia.picket.api.review.model.dto.ReviewDtoRegister;
+import com.picketlogia.picket.api.review.model.dto.ReviewList;
 import com.picketlogia.picket.api.review.model.entity.Review;
 import com.picketlogia.picket.common.exception.BaseException;
 import com.picketlogia.picket.common.model.BaseResponseStatus;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -131,4 +135,12 @@ public class QnaService {
         qnaRepository.save(dto.toEntity(userIdx));
 
     }
+
+    public QnaList pnaPaging(Integer page, Integer size , Long productId) {
+
+        Page<Qna> result = qnaRepository.findByProductIdx(productId, PageRequest.of(page,size)); // 페이지네이션이 필요하면 사용
+
+        return QnaList.from(result);
+    }
+
 }
