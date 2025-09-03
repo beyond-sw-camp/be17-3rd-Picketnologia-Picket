@@ -3,7 +3,7 @@
  <h1 align="center">🎟️ Picket </h1>
 
 <p align="center">
-  <img src="img/logo.png" width="400" alt="Picket 로고" />
+  <img src="./docs/picket_logo.png" width="400" alt="Picket 로고" />
   
 <h3 align="center">1팀 - Picketnologia</h3>
 
@@ -14,7 +14,7 @@
 <table align="center">
   <tr>
   
-  ![팀원 이미지](./img/super_middle_highlight.png)
+  ![팀원 이미지](./docs/super_middle_highlight.png)
 
   </tr>
   <tr>
