@@ -1,9 +1,11 @@
 package com.picketlogia.picket.api.qna.controller;
 
 import com.picketlogia.picket.api.qna.model.QnaDto;
+import com.picketlogia.picket.api.qna.model.QnaList;
 import com.picketlogia.picket.api.qna.service.QnaService;
 import com.picketlogia.picket.api.review.model.dto.ReviewDtoList;
 import com.picketlogia.picket.api.review.model.dto.ReviewDtoRegister;
+import com.picketlogia.picket.api.review.model.dto.ReviewList;
 import com.picketlogia.picket.api.user.model.dto.UserAuth;
 import com.picketlogia.picket.common.model.BaseResponse;
 import io.swagger.v3.oas.annotations.Operation;
@@ -128,4 +130,16 @@ public class QnaController {
         return ResponseEntity.ok(BaseResponse.success(response));
     }
 
+
+    @GetMapping("/qnaPaging")// 페이지 번호는 0번부터
+    public ResponseEntity<BaseResponse<QnaList>> listPaging (
+            @RequestParam Integer page,
+            @RequestParam Integer size,
+            @RequestParam Long productId){
+        QnaList response = qnaService.pnaPaging(page, size, productId);
+
+        return ResponseEntity.status(200).body(BaseResponse.success(response));
+    }
+
 }
+
