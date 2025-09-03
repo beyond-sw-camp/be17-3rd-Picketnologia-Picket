@@ -50,7 +50,7 @@ public class Product extends BaseEntity {
     @JoinColumn(name = "genre_id")
     private Genre genre;
 
-    @OneToMany(mappedBy = "product")
+    @OneToMany(mappedBy = "product",fetch = FetchType.LAZY)
     private List<Review> reviewList;
 
     @OneToMany(mappedBy = "product")

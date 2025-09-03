@@ -2,18 +2,23 @@ package com.picketlogia.picket.api.qna.controller;
 
 import com.picketlogia.picket.api.qna.model.QnaDto;
 import com.picketlogia.picket.api.qna.service.QnaService;
+import com.picketlogia.picket.api.review.model.dto.ReviewDtoList;
+import com.picketlogia.picket.api.review.model.dto.ReviewDtoRegister;
+import com.picketlogia.picket.api.user.model.dto.UserAuth;
+import com.picketlogia.picket.common.model.BaseResponse;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
 @RestController
 @RequiredArgsConstructor
-@RequestMapping("/api/qna")
+@RequestMapping("/qna")
 @Tag(name ="QnA 기능")
 public class QnaController {
 
@@ -25,9 +30,18 @@ public class QnaController {
             description = "질문 내용 등록하는 기능"
     )
     @PostMapping("/qna_create_post")
-    public ResponseEntity<QnaDto.Response> createQna(@RequestBody QnaDto.CreateRequest request) {
-        return ResponseEntity.status(HttpStatus.CREATED).body(qnaService.createQna(request));
+    public ResponseEntity createQna(@RequestBody QnaDto.CreateRequest dto, @AuthenticationPrincipal UserAuth userAuth) {
+
+        qnaService.save(dto ,userAuth.getIdx());
+        return ResponseEntity.status(200).body("리뷰저장성공");
     }
+//    @PostMapping("/register")
+//    public ResponseEntity register(@RequestBody ReviewDtoRegister dto, @AuthenticationPrincipal UserAuth userAuth) {
+//        reviewService.save(dto, userAuth.getIdx());
+//
+//        return ResponseEntity.status(200).body("리뷰저장성공");
+//
+//    }
 
 
     @Operation(
@@ -102,6 +116,16 @@ public class QnaController {
             @PathVariable Long answerIdx) {
         qnaService.deleteAnswer(qnaIdx, answerIdx);
         return ResponseEntity.noContent().build();
+    }
+
+    @GetMapping("/userQnaList")
+    public ResponseEntity<BaseResponse<List<QnaDto.Response>>> getUserReviewsByDate(
+            @AuthenticationPrincipal UserAuth userAuth,
+            @RequestParam("startDate") String startDate,
+            @RequestParam("endDate") String endDate
+    ) {
+        List<QnaDto.Response> response = qnaService.listByUserAndDateRange(userAuth.getIdx(), startDate, endDate);
+        return ResponseEntity.ok(BaseResponse.success(response));
     }
 
 }

@@ -28,5 +28,8 @@ public interface ReviewRepository extends JpaRepository<Review,Integer> {
 
 
     Page<Review> findByProductIdx(Long productId,PageRequest of);
+
+    @Query("SELECT r FROM Review r JOIN FETCH r.user u JOIN FETCH r.product p")
+    List<Review> findAllWithUserAndProduct();
 }
 
