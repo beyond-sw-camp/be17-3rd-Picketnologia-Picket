@@ -13,4 +13,5 @@ public class SeatSelectionMessage {
     private String seatName; // 유저 id
     private String sender;
     private String action; // "selecting", "available", "sold"
+    private String seatIdx;
 }

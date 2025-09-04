@@ -9,6 +9,8 @@ import com.picketlogia.picket.api.reservation.model.entity.Reservation;
 import com.picketlogia.picket.api.reservation.model.entity.ReserveDetail;
 import com.picketlogia.picket.api.reservation.repository.ReservationRepository;
 import com.picketlogia.picket.api.reservation.repository.ReserveDetailRepository;
+import com.picketlogia.picket.api.seat.repository.SeatStatusRepository;
+import com.picketlogia.picket.api.seat.service.SeatStatusService;
 import com.picketlogia.picket.api.user.model.entity.User;
 import com.picketlogia.picket.common.exception.BaseException;
 import com.picketlogia.picket.common.model.BaseResponseStatus;
@@ -25,6 +27,7 @@ public class ReservationService {
 
     private final ReservationRepository reservationRepository;
     private final ReserveDetailRepository reserveDetailRepository;
+    private final SeatStatusService seatStatusService;
 
     /**
      * 예매 정보를 저장한다.
@@ -94,5 +97,12 @@ public class ReservationService {
         if (hasAlreadySeats) {
             throw BaseException.from(BaseResponseStatus.SEAT_ALREADY_BOOKED);
         }
+    }
+
+    public void checkRockSeats(ReservationCheck reservationCheck) {
+        seatStatusService.validateRockSeats(
+                reservationCheck.getRoundTimeIdx(),
+                reservationCheck.getSeatIdxes().stream().map(String::valueOf).toList()
+        );
     }
 }
