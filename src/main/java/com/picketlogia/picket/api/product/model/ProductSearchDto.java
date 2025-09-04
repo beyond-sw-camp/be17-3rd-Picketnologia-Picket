@@ -7,4 +7,5 @@ import lombok.Setter;
 @Setter
 public class ProductSearchDto {
     private String name;
+    private String genre;
 }
