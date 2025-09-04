@@ -61,6 +61,7 @@ public class QnaDto {
         private final String prodcutName;
         private final String userNickName;
 
+
         public Response(Qna qna) {
             this.idx = qna.getIdx();
             this.title = qna.getTitle();
@@ -68,7 +69,13 @@ public class QnaDto {
             this.isPrivate = qna.getIsPrivate();
             this.createdAt = qna.getCreatedAt();
             this.prodcutName= qna.getProduct().getName();
+
             this.userNickName=qna.getUser().getNickname();
+
+
+            this.userNickName=qna.getUser().getNickname();
+
+
             // Qna 엔티티에 매핑된 답변 목록을 DTO로 변환 (삭제된 답변은 제외)
             if (qna.getAnswers() != null) {
                 this.answers = qna.getAnswers().stream()

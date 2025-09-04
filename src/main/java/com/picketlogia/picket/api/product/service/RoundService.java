@@ -32,7 +32,7 @@ public class RoundService {
      */
     public RoundDateList findAllByProductIdx(Long productIdx) {
 
-        List<RoundDate> findRoundDates = roundDateRepository.findALlByProductAndDateAfter(
+        List<RoundDate> findRoundDates = roundDateRepository.findALlByProductAndDateGreaterThanEqualOrderByDate(
                 Product.builder().idx(productIdx).build(),
                 LocalDate.now()
         );
