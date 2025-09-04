@@ -10,6 +10,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
 import java.util.Map;
 
 @RestController
@@ -40,6 +41,20 @@ public class RoundController {
             @PathVariable String datetime) {
         Map<Object, Object> seatStatus = seatStatusService.getAllSeatStatus(roundId, datetime);
         return ResponseEntity.ok(BaseResponse.success(seatStatus));
+    }
+
+    // 특정 회차의 현재 좌석 상태 전체 조회 (추가)
+    @Operation(
+            summary = "실시간 좌석 상태 조회",
+            description = "회차 ID에 해당하는 모든 좌석의 실시간 상태(예: available, selecting)를 조회합니다."
+    )
+    @GetMapping("/seat-status/{roundTimeIdx}")
+    public ResponseEntity<BaseResponse<Map<Object, Object>>> getSeatStatusV2(
+            @PathVariable Long roundTimeIdx) {
+
+        Map<Object, Object> allSeatStatusV3 = seatStatusService.getAllSeatStatusV2(roundTimeIdx);
+        return ResponseEntity.ok(BaseResponse.success(allSeatStatusV3));
+
     }
 
     @Operation(

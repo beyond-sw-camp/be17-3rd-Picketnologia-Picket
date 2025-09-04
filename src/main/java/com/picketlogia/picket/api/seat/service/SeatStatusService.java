@@ -4,6 +4,7 @@ import com.picketlogia.picket.api.seat.repository.SeatStatusRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
 import java.util.Map;
 import java.util.concurrent.TimeUnit;
 
@@ -15,10 +16,15 @@ public class SeatStatusService {
 
     // 특정 회차의 좌석 상태 업데이트
     public void updateSeatStatus(Long roundId, String datetime, String seatId, String status) {
-        String key = "seat-status : " + roundId+"-"+datetime;
+        String key = "seat-status : " + roundId + "-" + datetime;
         seatStatusRepository.updateSeatStatus(key, seatId, status);
         // 캐싱 유효시간 지정
         seatStatusRepository.expire(key, SEAT_STATUS_TTL_MINUTES, TimeUnit.MINUTES);
+    }
+
+    public void updateSeatStatusV2(Long roundTimeIdx, String seatId, String status) {
+        String key = "seat-status : " + roundTimeIdx;
+        seatStatusRepository.updateSeatStatusV2(key, seatId, status);
     }
 
     // 특정 회차의 전체 좌석 상태 조회
@@ -26,5 +32,18 @@ public class SeatStatusService {
         String key = "seat-status : " + roundId+"-"+datetime;
 
         return seatStatusRepository.getAllSeatStatus(key);
+    }
+
+    // 특정 회차의 전체 좌석 상태 조회
+    public Map<Object, Object> getAllSeatStatusV2(Long roundTimeIdx) {
+        String key = "seat-status : " + roundTimeIdx;
+
+        return seatStatusRepository.getAllSeatStatus(key);
+    }
+
+    public void deleteSeatStatus(Long roundTimeIdx, String seatIdx) {
+        String key = "seat-status : " + roundTimeIdx;
+        seatStatusRepository.deleteSeatStatus(key, seatIdx);
+
     }
 }
