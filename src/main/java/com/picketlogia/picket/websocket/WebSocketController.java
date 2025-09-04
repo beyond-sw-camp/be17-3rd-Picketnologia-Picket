@@ -39,6 +39,7 @@ public class WebSocketController {
         // 좌석을 해제하면 redis에서 제거
         if (action.equals("deselect")) {
             seatStatusService.deleteSeatStatus(roundTimeIdx, message.getSeatIdx());
+            seatStatusService.deleteSeparateSeat(roundTimeIdx, message.getSeatIdx());
             messagingTemplate.convertAndSend("/topic/seats/" + roundTimeIdx, message);
             return;
         }
@@ -46,6 +47,7 @@ public class WebSocketController {
         // 1. Redis에 좌석 상태 업데이트
 //        seatStatusService.updateSeatStatus(roundId, datetime, message.getSeatName(), message.getAction());
         seatStatusService.updateSeatStatusV2(roundTimeIdx, message.getSeatIdx(), message.getAction());
+        seatStatusService.saveSeparateSeat(roundTimeIdx, message.getSeatIdx());
 
         // 2. 토픽을 구독하는 클라이언트들에게 변경된 좌석 정보 전달
         // 클라이언트는 /topic/seats/{roundId}를 구독해야함ㅇㅇ

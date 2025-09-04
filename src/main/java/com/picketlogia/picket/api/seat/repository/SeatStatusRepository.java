@@ -1,5 +1,7 @@
 package com.picketlogia.picket.api.seat.repository;
 
+import com.picketlogia.picket.common.exception.BaseException;
+import com.picketlogia.picket.common.model.BaseResponseStatus;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.redis.core.StringRedisTemplate;
 import org.springframework.stereotype.Repository;
@@ -38,4 +40,20 @@ public class SeatStatusRepository {
         redisTemplate.opsForHash().delete(key, seatId);
     }
 
+    public void allFieldsExist(String key, List<String> seatIdxes) {
+        boolean result = seatIdxes.stream().allMatch((seatIdx) -> redisTemplate.opsForHash().hasKey(key, seatIdx));
+
+        if (!result) {
+            throw BaseException.from(BaseResponseStatus.NOT_ROCKED_SEAT);
+        }
+    }
+
+    public void saveSeparateSeat(String key, Long timeout) {
+        redisTemplate.opsForValue().set(key, "rocked", timeout, TimeUnit.MILLISECONDS);
+    }
+
+    public void deleteSeparateSeat(String key) {
+        redisTemplate.delete(key);
+
+    }
 }
