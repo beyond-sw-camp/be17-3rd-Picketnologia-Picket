@@ -1,34 +1,46 @@
-    package com.picketlogia.picket.api.seat.controller;
+package com.picketlogia.picket.api.seat.controller;
 
-    import com.picketlogia.picket.api.seat.model.dto.read.SeatInfo;
-    import com.picketlogia.picket.api.seat.service.SeatInfoService;
-    import com.picketlogia.picket.common.model.BaseResponse;
-    import io.swagger.v3.oas.annotations.Operation;
-    import io.swagger.v3.oas.annotations.tags.Tag;
-    import lombok.RequiredArgsConstructor;
-    import org.springframework.http.ResponseEntity;
-    import org.springframework.web.bind.annotation.GetMapping;
-    import org.springframework.web.bind.annotation.RequestMapping;
-    import org.springframework.web.bind.annotation.RequestParam;
-    import org.springframework.web.bind.annotation.RestController;
+import com.picketlogia.picket.api.seat.model.dto.read.SeatInfo;
+import com.picketlogia.picket.api.seat.service.SeatInfoService;
+import com.picketlogia.picket.api.seat.service.SeatStatusService;
+import com.picketlogia.picket.common.model.BaseResponse;
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.tags.Tag;
+import lombok.RequiredArgsConstructor;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.RestController;
 
-    @RestController
-    @RequestMapping("/seat-info")
-    @RequiredArgsConstructor
-    @Tag(name="좌석 정보 조회 기능 ")
-    public class SeatController {
+import java.util.Map;
 
-        private final SeatInfoService seatInfoService;
+@RestController
+@RequestMapping("/seat-info")
+@RequiredArgsConstructor
+@Tag(name="좌석 정보 조회 기능 ")
+public class SeatController {
 
-        @Operation(
-                summary = "좌석 정보 조회",
-                description = "조건에 맞는 공연의 좌석 정보를 조회한다."
-        )
-        @GetMapping
-        public ResponseEntity<BaseResponse<SeatInfo>> getSeatInfo(@RequestParam("product") Long productIdx) {
+    private final SeatInfoService seatInfoService;
+    private final SeatStatusService seatStatusService;
 
-            SeatInfo findSeatInfo = seatInfoService.findSeatInfo(productIdx);
-            return ResponseEntity.ok(BaseResponse.success(findSeatInfo));
+    @Operation(
+            summary = "좌석 정보 조회",
+            description = "조건에 맞는 공연의 좌석 정보를 조회한다."
+    )
+    @GetMapping
+    public ResponseEntity<BaseResponse<SeatInfo>> getSeatInfo(@RequestParam("product") Long productIdx) {
 
-        }
+        SeatInfo findSeatInfo = seatInfoService.findSeatInfo(productIdx);
+        return ResponseEntity.ok(BaseResponse.success(findSeatInfo));
+
     }
+
+
+//    @GetMapping("/{roundId}/status")
+//    public ResponseEntity<BaseResponse<Map<Object, Object>>> getSeatStatuses(@PathVariable("roundId") Long roundId) {
+//        Map<Object, Object> allSeatStatus = seatStatusService.getAllSeatStatus(roundId);
+//        return ResponseEntity.ok(BaseResponse.success(allSeatStatus));
+//    }
+}
