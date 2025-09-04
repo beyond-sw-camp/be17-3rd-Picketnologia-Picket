@@ -9,17 +9,21 @@ import lombok.Getter;
 @Builder
 public class SeatRead {
 
+    private Long idx;
     private String name;
     private SeatGradeStatus grade;
     private MoneyFormat priceInfo;
+    private Boolean isReserved;
 
-    public static SeatRead from(Seat entity) {
+    public static SeatRead from(Seat entity, Boolean isReserved) {
         return SeatRead.builder()
+                .idx(entity.getIdx())
                 .name(entity.getName())
                 .grade(entity.getSeatGrade().getGrade())
                 .priceInfo(
                         MoneyFormat.from(entity.getSeatGrade().getPrice())
                 )
+                .isReserved(isReserved)
                 .build();
     }
 }
