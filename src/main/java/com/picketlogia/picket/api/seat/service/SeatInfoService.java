@@ -24,9 +24,9 @@ public class SeatInfoService {
         seatService.saveAll(productIdx, seatRegisters, seatGradeMap);
     }
 
-    public SeatInfo findSeatInfo(Long productId) {
+    public SeatInfo findSeatInfo(Long productId, Long reservedIdx) {
         List<SeatGradeRead> seatGrades = seatGradeService.findAllByProduct(productId);
-        List<List<SeatRead>> seats = seatService.findAllByProductId(productId);
+        List<List<SeatRead>> seats = seatService.findAllByProductId(productId, reservedIdx);
 
         return SeatInfo.from(seatGrades, seats);
     }
