@@ -28,7 +28,9 @@ public class ProductQueryRepository {
                 .selectFrom(product)
                 .where(
                         //이름으로 검색
-                        nameContains(dto.getName())
+                        nameContains(dto.getName()),
+                        //장르로 검색
+                        genreEquals(dto.getGenre())
                 );
 
 
@@ -55,6 +57,10 @@ public class ProductQueryRepository {
 
     private BooleanExpression nameContains(String name) {
         return hasText(name) ? product.name.containsIgnoreCase(name) : null;
+    }
+
+    private BooleanExpression genreEquals(String genre) {
+        return hasText(genre) ?  product.genre.code.equalsIgnoreCase(genre) : null;
     }
 }
 

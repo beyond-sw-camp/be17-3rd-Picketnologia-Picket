@@ -345,11 +345,14 @@ VALUES ('2025-08-25', 1),
        ('2025-09-12', 1),
        ('2025-09-14', 1),
        ('2025-09-15', 1),
-       ('2025-09-17', 1);
+       ('2025-09-17', 1),
+       (now(), 1);
 
 INSERT INTO round_time
-    (times, round_date_idx)
-VALUES ('19:00', 1),
+    (time, round_date_idx)
+VALUES (CURRENT_TIME() + INTERVAL 1 HOUR, 29),
+       (CURRENT_TIME() - INTERVAL 1 HOUR, 29),
+       ('19:00', 1),
        ('20:00', 2),
        ('18:00', 3),
        ('21:00', 4),
@@ -370,6 +373,7 @@ VALUES ('19:00', 1),
        ('18:00', 18),
        ('21:00', 19),
        ('16:00', 20);
+
 
 --
 -- Table structure for table `product_image`
@@ -630,7 +634,7 @@ VALUES ('2025-08-25', '18:00', 1),
        ('2025-08-30', '20:00', 6);
 
 INSERT INTO seat_grade
-(grade, price, product_idx)
+    (grade, price, product_idx)
 VALUES ('VIP', 100000, 1),
        ('R', 80000, 1),
        ('S', 50000, 1),
@@ -750,9 +754,9 @@ VALUES (200000, 'PAY12345', 1, 1, now(), now(), now()),
 -- Reservation Detail
 --
 INSERT INTO reserve_detail (reservation_idx, round_time_idx, seat_idx)
-VALUES (1, 1,1),
-       (1, 1,2),
-       (2, 1,3),
-       (3, 1,4);
+VALUES (1, 1, 1),
+       (1, 1, 2),
+       (2, 1, 3),
+       (3, 1, 4);
 
 -- Dump completed on 2025-08-14 17:43:26

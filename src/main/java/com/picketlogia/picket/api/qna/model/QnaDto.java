@@ -1,5 +1,8 @@
 package com.picketlogia.picket.api.qna.model;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
+import com.picketlogia.picket.api.product.model.entity.Product;
+import com.picketlogia.picket.api.user.model.entity.User;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
@@ -16,12 +19,21 @@ public class QnaDto {
         private String contents;
         private Boolean isPrivate;
         private String password;
+        private Long productId;
 
-        public Qna toEntity() {
+        public Qna toEntity(Long userIdx) {
+
+            Product product = Product.builder()
+                    .idx(productId).build();
+
+            User user = User.builder()
+                    .idx(userIdx).build();
             return Qna.builder()
                     .title(title)
                     .contents(contents)
                     .isPrivate(isPrivate)
+                    .product(product)
+                    .user(user)
                     .password(password)
                     .isDeleted(false)
                     .build();
@@ -44,7 +56,11 @@ public class QnaDto {
         private final String contents;
         private final Boolean isPrivate;
         private final List<AnswerResponse> answers;
+        @JsonFormat(pattern = "MM.dd(E) HH:mm", timezone = "Asia/Seoul")
         private final Date createdAt;
+        private final String prodcutName;
+        private final String userNickName;
+
 
         public Response(Qna qna) {
             this.idx = qna.getIdx();
@@ -52,6 +68,14 @@ public class QnaDto {
             this.contents = qna.getIsPrivate() ? "비밀글입니다." : qna.getContents();
             this.isPrivate = qna.getIsPrivate();
             this.createdAt = qna.getCreatedAt();
+            this.prodcutName= qna.getProduct().getName();
+
+            this.userNickName=qna.getUser().getNickname();
+
+
+            this.userNickName=qna.getUser().getNickname();
+
+
             // Qna 엔티티에 매핑된 답변 목록을 DTO로 변환 (삭제된 답변은 제외)
             if (qna.getAnswers() != null) {
                 this.answers = qna.getAnswers().stream()
