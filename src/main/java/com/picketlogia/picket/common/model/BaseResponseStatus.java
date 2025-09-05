@@ -42,6 +42,7 @@ public enum BaseResponseStatus {
     SEAT_ALREADY_BOOKED(false, 31000, "이미 예약된 좌석입니다, 결제가 실패되었습니다."),
     FAILED_PAYMENT_WEBHOOK(false, 31001, "결제 관련 웹훅 에러가 발생했습니다."),
     ERROR_PAYMENT_STATUS_PAID(false, 31002, "PAID 상태 처리에서 에러가 발생했습니다."),
+    NOT_ROCKED_SEAT(false, 31003, "좌석 선택 유효기간이 지났습니다."),
 
     NOT_FOUND_DATA(false, 32000, "해당 데이터를 찾을 수 없습니다."),
     /**

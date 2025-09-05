@@ -10,5 +10,5 @@ import java.util.List;
 public interface RoundDateRepository extends JpaRepository<RoundDate, Long> {
     List<RoundDate> findAllByProductIdx(Long idx);
 
-    List<RoundDate> findALlByProductAndDateAfter(Product product, LocalDate date);
+    List<RoundDate> findALlByProductAndDateGreaterThanEqualOrderByDate(Product product, LocalDate date);
 }

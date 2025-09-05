@@ -29,6 +29,7 @@ public interface ReviewRepository extends JpaRepository<Review,Integer> {
 
     Page<Review> findByProductIdx(Long productId,PageRequest of);
 
+
     @Query("SELECT DISTINCT r FROM Review r " +
             "JOIN FETCH r.user u " +
             "JOIN FETCH r.product p " +
@@ -37,5 +38,9 @@ public interface ReviewRepository extends JpaRepository<Review,Integer> {
             "LEFT JOIN FETCH u.userRole ur " +
             "LEFT JOIN FETCH u.userStatus us")
     List<Review> findAllWithAllDetails();
+
+    @Query("SELECT r FROM Review r JOIN FETCH r.user u JOIN FETCH r.product p")
+    List<Review> findAllWithUserAndProduct();
+
 }
 

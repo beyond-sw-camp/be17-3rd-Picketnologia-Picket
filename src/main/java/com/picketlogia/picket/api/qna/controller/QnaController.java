@@ -130,6 +130,7 @@ public class QnaController {
         return ResponseEntity.ok(BaseResponse.success(response));
     }
 
+
     @GetMapping("/qnaPaging")// 페이지 번호는 0번부터
     public ResponseEntity<BaseResponse<QnaList>> listPaging (
             @RequestParam Integer page,
@@ -139,5 +140,6 @@ public class QnaController {
 
         return ResponseEntity.status(200).body(BaseResponse.success(response));
     }
+
 }
 

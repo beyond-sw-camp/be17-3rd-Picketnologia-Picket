@@ -1,6 +1,8 @@
 package com.picketlogia.picket.api.product.model.dto;
 
+import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 import com.picketlogia.picket.api.product.model.entity.RoundTime;
+import com.picketlogia.picket.utils.RoundTimeSerializer;
 import lombok.Builder;
 import lombok.Getter;
 
@@ -9,7 +11,10 @@ import java.time.LocalTime;
 @Getter
 @Builder
 public class RoundTimeRead {
+
     private Long idx;
+
+    @JsonSerialize(using = RoundTimeSerializer.class)
     private LocalTime time;
 
     public static RoundTimeRead from(RoundTime entity) {

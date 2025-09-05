@@ -31,7 +31,7 @@ public class WebSocketConfig implements WebSocketMessageBrokerConfigurer {
 
     @Override
     public void configureMessageBroker(MessageBrokerRegistry registry) {
-        registry.enableSimpleBroker("/product"); // 예매자가 메시지를 받을 경로
+        registry.enableSimpleBroker("/topic"); // 예매자가 메시지를 받을 경로
         registry.setApplicationDestinationPrefixes("/order"); // 서버가 메시지를 받을 경로
     }
 }

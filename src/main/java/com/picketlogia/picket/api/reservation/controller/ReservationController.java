@@ -44,6 +44,7 @@ public class ReservationController {
             @RequestBody ReservationCheck reservationCheck) {
 
         reservationService.checkReservedSeat(reservationCheck);
+        reservationService.checkRockSeats(reservationCheck);
 
         // 좌석 검증 성공, 결제 ID 생성 후 결제 ID와 유저 ID DB에 저장 후 결제 상태를 PENDING 설정
         String paymentIdx = PaymentIdGenerator.generatePaymentId();
