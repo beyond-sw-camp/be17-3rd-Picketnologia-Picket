@@ -72,6 +72,9 @@ public class QnaDto {
 
             this.userNickName=qna.getUser().getNickname();
 
+
+            this.userNickName=qna.getUser().getNickname();
+
             // Qna 엔티티에 매핑된 답변 목록을 DTO로 변환 (삭제된 답변은 제외)
             if (qna.getAnswers() != null) {
                 this.answers = qna.getAnswers().stream()

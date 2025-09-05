@@ -41,9 +41,6 @@
 
 [www.picket.o-r.kr](https://www.picket.o-r.kr)
 
-# 피그마 주소
-
-[figma 주소](https://www.figma.com/design/Eahp7OBGzdPdH786uO95Cv/%EC%BB%B4%ED%8F%AC%EB%84%8C%ED%8A%B8-%EC%A0%95%EB%A6%AC?node-id=0-1&t=1yp74xPdMWkxE4xb-1)
 
 ## 🔎 핵심 기능
 
@@ -59,13 +56,13 @@
 
 ## ⚙ 성능 개선
 
-[성능 개선]()
+[성능 개선](https://github.com/beyond-sw-camp/be17-3rd-Picketnologia-Picket/wiki/%EC%84%B1%EB%8A%A5%EA%B0%9C%EC%84%A0)
 <br>
 <br>
 
 ## 🔗 Swagger
 
-[Swagger]()
+[Swagger](https://api.picket.o-r.kr/swagger-ui/index.html#/)
 <br>
 <br>
 

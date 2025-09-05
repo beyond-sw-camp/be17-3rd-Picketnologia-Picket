@@ -2,11 +2,11 @@ package com.picketlogia.picket.api.reservation.controller;
 
 import com.picketlogia.picket.api.payments.model.PaymentPrepareResp;
 import com.picketlogia.picket.api.payments.service.PaymentIdGenerator;
-import com.picketlogia.picket.api.reservation.model.PaymentStatus;
-import com.picketlogia.picket.api.reservation.model.PurchaseCheckResp;
-import com.picketlogia.picket.api.reservation.model.ReservationCheck;
-import com.picketlogia.picket.api.reservation.model.ReservationRegister;
+import com.picketlogia.picket.api.reservation.model.*;
+import com.picketlogia.picket.api.reservation.model.dto.ReservationListDto;
+import com.picketlogia.picket.api.reservation.repository.ReservationRepository;
 import com.picketlogia.picket.api.reservation.service.ReservationService;
+import com.picketlogia.picket.api.review.model.dto.ReviewDtoList;
 import com.picketlogia.picket.api.user.model.dto.UserAuth;
 import com.picketlogia.picket.common.model.BaseResponse;
 import lombok.RequiredArgsConstructor;
@@ -14,13 +14,15 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
+
 @RestController
 @RequiredArgsConstructor
 @RequestMapping("/order")
 public class ReservationController {
 
     private final ReservationService reservationService;
-
+    private final ReservationRepository reservationRepository;
     @GetMapping("/check")
     public ResponseEntity<BaseResponse<PurchaseCheckResp>> hasPurchased(
             @AuthenticationPrincipal UserAuth loginUser,
@@ -56,5 +58,16 @@ public class ReservationController {
         return ResponseEntity.ok(BaseResponse.success(
                 PaymentPrepareResp.builder().paymentIdx(paymentIdx).build())
         );
+    }
+
+
+    @GetMapping("/ReservationList")
+    public ResponseEntity<BaseResponse<List<ReservationListDto>>> getUserReviewsByDate(
+            @AuthenticationPrincipal UserAuth userAuth,
+            @RequestParam("startDate") String startDate,
+            @RequestParam("endDate") String endDate
+    ) {
+        List<ReservationListDto> response = reservationService.listByUserAndDateRange(userAuth.getIdx(), startDate, endDate);
+        return ResponseEntity.ok(BaseResponse.success(response));
     }
 }
