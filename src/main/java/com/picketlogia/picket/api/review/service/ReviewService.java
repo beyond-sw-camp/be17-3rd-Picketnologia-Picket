@@ -64,7 +64,7 @@ public class ReviewService {
 
     List<Review> result = reviewRepository.findAllWithAllDetails();
 
-    List<Review> result = reviewRepository.findAllWithUserAndProduct();
+//    List<Review> result = reviewRepository.findAllWithUserAndProduct();
 
 
     return result.stream().map(ReviewDtoList::from).toList();

@@ -4,20 +4,13 @@ import com.picketlogia.picket.api.product.model.entity.Product;
 import com.picketlogia.picket.api.product.model.entity.RoundTime;
 import com.picketlogia.picket.api.reservation.model.ReservationCheck;
 import com.picketlogia.picket.api.reservation.model.ReservationRegister;
-import com.picketlogia.picket.api.reservation.model.ReserveReq;
 import com.picketlogia.picket.api.reservation.model.UpdateReservationReq;
 import com.picketlogia.picket.api.reservation.model.dto.ReservationListDto;
 import com.picketlogia.picket.api.reservation.model.entity.Reservation;
 import com.picketlogia.picket.api.reservation.model.entity.ReserveDetail;
 import com.picketlogia.picket.api.reservation.repository.ReservationRepository;
 import com.picketlogia.picket.api.reservation.repository.ReserveDetailRepository;
-
-import com.picketlogia.picket.api.review.model.dto.ReviewDtoList;
-import com.picketlogia.picket.api.review.model.entity.Review;
-
-import com.picketlogia.picket.api.seat.repository.SeatStatusRepository;
 import com.picketlogia.picket.api.seat.service.SeatStatusService;
-
 import com.picketlogia.picket.api.user.model.entity.User;
 import com.picketlogia.picket.common.exception.BaseException;
 import com.picketlogia.picket.common.model.BaseResponseStatus;
@@ -110,7 +103,6 @@ public class ReservationService {
         }
     }
 
-
     public List<ReservationListDto> listByUserAndDateRange(Long userIdx, String startDateStr, String endDateStr) {
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
         LocalDateTime startDateTime = LocalDate.parse(startDateStr, formatter).atStartOfDay();
@@ -119,12 +111,12 @@ public class ReservationService {
         List<Reservation> result = reservationRepository.findByUserIdxAndCreatedAtBetween(userIdx, startDateTime, endDateTime);
 
         return result.stream().map(ReservationListDto::from).toList();
+    }
 
     public void checkRockSeats(ReservationCheck reservationCheck) {
         seatStatusService.validateRockSeats(
                 reservationCheck.getRoundTimeIdx(),
                 reservationCheck.getSeatIdxes().stream().map(String::valueOf).toList()
         );
-
     }
 }
