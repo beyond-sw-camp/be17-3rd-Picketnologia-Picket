@@ -41,9 +41,6 @@
 
 [www.picket.o-r.kr](https://www.picket.o-r.kr)
 
-# 피그마 주소
-
-[figma 주소](https://www.figma.com/design/Eahp7OBGzdPdH786uO95Cv/%EC%BB%B4%ED%8F%AC%EB%84%8C%ED%8A%B8-%EC%A0%95%EB%A6%AC?node-id=0-1&t=1yp74xPdMWkxE4xb-1)
 
 ## 🔎 핵심 기능
 
