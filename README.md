@@ -56,7 +56,7 @@
 
 ## ⚙ 성능 개선
 
-[성능 개선]()
+[성능 개선](https://github.com/beyond-sw-camp/be17-3rd-Picketnologia-Picket/wiki/%EC%84%B1%EB%8A%A5%EA%B0%9C%EC%84%A0)
 <br>
 <br>
 
