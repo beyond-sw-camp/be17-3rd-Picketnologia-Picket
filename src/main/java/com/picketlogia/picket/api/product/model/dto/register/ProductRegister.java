@@ -24,7 +24,6 @@ public class ProductRegister {
     private LocalDate startDate;   // 공연 시작일
     private LocalDate endDate;     // 공연 종료일
     private Integer runningTime;   // 러닝타임
-    private Integer price;         // 가격
     private String description;    // 설명
     private String genre;           // 장르
     private LocalDateTime openDate;    // 오픈 예정일
@@ -42,7 +41,6 @@ public class ProductRegister {
                 .startDate(startDate)
                 .endDate(endDate)
                 .runningTime(runningTime)
-                .price(price)
                 .description(description)
                 .openDate(openDate)
                 .genre(
@@ -62,7 +60,6 @@ public class ProductRegister {
                 .startDate(product.getStartDate())
                 .endDate(product.getEndDate())
                 .runningTime(product.getRunningTime())
-                .price(product.getPrice())
                 .description(product.getDescription())
                 .build();
     }

@@ -37,7 +37,6 @@ public class Product extends BaseEntity {
     private LocalDate endDate; // 공연 종료일
     private LocalDateTime openDate; // 오픈 예정일
     private Integer runningTime; // 러닝타임
-    private Integer price; // 가격
     private String description; // 설명
     private Double reviewRating;
     private Integer reviewCount;
@@ -58,9 +57,6 @@ public class Product extends BaseEntity {
 
     @OneToOne(mappedBy = "product")
     private ProductImage productImage;
-
-    @OneToMany(mappedBy = "product")
-    private List<PerformanceRound> performanceRounds;
 
     // 일정 정보 관계 정립(1개의 상품에 N개의 일정)
     @OneToMany(mappedBy = "product")

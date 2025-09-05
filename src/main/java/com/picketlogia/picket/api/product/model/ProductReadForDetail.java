@@ -18,7 +18,6 @@ public class ProductReadForDetail {
     private LocalDate endDate; // 공연 종료일
     private Integer runningTime; // 러닝타임
     private String posterUrl; // 포스터 이미지 경로 (파일명)
-    private Integer price; // 가격
     private LocalDate sessionDate; // 회차 날짜
     private Integer sessionTime; // 회차 시간
     private String description; // 설명
@@ -35,7 +34,6 @@ public class ProductReadForDetail {
                 .startDate(product.getStartDate())
                 .endDate(product.getEndDate())
                 .runningTime(product.getRunningTime())
-                .price(product.getPrice())
                 .description(product.getDescription())
                 .reviewCount(product.getReviewCount())
                 .reviewRating(product.getReviewRating())
