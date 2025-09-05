@@ -46,7 +46,7 @@ public class SecurityConfig {
         http.authorizeHttpRequests(
                 (auth) -> auth
                         .requestMatchers("/swagger-ui/**").permitAll()
-                        .requestMatchers("/login", "/user/signup", "/logout", "/auth/**").permitAll()
+                        .requestMatchers("/login", "/user/signup", "/logout", "/auth/**", "/health-check").permitAll()
                         .requestMatchers("/seller/**").hasAuthority(UserType.SELLER.name())
                         .requestMatchers(HttpMethod.POST, "/products").hasAuthority(UserType.SELLER.name())
                         .anyRequest().permitAll()
