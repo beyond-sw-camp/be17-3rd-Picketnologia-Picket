@@ -10,18 +10,20 @@ import com.picketlogia.picket.api.product.repository.ProductQueryRepository;
 import com.picketlogia.picket.api.product.repository.ProductRepository;
 import com.picketlogia.picket.api.product.service.validator.BaseProductValidator;
 import com.picketlogia.picket.api.seat.service.SeatInfoService;
+import com.picketlogia.picket.common.exception.BaseException;
+import com.picketlogia.picket.common.model.BaseResponseStatus;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
-import java.io.IOException;
-import java.sql.SQLException;
 import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Optional;
 
+@Slf4j
 @Service
 @RequiredArgsConstructor
 public class ProductService {
@@ -38,26 +40,34 @@ public class ProductService {
     private static final Integer PAGE_SIZE = 10;
 
     // 상품 등록
-    public ProductRegister register(ProductRegister dto, List<MultipartFile> files) throws SQLException, IOException {
+    public ProductRegister register(Long userIdx, ProductRegister dto, List<MultipartFile> files) {
 
-        // 상품 등록에 필요한 Validator 실행
-        productValidators.forEach(validator -> validator.validate(dto));
+        try {
+            // 상품 등록에 필요한 Validator 실행
+            productValidators.forEach(validator -> validator.validate(dto));
 
-        GenreRead findGenre = genreService.findByCode(dto.getGenre());
+            GenreRead findGenre = genreService.findByCode(dto.getGenre());
 
-        // 상품 DB 저장
-        Product product = productRepository.save(dto.toEntity(findGenre.getIdx()));
+            // 상품 DB 저장
+            Product product = productRepository.save(
+                    dto.toEntity(findGenre.getIdx(), userIdx)
+            );
 
-        // 회차 등록
-        performanceRoundService.register(dto.getRoundOption(), product);
+            // 회차 등록
+            performanceRoundService.register(dto.getRoundOption(), product);
 
-        // 좌석 정보 등록
-        seatInfoService.save(product.getIdx(), dto.getSeatGrade(), dto.getSeatMap());
+            // 좌석 정보 등록
+            seatInfoService.save(product.getIdx(), dto.getSeatGrade(), dto.getSeatMap());
 
-        // 이미지 업로드
-        productImageService.upload(product, files);
+            // 이미지 업로드
+            productImageService.upload(product, files);
 
-        return ProductRegister.fromEntity(product);
+            return ProductRegister.fromEntity(product);
+        } catch (Exception e) {
+            log.error("[ERROR] ", e);
+            throw BaseException.from(BaseResponseStatus.GLOBAL_EXCEPTION);
+        }
+
     }
 
     /**

@@ -4,6 +4,7 @@ import com.picketlogia.picket.api.genre.model.Genre;
 import com.picketlogia.picket.api.product.model.entity.Product;
 import com.picketlogia.picket.api.seat.model.dto.register.SeatGradeRegister;
 import com.picketlogia.picket.api.seat.model.dto.register.SeatRegister;
+import com.picketlogia.picket.api.user.model.entity.User;
 import lombok.*;
 
 import java.time.LocalDate;
@@ -32,7 +33,7 @@ public class ProductRegister {
     private List<SeatGradeRegister> seatGrade;
 
     // DTO → Entity 변환
-    public Product toEntity(Integer genreId) {
+    public Product toEntity(Integer genreId, Long userIdx) {
         return Product.builder()
                 .name(name)
                 .rating(rating)
@@ -47,6 +48,9 @@ public class ProductRegister {
                         Genre.builder().
                                 idx(genreId)
                                 .build()
+                )
+                .user(
+                        User.builder().idx(userIdx).build()
                 )
                 .build();
     }
