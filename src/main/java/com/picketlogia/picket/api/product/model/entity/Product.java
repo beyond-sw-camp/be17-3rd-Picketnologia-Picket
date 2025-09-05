@@ -42,28 +42,28 @@ public class Product extends BaseEntity {
     private Double reviewRating;
     private Integer reviewCount;
 
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "user_id")
     private User user;
 
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "genre_id")
     private Genre genre;
 
     @OneToMany(mappedBy = "product",fetch = FetchType.LAZY)
     private List<Review> reviewList;
 
-    @OneToMany(mappedBy = "product")
+    @OneToMany(mappedBy = "product" , fetch = FetchType.LAZY)
     private List<Qna> qnaList;
 
-    @OneToOne(mappedBy = "product")
+    @OneToOne(mappedBy = "product", fetch = FetchType.LAZY)
     private ProductImage productImage;
 
-    @OneToMany(mappedBy = "product")
+    @OneToMany(mappedBy = "product" ,fetch = FetchType.LAZY)
     private List<PerformanceRound> performanceRounds;
 
     // 일정 정보 관계 정립(1개의 상품에 N개의 일정)
-    @OneToMany(mappedBy = "product")
+    @OneToMany(mappedBy = "product" ,fetch = FetchType.LAZY)
     private List<RoundDate> roundDate;
 
     @OneToMany(mappedBy = "product")

@@ -41,7 +41,7 @@ public class Qna extends BaseEntity {
      @JoinColumn(name = "user_id")
      private User user;
 
-    @OneToMany(mappedBy = "qna", cascade = CascadeType.ALL, orphanRemoval = true)
+    @OneToMany(mappedBy = "qna", cascade = CascadeType.ALL, orphanRemoval = true,fetch = FetchType.LAZY)
     @Builder.Default
     private List<Answer> answers = new ArrayList<>();
 

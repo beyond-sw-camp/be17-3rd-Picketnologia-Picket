@@ -40,14 +40,14 @@ public class Reservation extends BaseEntity {
     @Enumerated(EnumType.STRING)
     private PaymentStatus paymentStatus;
 
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "user_idx")
     private User user;
 
-    @OneToMany(mappedBy = "reservation")
+    @OneToMany(mappedBy = "reservation" ,fetch = FetchType.LAZY)
     private List<ReserveDetail> reserveDetails;
 
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "product_idx")
     private Product product;
 
