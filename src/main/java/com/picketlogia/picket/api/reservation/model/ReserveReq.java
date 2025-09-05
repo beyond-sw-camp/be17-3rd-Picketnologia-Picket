@@ -25,16 +25,16 @@ public class ReserveReq {
                 .build();
     }
 
-    public Reservation toReserveEntity() {
+    public Reservation toReserveEntity(Reservation entity) {
 
         return Reservation.builder()
-                .price(this.price)
-                .paymentIdx(this.paymentsIdx)
+                .price(entity.getPrice())
+                .paymentIdx(entity.getPaymentIdx())
                 .user(
-                        User.builder().idx(this.userIdx).build()
+                        User.builder().idx(entity.getUser().getIdx()).build()
                 )
                 .product(
-                        Product.builder().idx(this.productIdx).build()
+                        Product.builder().idx(entity.getProduct().getIdx()).build()
                 )
                 .build();
     }

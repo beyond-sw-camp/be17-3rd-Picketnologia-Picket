@@ -26,6 +26,7 @@ public class ProductQueryRepository {
     public List<Product> searchAndSort(ProductSearchDto dto, String sort) {
         JPAQuery<Product> query = queryFactory
                 .selectFrom(product)
+                .leftJoin(product.productImage).fetchJoin() // 검색할때 이미지 조회 N+1문제 발생해 fetchjoin 추가
                 .where(
                         //이름으로 검색
                         nameContains(dto.getName()),
@@ -42,7 +43,7 @@ public class ProductQueryRepository {
         else if ("review".equals(sort)) {
             query.orderBy(product.reviewCount.desc());
         } else {
-            query.orderBy(product.idx.desc()); // 기본값 (최신순)
+            query.orderBy(product.idx.asc()); // 기본값 (최신순)
         }
 
         return query.fetch();

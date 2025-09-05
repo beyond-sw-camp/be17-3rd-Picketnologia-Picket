@@ -13,7 +13,7 @@ import java.util.Date;
 
 @Getter
 @Builder
-public class ReviewDtoList {
+public class  ReviewDtoList {
     @Schema(description = "리뷰의 별점", example = "5", minimum = "1", maximum = "5")
     private Integer rating;
 
@@ -40,7 +40,7 @@ public class ReviewDtoList {
                 .comment(entity.getComment())
                 .createdAt(entity.getCreatedAt())
                 .updatedAt(entity.getUpdatedAt())
-                .userNickName(entity.getUser().getNickname())
+                .userNickName(entity.getUser().getName())
                 .build();
         return dto;
     }
