@@ -3,7 +3,6 @@ package com.picketlogia.picket.config;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.data.redis.connection.RedisConnection;
 import org.springframework.data.redis.connection.RedisConnectionFactory;
 import org.springframework.data.redis.connection.lettuce.LettuceConnectionFactory;
 import org.springframework.data.redis.core.StringRedisTemplate;
@@ -21,13 +20,7 @@ public class RedisConfig {
 
     @Bean
     public LettuceConnectionFactory connectionFactory() {
-        LettuceConnectionFactory lettuceConnectionFactory = new LettuceConnectionFactory(host, port);
-
-        lettuceConnectionFactory.afterPropertiesSet(); // Factory 초기화
-        RedisConnection connection = lettuceConnectionFactory.getConnection();
-        connection.execute("CONFIG", "SET".getBytes(), "notify-keyspace-events".getBytes(), "Ex".getBytes());
-
-        return lettuceConnectionFactory;
+        return new LettuceConnectionFactory(host, port);
     }
 
     @Bean
@@ -36,13 +29,6 @@ public class RedisConfig {
         stringRedisTemplate.setConnectionFactory(connectionFactory);
         return stringRedisTemplate;
     }
-//
-//    @Bean
-//    public RedisConnectionFactory enableKeyspaceNotifications(RedisConnectionFactory connectionFactory) {
-//        RedisConnection conn = connectionFactory.getConnection();
-//        conn.execute("CONFIG", "SET".getBytes(), "notify-keyspace-events".getBytes(), "Ex".getBytes());
-//        return
-//    }
 
     @Bean
     public RedisMessageListenerContainer redisMessageListenerContainer(
