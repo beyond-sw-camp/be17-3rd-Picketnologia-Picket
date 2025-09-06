@@ -4,6 +4,7 @@ import com.picketlogia.picket.api.genre.model.Genre;
 import com.picketlogia.picket.api.qna.model.Qna;
 import com.picketlogia.picket.api.review.model.entity.Review;
 import com.picketlogia.picket.api.seat.model.Seat;
+import com.picketlogia.picket.api.seat.model.SeatGrade;
 import com.picketlogia.picket.api.user.model.entity.User;
 import com.picketlogia.picket.common.model.BaseEntity;
 import jakarta.persistence.*;
@@ -64,6 +65,9 @@ public class Product extends BaseEntity {
 
     @OneToMany(mappedBy = "product")
     private List<Seat> seatList;
+
+    @OneToMany(mappedBy = "product")
+    private List<SeatGrade> seatGrades;
 
     public void updateReviewRating(Double reviewRating) {
         this.reviewRating = reviewRating;
