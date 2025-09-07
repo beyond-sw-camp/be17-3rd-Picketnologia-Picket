@@ -1,11 +1,14 @@
 package com.picketlogia.picket.api.product.model;
 
+import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 import com.picketlogia.picket.api.product.model.entity.Product;
 import com.picketlogia.picket.api.seat.model.dto.read.SeatGradeRead;
+import com.picketlogia.picket.utils.LocalDateTimeSerializer;
 import lombok.Builder;
 import lombok.Getter;
 
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.List;
 
 @Getter
@@ -23,6 +26,10 @@ public class ProductReadForDetail {
     private String description; // 설명
     private Double reviewRating;
     private Integer reviewCount;
+
+    @JsonSerialize(using = LocalDateTimeSerializer.class)
+    private LocalDateTime openDateFormat;
+    private LocalDateTime openDate;
     private List<SeatGradeRead> seatGrades;
 
     public static ProductReadForDetail from(Product product) {
@@ -34,6 +41,8 @@ public class ProductReadForDetail {
                 .venueAddress(product.getVenueAddress())
                 .startDate(product.getStartDate())
                 .endDate(product.getEndDate())
+                .openDateFormat(product.getOpenDate())
+                .openDate(product.getOpenDate())
                 .runningTime(product.getRunningTime())
                 .description(product.getDescription())
                 .reviewCount(product.getReviewCount())
