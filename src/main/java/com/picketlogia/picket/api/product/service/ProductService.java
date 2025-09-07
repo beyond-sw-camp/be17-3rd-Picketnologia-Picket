@@ -151,4 +151,17 @@ public class ProductService {
 
         return findProducts.stream().map(ProductReadForUpcoming::from).toList();
     }
+
+    /**
+     * 판매량이 많은 공연을 기준으로 장르별로 5개의 상품을 조회
+     *
+     * @param genre 장르
+     * @return List<< code>ProductReadForList</code>>
+     */
+    public List<ProductReadForList> findTop5ByGenreOrderBySalesCount(String genre) {
+
+        List<Product> findProducts = productRepository.findTop5ByGenre_CodeOrderBySalesCountDesc(genre);
+        return findProducts.stream().map(ProductReadForList::from).toList();
+
+    }
 }

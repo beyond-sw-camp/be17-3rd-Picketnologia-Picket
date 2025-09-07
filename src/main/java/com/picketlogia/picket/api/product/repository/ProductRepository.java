@@ -19,4 +19,7 @@ public interface ProductRepository extends JpaRepository<Product,Long> {
     List<Product> findTop5ByGenre_CodeAndOpenDateAfterOrderByOpenDateAsc(String code,LocalDateTime now);
 
     @Query("SELECT p FROM Product p LEFT JOIN FETCH p.productImage WHERE p.genre.code = :code")
-     Page<Product> findByGenre_Code(String code, Pageable pageable);}
+    Page<Product> findByGenre_Code(String code, Pageable pageable);
+
+    List<Product> findTop5ByGenre_CodeOrderBySalesCountDesc(String code);
+}
