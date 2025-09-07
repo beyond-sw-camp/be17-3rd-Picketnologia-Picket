@@ -40,7 +40,11 @@ public class Product extends BaseEntity {
     private LocalDateTime openDate; // 오픈 예정일
     private Integer runningTime; // 러닝타임
     private String description; // 설명
+
+    @ColumnDefault("0")
     private Double reviewRating;
+
+    @ColumnDefault("0")
     private Integer reviewCount;
 
     @ColumnDefault("0")

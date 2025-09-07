@@ -46,7 +46,7 @@ public class ProductController {
     )
     @GetMapping
     public ResponseEntity<BaseResponse<ProductListByPage>> getProducts(ProductQuery productQuery) {
-        ProductListByPage allByQuery = productService.findAllByQuery(productQuery);
+        ProductListByPage allByQuery = productService.findAllByQueryPaging(productQuery);
 
         return ResponseEntity.ok(BaseResponse.success(allByQuery));
     }
@@ -55,7 +55,8 @@ public class ProductController {
     @Operation(
             summary = "상품상세 조회  - productId에 해당하는 상품 조회 ",
             description = "요청받은 productId에 해당하는 상품을 조회한다."
-    )    @GetMapping("/{productId}")
+    )
+    @GetMapping("/{productId}")
     public ResponseEntity<BaseResponse<ProductReadForDetail>> getProduct(@PathVariable Long productId) {
         ProductReadForDetail findProduct = productService.findProductDetailById(productId);
 
