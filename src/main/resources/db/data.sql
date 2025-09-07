@@ -346,12 +346,16 @@ VALUES ('2025-08-25', 1),
        ('2025-09-14', 1),
        ('2025-09-15', 1),
        ('2025-09-17', 1),
-       (now(), 1);
+       (now(), 1),
+       (now() + INTERVAL 1 DAY, 1);
+
 
 INSERT INTO round_time
     (time, round_date_idx)
 VALUES (CURRENT_TIME() + INTERVAL 1 HOUR, 29),
        (CURRENT_TIME() - INTERVAL 1 HOUR, 29),
+       (CURRENT_TIME() - INTERVAL 1 HOUR, 30),
+       (CURRENT_TIME() + INTERVAL 1 HOUR, 30),
        ('19:00', 1),
        ('20:00', 2),
        ('18:00', 3),
