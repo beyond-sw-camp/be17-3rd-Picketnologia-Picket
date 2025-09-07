@@ -1,18 +1,18 @@
 package com.picketlogia.picket.config;
 
+import lombok.RequiredArgsConstructor;
 import org.springframework.data.redis.connection.Message;
 import org.springframework.data.redis.connection.MessageListener;
 import org.springframework.data.redis.core.StringRedisTemplate;
+import org.springframework.messaging.simp.SimpMessagingTemplate;
 import org.springframework.stereotype.Component;
 
 @Component
+@RequiredArgsConstructor
 public class KeyExpiredListener implements MessageListener {
 
     private final StringRedisTemplate redisTemplate;
-
-    public KeyExpiredListener(StringRedisTemplate redisTemplate) {
-        this.redisTemplate = redisTemplate;
-    }
+    private final SimpMessagingTemplate messagingTemplate;
 
     @Override
     public void onMessage(Message message, byte[] pattern) {
@@ -30,6 +30,7 @@ public class KeyExpiredListener implements MessageListener {
 
             String key = "seat-status : " + roundTimeIdx;
             redisTemplate.opsForHash().delete(key, seatIdx);
+            messagingTemplate.convertAndSend("/topic/seats/expired/" + roundTimeIdx, seatIdx);
         }
     }
 }

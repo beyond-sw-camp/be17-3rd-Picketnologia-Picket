@@ -1,5 +1,6 @@
 package com.picketlogia.picket.api.seat.service;
 
+import com.picketlogia.picket.api.seat.model.dto.RockedSeats;
 import com.picketlogia.picket.api.seat.repository.SeatStatusRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -27,11 +28,14 @@ public class SeatStatusService {
 //        seatStatusRepository.expire(key, SEAT_STATUS_TTL_MINUTES, TimeUnit.MINUTES);
     }
 
-    // 특정 회차의 전체 좌석 상태 조회
-    public Map<Object, Object> getAllSeatStatus(Long roundId, String datetime) {
-        String key = "seat-status : " + roundId+"-"+datetime;
+    public void deleteRockedSeats(Long roundTimeIdx, RockedSeats rockedSeats) {
 
-        return seatStatusRepository.getAllSeatStatus(key);
+        String key = createKey(roundTimeIdx);
+        seatStatusRepository.deleteAllRockedSeatsByRoundTime(
+                key,
+                rockedSeats.getSeatIdxes().stream().map(String::valueOf).toList()
+        );
+
     }
 
     // 특정 회차의 전체 좌석 상태 조회
@@ -44,7 +48,6 @@ public class SeatStatusService {
     public void deleteSeatStatus(Long roundTimeIdx, String seatIdx) {
         String key = createKey(roundTimeIdx);
         seatStatusRepository.deleteSeatStatus(key, seatIdx);
-
     }
 
     public void validateRockSeats(Long roundTimeIdx, List<String> seatIdxes) {
@@ -57,10 +60,21 @@ public class SeatStatusService {
         seatStatusRepository.saveSeparateSeat(key, SEAT_STATUS_TTL_MILLISECONDS);
     }
 
+    /**
+     * 특정 회차의 좌석 상태를 저장하는 <code>redis-hash</code>의 키 생성
+     *
+     * @param roundTimeIdx 회차 idx
+     * @return <code>redis-hash</code>의 키
+     */
     private String createKey(Long roundTimeIdx) {
         return "seat-status : " + roundTimeIdx;
     }
 
+    /**
+     * key:value 형식의 좌석 레디스 삭제
+     * @param roundTimeIdx 삭제 회차 idx
+     * @param seatIdx 삭제 좌석 idx
+     */
     public void deleteSeparateSeat(Long roundTimeIdx, String seatIdx) {
         String key = "seat:" + roundTimeIdx + "-" + seatIdx;
         seatStatusRepository.deleteSeparateSeat(key);

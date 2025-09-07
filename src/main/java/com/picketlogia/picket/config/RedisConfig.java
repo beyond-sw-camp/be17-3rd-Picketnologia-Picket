@@ -43,9 +43,9 @@ public class RedisConfig {
         return container;
     }
 
-    @Bean
-    public KeyExpiredListener keyExpiredListener(StringRedisTemplate redisTemplate) {
-        return new KeyExpiredListener(redisTemplate);
-    }
+//    @Bean
+//    public KeyExpiredListener keyExpiredListener(StringRedisTemplate redisTemplate) {
+//        return new KeyExpiredListener(redisTemplate);
+//    }
 
 }
