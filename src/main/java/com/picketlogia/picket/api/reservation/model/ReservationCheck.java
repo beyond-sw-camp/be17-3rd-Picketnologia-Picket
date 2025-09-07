@@ -10,6 +10,7 @@ import java.util.List;
 @Builder
 public class ReservationCheck {
     private Long roundTimeIdx;
+    private Long productIdx;
     private List<Long> seatIdxes;
 
     public static ReservationCheck from(PaymentCustomData customData) {

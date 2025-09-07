@@ -49,6 +49,7 @@ public class SecurityConfig {
                         .requestMatchers("/login", "/user/signup", "/logout", "/auth/**", "/health-check").permitAll()
                         .requestMatchers("/seller/**").hasAuthority(UserType.SELLER.name())
                         .requestMatchers(HttpMethod.POST, "/products").hasAuthority(UserType.SELLER.name())
+                        .requestMatchers(HttpMethod.GET, "/home/**", "/products/**").permitAll()
                         .anyRequest().permitAll()
         );
 

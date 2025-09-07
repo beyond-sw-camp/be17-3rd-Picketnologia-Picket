@@ -52,6 +52,7 @@ public class ReservationService {
 
         Reservation findReserve = result.orElseThrow(() -> BaseException.from(BaseResponseStatus.NOT_FOUND_DATA));
         findReserve.completeReservation(update);
+        findReserve.getProduct().incrementSalesCount();
 
         return findReserve.getIdx();
     }

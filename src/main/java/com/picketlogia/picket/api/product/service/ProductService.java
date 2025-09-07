@@ -10,6 +10,7 @@ import com.picketlogia.picket.api.product.repository.ProductQueryRepository;
 import com.picketlogia.picket.api.product.repository.ProductRepository;
 import com.picketlogia.picket.api.product.service.validator.BaseProductValidator;
 import com.picketlogia.picket.api.seat.service.SeatInfoService;
+import com.picketlogia.picket.api.sortoption.model.SortOption;
 import com.picketlogia.picket.common.exception.BaseException;
 import com.picketlogia.picket.common.model.BaseResponseStatus;
 import lombok.RequiredArgsConstructor;
@@ -28,16 +29,14 @@ import java.util.Optional;
 @RequiredArgsConstructor
 public class ProductService {
 
+    private static final Integer PAGE_SIZE = 10;
     private final ProductRepository productRepository;
     private final ProductImageService productImageService;
     private final GenreService genreService;
-
     private final PerformanceRoundService performanceRoundService;
     private final SeatInfoService seatInfoService;
     private final ProductQueryRepository productQueryRepository;
     private final List<BaseProductValidator> productValidators;
-
-    private static final Integer PAGE_SIZE = 10;
 
     // 상품 등록
     public ProductRegister register(Long userIdx, ProductRegister dto, List<MultipartFile> files) {
@@ -72,36 +71,46 @@ public class ProductService {
 
     /**
      * 쿼리를 사용한 상품 목록 조회
+     *
      * @param query 쿼리 <code>DTO</code>
      * @return <code>ProductListByPage</code>
      */
-    public ProductListByPage findAllByQuery(ProductQuery query) {
+    public ProductListByPage findAllByQueryPaging(ProductQuery query) {
 
         if (query.getPage() != null) {
             PageRequest pageRequest = PageRequest.of(query.getPage(), PAGE_SIZE);
-            Page<Product> findProducts = productRepository.findByGenre_Code(query.getGenre(), pageRequest);
 
-            return ProductListByPage.from(
-                    findProducts.getContent(), findProducts.getNumber(), findProducts.getTotalPages()
-            );
+            Page<Product> findProducts = null;
+
+            if (query.getSort().equals(SortOption.REVIEW_COUNT.name())) {
+                findProducts = productRepository.findByGenre_CodeOrderByReviewCountDesc(query.getGenre(), pageRequest);
+            } else if (query.getSort().equals(SortOption.REVIEW_RATING.name())) {
+                findProducts = productRepository.findByGenre_CodeOrderByReviewRatingDesc(query.getGenre(), pageRequest);
+            } else if (query.getSort().equals(SortOption.NEWEST.name())) {
+                findProducts = productRepository.findByGenre_CodeOrderByCreatedAtDesc(query.getGenre(), pageRequest);
+            }
+
+            if (findProducts != null) {
+                return ProductListByPage.from(
+                        findProducts.getContent(), findProducts.getNumber(), findProducts.getTotalPages()
+                );
+            }
         }
-
-//        List<Product> findProducts = productRepository.findAll();
-//        return ProductList.from(findProducts );
 
         return null;
     }
 
     /**
      * 상품을 상세 조회 한다.
+     *
      * @param idx 상품의 IDX
      * @return 상품 상세 <code>DTO</code>
      */
     public ProductReadForDetail findProductDetailById(Long idx) {
-    // 상품 상세 조회
+        // 상품 상세 조회
         Optional<Product> product = productRepository.findByIdx(idx);
 
-        if(product.isPresent()){
+        if (product.isPresent()) {
             Product entity = product.get();
 
             return ProductReadForDetail.from(entity);
@@ -110,22 +119,22 @@ public class ProductService {
         return null;
     }
 
-        //상품  검색 및 정렬
-        public List<ProductReadForList> searchAndSort(ProductSearchDto dto, String sort) {
-            List<Product> result = productQueryRepository.searchAndSort(dto, sort);
+    //상품  검색 및 정렬
+    public List<ProductReadForList> searchAndSort(ProductSearchDto dto, String sort) {
+        List<Product> result = productQueryRepository.searchAndSort(dto, sort);
 
-            return result.stream().map(ProductReadForList::from).toList();
-        }
+        return result.stream().map(ProductReadForList::from).toList();
+    }
 
     /**
-     * 장르별 상품 조회, 페이지는 기본 첫번째 페이지, 10개의 데이터를 가지고 온다.
+     * 장르별 상품 조회, 페이지는 기본 첫번째 페이지, 최신순 10개의 데이터를 가지고 온다.
+     *
      * @param code 장르 code
      * @return <code>ProductListByPage</code>
      */
     public ProductListByPage findAllByGenre(String code) {
 
-
-        Page<Product> findProducts = productRepository.findByGenre_Code(
+        Page<Product> findProducts = productRepository.findByGenre_CodeOrderByCreatedAtDesc(
                 code,
                 PageRequest.of(0, PAGE_SIZE)
         );
@@ -139,6 +148,7 @@ public class ProductService {
 
     /**
      * 장르별로 오픈 예정일이 제일 빠른 5개의 상품을 조회
+     *
      * @param code 장르 식별자
      * @return <code>List<<code>ProductUpcomingRead</code>></code>
      */
@@ -150,5 +160,30 @@ public class ProductService {
         );
 
         return findProducts.stream().map(ProductReadForUpcoming::from).toList();
+    }
+
+    /**
+     * 장르별로 오픈 예정일이 제일 빠른 5개의 상품을 조회
+     *
+     * @return <code>List<<code>ProductUpcomingRead</code>></code>
+     */
+    public List<ProductReadForUpcoming> findUpcomingProducts() {
+
+        List<Product> findProducts = productRepository.findTop5ByOpenDateAfterOrderByOpenDateAsc(LocalDateTime.now());
+        return findProducts.stream().map(ProductReadForUpcoming::from).toList();
+
+    }
+
+    /**
+     * 판매량이 많은 공연을 기준으로 장르별로 5개의 상품을 조회
+     *
+     * @param genre 장르
+     * @return List<< code>ProductReadForList</code>>
+     */
+    public List<ProductReadForList> findTop5ByGenreOrderBySalesCount(String genre) {
+
+        List<Product> findProducts = productRepository.findTop5ByGenre_CodeOrderBySalesCountDesc(genre);
+        return findProducts.stream().map(ProductReadForList::from).toList();
+
     }
 }

@@ -12,6 +12,7 @@ import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+import org.hibernate.annotations.ColumnDefault;
 
 import java.time.LocalDate;
 import java.time.LocalDateTime;
@@ -39,8 +40,15 @@ public class Product extends BaseEntity {
     private LocalDateTime openDate; // 오픈 예정일
     private Integer runningTime; // 러닝타임
     private String description; // 설명
+
+    @ColumnDefault("0")
     private Double reviewRating;
+
+    @ColumnDefault("0")
     private Integer reviewCount;
+
+    @ColumnDefault("0")
+    private Long salesCount;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "user_id")
@@ -77,5 +85,11 @@ public class Product extends BaseEntity {
         this.reviewCount = reviewCount.intValue();
     }
 
+    public void incrementSalesCount() {
+        this.salesCount++;
+    }
 
+    public void decrementSalesCount() {
+        this.salesCount--;
+    }
 }
