@@ -1,6 +1,7 @@
 package com.picketlogia.picket.api.product.controller;
 
 import com.picketlogia.picket.api.product.model.ProductReadForList;
+import com.picketlogia.picket.api.product.model.ProductReadForUpcoming;
 import com.picketlogia.picket.api.product.service.ProductService;
 import com.picketlogia.picket.common.model.BaseResponse;
 import io.swagger.v3.oas.annotations.Operation;
@@ -17,13 +18,13 @@ import java.util.List;
 @RestController
 @RequestMapping("/home/products")
 @RequiredArgsConstructor
-@Tag(name = "홈 화면을 위한 상품 기능 관련 컨트롤러")
+@Tag(name = "홈 화면을 위한 공연 기능 관련 컨트롤러")
 public class ProductFilterForHomeController {
 
     private final ProductService productService;
 
     @Operation(
-            summary = "홈 화면에서 보여줄 상품 조회입니다.",
+            summary = "홈 화면에서 보여줄 공연 조회입니다.",
             description = "장르별 5위권 랭킹 공연 목록을 조회합니다. 랭킹의 기준은 판매순입니다."
     )
     @GetMapping("/best-sellers")
@@ -31,6 +32,18 @@ public class ProductFilterForHomeController {
 
         List<ProductReadForList> top10Products = productService.findTop5ByGenreOrderBySalesCount(genre);
         return ResponseEntity.ok(BaseResponse.success(top10Products));
+
+    }
+
+    @Operation(
+            summary = "오픈 예정일 공연 조회",
+            description = "장르 구분 없이 오픈 예정일이 빠른 순으로 5개의 공연을 조회합니다."
+    )
+    @GetMapping("/upcoming")
+    public ResponseEntity<BaseResponse<List<ProductReadForUpcoming>>> getOpenProductsTop5() {
+
+        List<ProductReadForUpcoming> upcomingProducts = productService.findUpcomingProducts();
+        return ResponseEntity.ok(BaseResponse.success(upcomingProducts));
 
     }
 }

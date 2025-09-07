@@ -153,6 +153,18 @@ public class ProductService {
     }
 
     /**
+     * 장르별로 오픈 예정일이 제일 빠른 5개의 상품을 조회
+     *
+     * @return <code>List<<code>ProductUpcomingRead</code>></code>
+     */
+    public List<ProductReadForUpcoming> findUpcomingProducts() {
+
+        List<Product> findProducts = productRepository.findTop5ByOpenDateAfterOrderByOpenDateAsc(LocalDateTime.now());
+        return findProducts.stream().map(ProductReadForUpcoming::from).toList();
+
+    }
+
+    /**
      * 판매량이 많은 공연을 기준으로 장르별로 5개의 상품을 조회
      *
      * @param genre 장르
