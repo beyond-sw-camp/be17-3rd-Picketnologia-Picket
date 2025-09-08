@@ -17,6 +17,7 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -78,26 +79,30 @@ public class ProductService {
     public ProductListByPage findAllByQueryPaging(ProductQuery query) {
 
         if (query.getPage() != null) {
-            PageRequest pageRequest = PageRequest.of(query.getPage(), PAGE_SIZE);
+            Sort sort = getSort(query.getSort());
+            PageRequest pageRequest = PageRequest.of(query.getPage() - 1, PAGE_SIZE, sort);
 
-            Page<Product> findProducts = null;
-
-            if (query.getSort().equals(SortOption.REVIEW_COUNT.name())) {
-                findProducts = productRepository.findByGenre_CodeOrderByReviewCountDesc(query.getGenre(), pageRequest);
-            } else if (query.getSort().equals(SortOption.REVIEW_RATING.name())) {
-                findProducts = productRepository.findByGenre_CodeOrderByReviewRatingDesc(query.getGenre(), pageRequest);
-            } else if (query.getSort().equals(SortOption.NEWEST.name())) {
-                findProducts = productRepository.findByGenre_CodeOrderByCreatedAtDesc(query.getGenre(), pageRequest);
-            }
+            Page<Product> findProducts = productRepository.findByGenre_Code(query.getGenre(), pageRequest);
 
             if (findProducts != null) {
                 return ProductListByPage.from(
-                        findProducts.getContent(), findProducts.getNumber(), findProducts.getTotalPages()
+                        findProducts.getContent(), findProducts.getNumber()+1, findProducts.getTotalPages()
                 );
             }
         }
 
         return null;
+    }
+
+    private Sort getSort(String sort) {
+        if (sort == null) {
+            return Sort.by(Sort.Order.desc("createdAt"));
+        }
+        return switch (sort) {
+            case "REVIEW_RATING" -> Sort.by(Sort.Order.desc("reviewRating"));
+            case "REVIEW_COUNT" -> Sort.by(Sort.Order.desc("reviewCount"));
+            default -> Sort.by(Sort.Order.desc("createdAt"));
+        };
     }
 
     /**
