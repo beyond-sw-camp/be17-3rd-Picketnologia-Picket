@@ -71,6 +71,10 @@ spring:
           auth: true
           timeout: 5000
 
+  jackson:
+    time-zone: Asia/Seoul
+    locale: ko_KR
+
 password:
   reset:
     redirect:
