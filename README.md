@@ -71,7 +71,7 @@ Picket은 공연 예매 플랫폼으로, 판매자가 직접 공연을 등록하
 
 ## ⚙ 기능 테스트
 
-[기능 테스트]()
+[기능 테스트](https://github.com/beyond-sw-camp/be17-3rd-Picketnologia-Picket/wiki)
 <br>
 <br>
 
