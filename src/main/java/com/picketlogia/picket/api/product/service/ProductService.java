@@ -154,9 +154,15 @@ public class ProductService {
      */
     public List<ProductReadForUpcoming> findUpcomingProductsByGenreCode(String code) {
 
-        List<Product> findProducts = productRepository.findTop5ByGenre_CodeAndOpenDateAfterOrderByOpenDateAsc(
+//        List<Product> findProducts = productRepository.findTop5ByGenre_CodeAndOpenDateAfterOrderByOpenDateAsc(
+//                code,
+//                LocalDateTime.now()
+//        );
+
+        List<Product> findProducts = productRepository.findTop5ByGenre_CodeOrderByOpenDateDescPage(
                 code,
-                LocalDateTime.now()
+                LocalDateTime.now(),
+                PageRequest.of(0, 5)
         );
 
         return findProducts.stream().map(ProductReadForUpcoming::from).toList();
