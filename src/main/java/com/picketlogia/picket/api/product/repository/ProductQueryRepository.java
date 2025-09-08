@@ -3,8 +3,6 @@ package com.picketlogia.picket.api.product.repository;
 import com.picketlogia.picket.api.product.model.ProductSearchDto;
 import com.picketlogia.picket.api.product.model.entity.Product;
 import com.picketlogia.picket.api.product.model.entity.QProduct;
-import com.picketlogia.picket.api.review.model.entity.QReview;
-import com.querydsl.core.Tuple;
 import com.querydsl.core.types.dsl.BooleanExpression;
 import com.querydsl.jpa.impl.JPAQuery;
 import com.querydsl.jpa.impl.JPAQueryFactory;
@@ -50,8 +48,6 @@ public class ProductQueryRepository {
     }
 
 
-
-
     private boolean hasText(String str) {
         return str != null && !str.isBlank();
     }
@@ -61,7 +57,7 @@ public class ProductQueryRepository {
     }
 
     private BooleanExpression genreEquals(String genre) {
-        return hasText(genre) ?  product.genre.code.equalsIgnoreCase(genre) : null;
+        return hasText(genre) ? product.genre.code.equalsIgnoreCase(genre) : null;
     }
 }
 

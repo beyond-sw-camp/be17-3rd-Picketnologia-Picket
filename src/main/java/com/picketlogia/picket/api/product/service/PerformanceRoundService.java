@@ -2,9 +2,11 @@ package com.picketlogia.picket.api.product.service;
 
 import com.picketlogia.picket.api.product.model.dto.register.PerformanceRoundRegister;
 import com.picketlogia.picket.api.product.model.dto.register.PerformanceRoundRegister.SelectedDay;
-import com.picketlogia.picket.api.product.model.entity.PerformanceRound;
 import com.picketlogia.picket.api.product.model.entity.Product;
-import com.picketlogia.picket.api.product.repository.PerformanceRoundRepository;
+import com.picketlogia.picket.api.product.model.entity.RoundDate;
+import com.picketlogia.picket.api.product.model.entity.RoundTime;
+import com.picketlogia.picket.api.product.repository.RoundDateRepository;
+import com.picketlogia.picket.api.product.repository.RoundTimeRepository;
 import com.picketlogia.picket.common.exception.BaseException;
 import com.picketlogia.picket.common.model.BaseResponseStatus;
 import lombok.RequiredArgsConstructor;
@@ -23,7 +25,8 @@ import static com.picketlogia.picket.api.product.model.dto.register.PerformanceR
 @RequiredArgsConstructor
 public class PerformanceRoundService {
 
-    private final PerformanceRoundRepository performanceRoundRepository;
+    private final RoundDateRepository roundDateRepository;
+    private final RoundTimeRepository roundTimeRepository;
 
     /**
      * <code>currentDay</code>의 회차 시간 리스트를 가져온다. <br>
@@ -149,12 +152,19 @@ public class PerformanceRoundService {
      * @param product   회차에 맞는 상품
      */
     private void saveTo(LocalDate roundDate, LocalTime roundTime, Product product) {
-        performanceRoundRepository.save(
-                PerformanceRound.builder().
-                        roundDate(roundDate).
-                        roundTime(roundTime).
-                        product(product).
-                        build()
+
+        // 회차 날짜 저장
+        RoundDate savedRoundDate = roundDateRepository.save(RoundDate.builder()
+                .date(roundDate)
+                .product(product)
+                .build());
+
+        // 회차 시간 저장
+        roundTimeRepository.save(
+                RoundTime.builder()
+                        .roundDate(savedRoundDate)
+                        .time(roundTime)
+                        .build()
         );
     }
 }

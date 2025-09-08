@@ -4,6 +4,7 @@ import com.picketlogia.picket.api.genre.model.Genre;
 import com.picketlogia.picket.api.product.model.entity.Product;
 import com.picketlogia.picket.api.seat.model.dto.register.SeatGradeRegister;
 import com.picketlogia.picket.api.seat.model.dto.register.SeatRegister;
+import com.picketlogia.picket.api.user.model.entity.User;
 import lombok.*;
 
 import java.time.LocalDate;
@@ -24,7 +25,6 @@ public class ProductRegister {
     private LocalDate startDate;   // 공연 시작일
     private LocalDate endDate;     // 공연 종료일
     private Integer runningTime;   // 러닝타임
-    private Integer price;         // 가격
     private String description;    // 설명
     private String genre;           // 장르
     private LocalDateTime openDate;    // 오픈 예정일
@@ -33,7 +33,7 @@ public class ProductRegister {
     private List<SeatGradeRegister> seatGrade;
 
     // DTO → Entity 변환
-    public Product toEntity(Integer genreId) {
+    public Product toEntity(Integer genreId, Long userIdx) {
         return Product.builder()
                 .name(name)
                 .rating(rating)
@@ -42,13 +42,15 @@ public class ProductRegister {
                 .startDate(startDate)
                 .endDate(endDate)
                 .runningTime(runningTime)
-                .price(price)
                 .description(description)
                 .openDate(openDate)
                 .genre(
                         Genre.builder().
                                 idx(genreId)
                                 .build()
+                )
+                .user(
+                        User.builder().idx(userIdx).build()
                 )
                 .build();
     }
@@ -62,7 +64,6 @@ public class ProductRegister {
                 .startDate(product.getStartDate())
                 .endDate(product.getEndDate())
                 .runningTime(product.getRunningTime())
-                .price(product.getPrice())
                 .description(product.getDescription())
                 .build();
     }

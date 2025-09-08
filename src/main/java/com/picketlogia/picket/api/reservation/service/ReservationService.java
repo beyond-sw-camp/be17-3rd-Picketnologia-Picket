@@ -4,15 +4,13 @@ import com.picketlogia.picket.api.product.model.entity.Product;
 import com.picketlogia.picket.api.product.model.entity.RoundTime;
 import com.picketlogia.picket.api.reservation.model.ReservationCheck;
 import com.picketlogia.picket.api.reservation.model.ReservationRegister;
-import com.picketlogia.picket.api.reservation.model.ReserveReq;
 import com.picketlogia.picket.api.reservation.model.UpdateReservationReq;
 import com.picketlogia.picket.api.reservation.model.dto.ReservationListDto;
 import com.picketlogia.picket.api.reservation.model.entity.Reservation;
 import com.picketlogia.picket.api.reservation.model.entity.ReserveDetail;
 import com.picketlogia.picket.api.reservation.repository.ReservationRepository;
 import com.picketlogia.picket.api.reservation.repository.ReserveDetailRepository;
-import com.picketlogia.picket.api.review.model.dto.ReviewDtoList;
-import com.picketlogia.picket.api.review.model.entity.Review;
+import com.picketlogia.picket.api.seat.service.SeatStatusService;
 import com.picketlogia.picket.api.user.model.entity.User;
 import com.picketlogia.picket.common.exception.BaseException;
 import com.picketlogia.picket.common.model.BaseResponseStatus;
@@ -33,6 +31,7 @@ public class ReservationService {
 
     private final ReservationRepository reservationRepository;
     private final ReserveDetailRepository reserveDetailRepository;
+    private final SeatStatusService seatStatusService;
 
     /**
      * 예매 정보를 저장한다.
@@ -53,6 +52,7 @@ public class ReservationService {
 
         Reservation findReserve = result.orElseThrow(() -> BaseException.from(BaseResponseStatus.NOT_FOUND_DATA));
         findReserve.completeReservation(update);
+        findReserve.getProduct().incrementSalesCount();
 
         return findReserve.getIdx();
     }
@@ -112,5 +112,12 @@ public class ReservationService {
         List<Reservation> result = reservationRepository.findByUserIdxAndCreatedAtBetween(userIdx, startDateTime, endDateTime);
 
         return result.stream().map(ReservationListDto::from).toList();
+    }
+
+    public void checkRockSeats(ReservationCheck reservationCheck) {
+        seatStatusService.validateRockSeats(
+                reservationCheck.getRoundTimeIdx(),
+                reservationCheck.getSeatIdxes().stream().map(String::valueOf).toList()
+        );
     }
 }

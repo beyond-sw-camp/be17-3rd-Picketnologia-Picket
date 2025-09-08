@@ -32,7 +32,7 @@ public class SecurityConfig {
     public CorsConfigurationSource corsConfigurationSource() {
         CorsConfiguration configuration = new CorsConfiguration();
         configuration.setAllowCredentials(true);
-        configuration.setAllowedOrigins(List.of("http://localhost:5173"));
+        configuration.setAllowedOrigins(List.of("http://localhost:5173", "https://www.picket.o-r.kr"));
         configuration.setAllowedMethods(List.of("GET", "POST", "PUT", "DELETE", "OPTIONS"));
         configuration.setAllowedHeaders(List.of("*"));
 
@@ -46,9 +46,10 @@ public class SecurityConfig {
         http.authorizeHttpRequests(
                 (auth) -> auth
                         .requestMatchers("/swagger-ui/**").permitAll()
-                        .requestMatchers("/login", "/user/signup", "/logout", "/auth/**").permitAll()
+                        .requestMatchers("/login", "/user/signup", "/logout", "/auth/**", "/health-check").permitAll()
                         .requestMatchers("/seller/**").hasAuthority(UserType.SELLER.name())
                         .requestMatchers(HttpMethod.POST, "/products").hasAuthority(UserType.SELLER.name())
+                        .requestMatchers(HttpMethod.GET, "/home/**", "/products/**").permitAll()
                         .anyRequest().permitAll()
         );
 

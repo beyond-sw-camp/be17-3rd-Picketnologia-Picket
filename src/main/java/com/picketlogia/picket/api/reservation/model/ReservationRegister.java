@@ -35,14 +35,14 @@ public class ReservationRegister {
 
     }
 
-    public static ReservationRegister from(Long userIdx, String paymentIdx, PaymentStatus paymentStatus)  {
+    public static ReservationRegister from(Long userIdx, Long productIdx, String paymentIdx, PaymentStatus paymentStatus) {
 
         return ReservationRegister.builder()
                 .userIdx(userIdx)
                 .paymentIdx(paymentIdx)
                 .paymentStatus(paymentStatus)
                 .price(null)
-                .productIdx(null)
+                .productIdx(productIdx)
                 .paidAt(null)
                 .build();
     }

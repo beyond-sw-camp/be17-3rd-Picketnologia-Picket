@@ -7,16 +7,16 @@ import com.picketlogia.picket.api.product.model.ProductSearchDto;
 import com.picketlogia.picket.api.product.model.dto.ProductQuery;
 import com.picketlogia.picket.api.product.model.dto.register.ProductRegister;
 import com.picketlogia.picket.api.product.service.ProductService;
+import com.picketlogia.picket.api.user.model.dto.UserAuth;
 import com.picketlogia.picket.common.model.BaseResponse;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
-import java.io.IOException;
-import java.sql.SQLException;
 import java.util.List;
 
 @RestController
@@ -31,8 +31,12 @@ public class ProductController {
             description = "등록한 상품의 정보를 저장한다."
     )
     @PostMapping
-    public ResponseEntity<BaseResponse<String>> register(@RequestPart ProductRegister product, @RequestPart List<MultipartFile> files) throws SQLException, IOException {
-        ProductRegister result = productService.register(product, files);
+    public ResponseEntity<BaseResponse<String>> register(
+            @AuthenticationPrincipal UserAuth userAuth,
+            @RequestPart ProductRegister product,
+            @RequestPart List<MultipartFile> files) {
+
+        ProductRegister result = productService.register(userAuth.getIdx(), product, files);
         return ResponseEntity.ok(BaseResponse.success("등록 완료"));
     }
 
@@ -42,7 +46,7 @@ public class ProductController {
     )
     @GetMapping
     public ResponseEntity<BaseResponse<ProductListByPage>> getProducts(ProductQuery productQuery) {
-        ProductListByPage allByQuery = productService.findAllByQuery(productQuery);
+        ProductListByPage allByQuery = productService.findAllByQueryPaging(productQuery);
 
         return ResponseEntity.ok(BaseResponse.success(allByQuery));
     }
@@ -51,7 +55,8 @@ public class ProductController {
     @Operation(
             summary = "상품상세 조회  - productId에 해당하는 상품 조회 ",
             description = "요청받은 productId에 해당하는 상품을 조회한다."
-    )    @GetMapping("/{productId}")
+    )
+    @GetMapping("/{productId}")
     public ResponseEntity<BaseResponse<ProductReadForDetail>> getProduct(@PathVariable Long productId) {
         ProductReadForDetail findProduct = productService.findProductDetailById(productId);
 

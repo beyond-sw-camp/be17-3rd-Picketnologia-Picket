@@ -18,7 +18,6 @@ public enum BaseResponseStatus {
      * 30000 : Request 오류, Validation 오류
      */
     // Common
-    REQUEST_ERROR(false, 30001, "입력값을 확인해주세요."),
     INVALID_JWT(false, 20002, "유효하지 않은 JWT입니다."),
     INVALID_USER_ROLE(false,20003,"권한이 없는 유저의 접근입니다."),
     INVALID_USER_INFO(false,20004,"이메일 또는 비밀번호를 확인해주세요."),
@@ -30,6 +29,8 @@ public enum BaseResponseStatus {
     INVALID_USER_EMAIL(false,20010,"이메일 정보가 잘못되었습니다."),
     INVALID_EMAIL_RESET_TIMEOUT(false,20011,"이메일 변경 링크가 만료되었습니다. 다시 시도해주세요."),
 
+    GLOBAL_EXCEPTION(false, 30000, "요청을 처리하는 과정에서 문제가 발생하였습니다."),
+    REQUEST_ERROR(false, 30001, "입력값을 확인해주세요."),
     INVALID_AUTH_CODE(false, 30002, "유효하지 않은 인증번호 입니다."),
     INVALID_REGION_CODE(false, 30003, "유효하지 않은 지역 코드 입니다"),
     INVALID_ROUND_DAY(false, 30004, "유효하지 않은 회차 요일입니다."),
@@ -42,6 +43,7 @@ public enum BaseResponseStatus {
     SEAT_ALREADY_BOOKED(false, 31000, "이미 예약된 좌석입니다, 결제가 실패되었습니다."),
     FAILED_PAYMENT_WEBHOOK(false, 31001, "결제 관련 웹훅 에러가 발생했습니다."),
     ERROR_PAYMENT_STATUS_PAID(false, 31002, "PAID 상태 처리에서 에러가 발생했습니다."),
+    NOT_ROCKED_SEAT(false, 31003, "좌석 선택 유효기간이 지났습니다."),
 
     NOT_FOUND_DATA(false, 32000, "해당 데이터를 찾을 수 없습니다."),
     /**

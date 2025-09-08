@@ -55,6 +55,5 @@ public class Reservation extends BaseEntity {
         this.price = update.getPrice();
         this.paidAt = update.getPaidAt();
         this.paymentStatus = update.getPaymentStatus();
-        this.product = Product.builder().idx(update.getProductIdx()).build();
     }
 }

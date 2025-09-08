@@ -1,10 +1,15 @@
 package com.picketlogia.picket.api.product.model;
 
+import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 import com.picketlogia.picket.api.product.model.entity.Product;
+import com.picketlogia.picket.api.seat.model.dto.read.SeatGradeRead;
+import com.picketlogia.picket.utils.LocalDateTimeSerializer;
 import lombok.Builder;
 import lombok.Getter;
 
 import java.time.LocalDate;
+import java.time.LocalDateTime;
+import java.util.List;
 
 @Getter
 @Builder
@@ -18,12 +23,14 @@ public class ProductReadForDetail {
     private LocalDate endDate; // 공연 종료일
     private Integer runningTime; // 러닝타임
     private String posterUrl; // 포스터 이미지 경로 (파일명)
-    private Integer price; // 가격
-    private LocalDate sessionDate; // 회차 날짜
-    private Integer sessionTime; // 회차 시간
     private String description; // 설명
     private Double reviewRating;
     private Integer reviewCount;
+
+    @JsonSerialize(using = LocalDateTimeSerializer.class)
+    private LocalDateTime openDateFormat;
+    private LocalDateTime openDate;
+    private List<SeatGradeRead> seatGrades;
 
     public static ProductReadForDetail from(Product product) {
         return ProductReadForDetail.builder()
@@ -34,12 +41,18 @@ public class ProductReadForDetail {
                 .venueAddress(product.getVenueAddress())
                 .startDate(product.getStartDate())
                 .endDate(product.getEndDate())
+                .openDateFormat(product.getOpenDate())
+                .openDate(product.getOpenDate())
                 .runningTime(product.getRunningTime())
-                .price(product.getPrice())
                 .description(product.getDescription())
                 .reviewCount(product.getReviewCount())
                 .reviewRating(product.getReviewRating())
                 .posterUrl(product.getProductImage().getFileName())
+                .seatGrades(
+                        product.getSeatGrades().stream().map(
+                                SeatGradeRead::from
+                        ).toList()
+                )
                 .build();
     }
 }

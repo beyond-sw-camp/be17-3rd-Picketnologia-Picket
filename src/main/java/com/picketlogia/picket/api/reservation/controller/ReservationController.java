@@ -2,11 +2,13 @@ package com.picketlogia.picket.api.reservation.controller;
 
 import com.picketlogia.picket.api.payments.model.PaymentPrepareResp;
 import com.picketlogia.picket.api.payments.service.PaymentIdGenerator;
-import com.picketlogia.picket.api.reservation.model.*;
+import com.picketlogia.picket.api.reservation.model.PaymentStatus;
+import com.picketlogia.picket.api.reservation.model.PurchaseCheckResp;
+import com.picketlogia.picket.api.reservation.model.ReservationCheck;
+import com.picketlogia.picket.api.reservation.model.ReservationRegister;
 import com.picketlogia.picket.api.reservation.model.dto.ReservationListDto;
 import com.picketlogia.picket.api.reservation.repository.ReservationRepository;
 import com.picketlogia.picket.api.reservation.service.ReservationService;
-import com.picketlogia.picket.api.review.model.dto.ReviewDtoList;
 import com.picketlogia.picket.api.user.model.dto.UserAuth;
 import com.picketlogia.picket.common.model.BaseResponse;
 import lombok.RequiredArgsConstructor;
@@ -23,6 +25,7 @@ public class ReservationController {
 
     private final ReservationService reservationService;
     private final ReservationRepository reservationRepository;
+
     @GetMapping("/check")
     public ResponseEntity<BaseResponse<PurchaseCheckResp>> hasPurchased(
             @AuthenticationPrincipal UserAuth loginUser,
@@ -44,12 +47,14 @@ public class ReservationController {
             @RequestBody ReservationCheck reservationCheck) {
 
         reservationService.checkReservedSeat(reservationCheck);
+        reservationService.checkRockSeats(reservationCheck);
 
         // 좌석 검증 성공, 결제 ID 생성 후 결제 ID와 유저 ID DB에 저장 후 결제 상태를 PENDING 설정
         String paymentIdx = PaymentIdGenerator.generatePaymentId();
         reservationService.register(
                 ReservationRegister.from(
                         userAuth.getIdx(),
+                        reservationCheck.getProductIdx(),
                         paymentIdx,
                         PaymentStatus.PENDING)
         );
