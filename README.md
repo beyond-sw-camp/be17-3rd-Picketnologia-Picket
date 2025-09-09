@@ -39,6 +39,16 @@
 
 # 프로젝트 주소
 
+> 일반 사용자 <br>
+> test01@test.com <br>
+> test03@test.com <br>
+> <br>
+> 판매자 <br>
+> test02@test.com
+>
+> <br>
+> 비밀번호는 모두 qwer1234 입니다.
+
 [www.picket.o-r.kr](https://www.picket.o-r.kr)
 
 # 프로젝트 소개
