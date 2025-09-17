@@ -47,7 +47,7 @@ jobs:
           password: ${{ secrets.SSH_PASSWORD }}
           port: 221
           script: |
-            if kubectl get svc picket-backend-service -n default -o wide | grep -q "green"; then
+            if kubectl get svc picket-backend-service -n lsw -o wide | grep -q "green"; then
               CURRENT_VER="green"
               NEXT_VER="blue"
             else
@@ -60,7 +60,7 @@ jobs:
             kind: Deployment
             metadata:
               name: picket-backend-deployment-${NEXT_VER}
-              namespace: default
+              namespace: lsw
             spec:
               selector:
                 matchLabels:
@@ -97,13 +97,13 @@ jobs:
                   terminationGracePeriodSeconds: 0
             EOF
 
-            kubectl rollout status deployment/picket-backend-deployment-${NEXT_VER} -n default
+            kubectl rollout status deployment/picket-backend-deployment-${NEXT_VER} -n lsw
             cat <<EOF | kubectl apply -f -
             apiVersion: v1
             kind: Service
             metadata:
               name: picket-backend-service
-              namespace: default
+              namespace: lsw
             spec:
               selector:
                 type: app
@@ -114,4 +114,4 @@ jobs:
               type: LoadBalancer
             EOF
             
-            kubectl scale deployment picket-backend-deployment-${CURRENT_VER} -n default --replicas=0
+            kubectl scale deployment picket-backend-deployment-${CURRENT_VER} -n lsw --replicas=0
