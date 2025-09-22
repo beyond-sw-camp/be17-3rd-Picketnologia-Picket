@@ -1,0 +1,39 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: picket-backend-deployment-green
+  labels:
+    app: picket-back
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: picket-back
+      version: green
+  template:
+    metadata:
+      name: picket
+      labels:
+        app: picket-back
+        version: green
+    spec:
+      containers:
+        - name: backend
+          image: sagnwoo/picket-back:latest
+          envFrom:
+            - configMapRef:
+                name: picket-back-env
+          livenessProbe:
+            httpGet:
+              path: /health-check
+              port: 8080
+            initialDelaySeconds: 20
+            periodSeconds: 10
+          readinessProbe:
+            httpGet:
+              path: /health-check
+              port: 8080
+            initialDelaySeconds: 20
+            periodSeconds: 10
+            successThreshold: 3
+      terminationGracePeriodSeconds: 0
