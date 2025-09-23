@@ -18,6 +18,6 @@ public class ProductImage {
     private String fileName;
 
     @OneToOne
-    @JoinColumn(name = "product_idx_test")
+    @JoinColumn(name = "product_idx")
     private Product product;
 }
